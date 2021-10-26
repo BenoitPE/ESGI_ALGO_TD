@@ -98,12 +98,12 @@ public class Main {
 ## Exercice 2:
 
 1.
-Parcours en largeur: `A B C D E F G H I J K L M N O P`
-Parcours en profondeur préfixe: `A B E J K L F C D G M P H I N O`
-Parcours en profondeur suffixe: `J K L E F B C P M G H N O I D A`
-Parcours en profondeur infixe: Impossible(pas un arbre binaire)
+Parcours en largeur: `A B C D E F G H I J K L M N O P`  
+Parcours en profondeur préfixe: `A B E J K L F C D G M P H I N O`  
+Parcours en profondeur suffixe: `J K L E F B C P M G H N O I D A`  
+Parcours en profondeur infixe: Impossible(pas un arbre binaire)  
 2.
-Parcours en largeur: `20 5 25 3 12 21 28 8 13 6`
-Parcours en profondeur préfixe: `20 5 3 12 8 6 13 25 21 28`
-Parcours en profondeur suffixe: `3 6 8 12 13 5 21 28 25 20`
-Parcours en profondeur infixe: `3 5 6 8 12 13 20 21 25 28`
+Parcours en largeur: `20 5 25 3 12 21 28 8 13 6`  
+Parcours en profondeur préfixe: `20 5 3 12 8 6 13 25 21 28`  
+Parcours en profondeur suffixe: `3 6 8 12 13 5 21 28 25 20`  
+Parcours en profondeur infixe: `3 5 6 8 12 13 20 21 25 28`  
