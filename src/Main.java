@@ -4,36 +4,38 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Node<String> A = new Node<>("a");
+        BinaryNode<Integer> i20 = new BinaryNode<>(20);
+        BinaryNode<Integer> i5 = i20.setLeftChild(new BinaryNode<Integer>(5));
+        BinaryNode<Integer> i25 = i20.setRightChild(new BinaryNode<Integer>(25));
 
-        Node<String> B = A.addChild(new Node<String>("b"));
-        Node<String> C = A.addChild(new Node<String>("c"));
-        Node<String> D = A.addChild(new Node<String>("d"));
+        BinaryNode<Integer> i3 = i5.setLeftChild(new BinaryNode<Integer>(3));
+        BinaryNode<Integer> i12 = i5.setRightChild(new BinaryNode<Integer>(12));
 
-        Node<String> E = B.addChild(new Node<String>("e"));
-        Node<String> F = B.addChild(new Node<String>("f"));
+        BinaryNode<Integer> i8 = i12.setLeftChild(new BinaryNode<Integer>(8));
+        BinaryNode<Integer> i13 = i12.setRightChild(new BinaryNode<Integer>(13));
 
-        Node<String> G = D.addChild(new Node<String>("g"));
-        Node<String> H = D.addChild(new Node<String>("h"));
-        Node<String> I = D.addChild(new Node<String>("i"));
+        BinaryNode<Integer> i6 = i8.setLeftChild(new BinaryNode<Integer>(6));
 
-        Node<String> J = E.addChild(new Node<String>("j"));
-        Node<String> K = E.addChild(new Node<String>("k"));
-        Node<String> L = E.addChild(new Node<String>("l"));
+        BinaryNode<Integer> i21 = i25.setLeftChild(new BinaryNode<Integer>(21));
+        BinaryNode<Integer> i28 = i25.setRightChild(new BinaryNode<Integer>(28));
 
-        Node<String> M = G.addChild(new Node<String>("m"));
-        Node<String> N = I.addChild(new Node<String>("n"));
-        Node<String> O = I.addChild(new Node<String>("o"));
+        BinaryTree binaryTree = new BinaryTree(i20);
+        printBinaryTree(i20, "-");
 
-        Node<String> P = M.addChild(new Node<String>("p"));
-
-        //printTree(A, "--");
-        //A.breadthFirstSearch(A);
-        Tree tree = new Tree(A);
-        tree.suffixSearch(A, new ArrayList<Node>());
     }
     private static <T> void printTree(Node<T> node, String appender) {
         System.out.println(appender + node.getData());
         node.getChildren().forEach(each ->  printTree(each, appender + appender));
+    }
+
+    private static <T> void printBinaryTree(BinaryNode<T> binaryNode, String appender) {
+        System.out.println(appender + binaryNode.getData());
+        if(binaryNode.getLeftChild() != null) {
+            printBinaryTree(binaryNode.getLeftChild(), appender + appender);
+        }
+
+        if(binaryNode.getRightChild() != null) {
+            printBinaryTree(binaryNode.getRightChild(), appender + appender);
+        }
     }
 }
