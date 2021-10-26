@@ -29,7 +29,8 @@ public class Main {
 
         //printTree(A, "--");
         //A.breadthFirstSearch(A);
-        A.suffixSearch(A, new ArrayList<Node>());
+        Tree tree = new Tree(A);
+        tree.suffixSearch(A, new ArrayList<Node>());
     }
     private static <T> void printTree(Node<T> node, String appender) {
         System.out.println(appender + node.getData());
