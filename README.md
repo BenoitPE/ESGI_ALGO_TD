@@ -18,4 +18,7 @@ Les noeuds 5 et 25 existent déjà
 ####3.
 Parcours en profondeur infixe : ```3 5 6 8 12 13 20 21 25 28```. On remarque que lors d'un parcours en profondeur infixe le résultat obtenu est un tableau trié par ordre croissant
 
+##Exercice 2:
+####1.
+```5 10 15 20 25 30 35 40 45 50 55 60 65 70```
 
