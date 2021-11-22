@@ -7,6 +7,10 @@ public class BinarySearchTree {
         this.root = root;
     }
 
+    public BinarySearchTree() {
+        this.root = null;
+    }
+
     public BinarySearchNode getRoot() {
         return root;
     }
@@ -45,15 +49,6 @@ public class BinarySearchTree {
         }
     }
 
-    /*
-    visiterPréfixe(Arbre A) :
-        visiter (A)
-        Si nonVide (gauche(A))
-            visiterPréfixe(gauche(A))
-        Si nonVide (droite(A))
-            visiterPréfixe(droite(A))
-    */
-
     //Prefix search for a Binary Search Tree
     public void prefixSearch(BinarySearchNode node) {
         System.out.println(node.getData());
@@ -87,6 +82,12 @@ public class BinarySearchTree {
 
         if(node.getRightChild() != null) {
             infixSearch(node.getRightChild());
+        }
+    }
+
+    public void listToTree(List<Integer> listNode) {
+        for (int i = 0; i< listNode.size(); i++) {
+            insert(new BinarySearchNode(listNode.get(i)));
         }
     }
 

@@ -1,29 +1,20 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class Main {
 
     public static void main(String[] args) {
+        List<Integer> listOfKeys = new ArrayList<Integer>();
+        Random rand = new Random();
+        for(int i=0; i< 1000; i++) {
+            listOfKeys.add(rand.nextInt(2000));
+        }
 
-        BinarySearchTree binarySearchTree = new BinarySearchTree(new BinarySearchNode(20));
-
-        binarySearchTree.insert(new BinarySearchNode(25));
-        binarySearchTree.insert(new BinarySearchNode(60));
-        binarySearchTree.insert(new BinarySearchNode(35));
-        binarySearchTree.insert(new BinarySearchNode(10));
-        binarySearchTree.insert(new BinarySearchNode(5));
-        binarySearchTree.insert(new BinarySearchNode(20));
-        binarySearchTree.insert(new BinarySearchNode(65));
-        binarySearchTree.insert(new BinarySearchNode(45));
-        binarySearchTree.insert(new BinarySearchNode(70));
-        binarySearchTree.insert(new BinarySearchNode(40));
-        binarySearchTree.insert(new BinarySearchNode(50));
-        binarySearchTree.insert(new BinarySearchNode(55));
-        binarySearchTree.insert(new BinarySearchNode(30));
-        binarySearchTree.insert(new BinarySearchNode(15));
-
-
+        BinarySearchTree binarySearchTree = new BinarySearchTree();
+        binarySearchTree.listToTree(listOfKeys);
         binarySearchTree.infixSearch(binarySearchTree.getRoot());
-
     }
 
 }
