@@ -19,25 +19,6 @@ public class BinarySearchTree {
         this.root = root;
     }
 
-    void insert(BinarySearchNode key)  {
-        root = insert_Recursive(root, key);
-    }
-
-    BinarySearchNode insert_Recursive(BinarySearchNode root, BinarySearchNode key) {
-        //tree is empty
-        if (root == null) {
-            root = key;
-            return root;
-        }
-        //traverse the tree
-        if (key.getData() < root.getData()) //insert in the left subtree
-            root.setLeftChild(insert_Recursive(root.getLeftChild(), key));
-        else if (key.getData() > root.getData()) //insert in the right subtree
-            root.setRightChild(insert_Recursive(root.getRightChild(), key));
-        // return pointer
-        return root;
-    }
-
     public void print(BinarySearchNode binarySearchNode, String appender) {
         System.out.println(appender + binarySearchNode.getData());
         if(binarySearchNode.getLeftChild() != null) {
@@ -50,39 +31,73 @@ public class BinarySearchTree {
     }
 
     //Prefix search for a Binary Search Tree
-    public void prefixSearch(BinarySearchNode node) {
+    public void prefixDepthCourse(BinarySearchNode node) {
         System.out.println(node.getData());
 
         if(node.getLeftChild() != null) {
-            infixSearch(node.getLeftChild());
+            prefixDepthCourse(node.getLeftChild());
         }
         if(node.getRightChild() != null) {
-            infixSearch(node.getRightChild());
+            prefixDepthCourse(node.getRightChild());
         }
     }
 
     //Postfix search for a Binary Search Tree
-    public void postfixSearch(BinarySearchNode node) {
+    public void postfixDepthCourse(BinarySearchNode node) {
         if(node.getLeftChild() != null) {
-            infixSearch(node.getLeftChild());
+            postfixDepthCourse(node.getLeftChild());
         }
         if(node.getRightChild() != null) {
-            infixSearch(node.getRightChild());
+            postfixDepthCourse(node.getRightChild());
         }
 
         System.out.println(node.getData());
     }
 
     //Infix search for a Binary Search Tree
-    public void infixSearch(BinarySearchNode node) {
+    public void infixDepthCourse(BinarySearchNode node) {
         if(node.getLeftChild() != null) {
-            infixSearch(node.getLeftChild());
+            infixDepthCourse(node.getLeftChild());
         }
         System.out.println(node.getData());
 
         if(node.getRightChild() != null) {
-            infixSearch(node.getRightChild());
+            infixDepthCourse(node.getRightChild());
         }
+    }
+
+    public boolean search(BinarySearchNode rootNode, BinarySearchNode key) {
+        if(rootNode == null) {
+            return false;
+        }
+        else {
+            if(rootNode.getData() == key.getData()) {
+                return true;
+            } else if (key.getData() < rootNode.getData()){
+                return search(rootNode.getLeftChild(), key);
+            } else {
+                return search(rootNode.getRightChild(), key);
+            }
+        }
+    }
+
+    void insert(BinarySearchNode key)  {
+        root = insert_Recursive(root, key);
+    }
+
+    BinarySearchNode insert_Recursive(BinarySearchNode rootNode, BinarySearchNode key) {
+        //tree is empty
+        if (rootNode == null) {
+            rootNode = key;
+            return rootNode;
+        }
+        //traverse the tree
+        if (key.getData() < rootNode.getData()) //insert in the left subtree
+            rootNode.setLeftChild(insert_Recursive(rootNode.getLeftChild(), key));
+        else if (key.getData() > root.getData()) //insert in the right subtree
+            rootNode.setRightChild(insert_Recursive(rootNode.getRightChild(), key));
+        // return pointer
+        return rootNode;
     }
 
     public void listToTree(List<Integer> listNode) {

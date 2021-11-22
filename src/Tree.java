@@ -10,6 +10,10 @@ public class Tree {
         this.root = root;
     }
 
+    public Tree() {
+        this.root = null;
+    }
+
     //Parcours en largeur
     public List<Node> breadthFirstSearch(Node node) {
         Queue<Node> currentNodes  = new LinkedList<>();
