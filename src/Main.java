@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Main {
     private static final int MAXBOUND = 10000;
@@ -16,20 +13,15 @@ public class Main {
         binarySearchTree.listToTree(listOfKeys);
 
         long startBinarySearchTree = System.nanoTime();
-        for (int i=0; i< 100; i++) {
-            binarySearchTree.search(binarySearchTree.getRoot(), new BinarySearchNode(rand.nextInt(MAXBOUND)));
-        }
+        binarySearchTree.infixDepthCourse(binarySearchTree.getRoot());
         long timeElapsedBinarySearchTree = System.nanoTime() - startBinarySearchTree;
 
-
         long start = System.nanoTime();
-        for (int i=0; i< 100; i++) {
-            listOfKeys.contains(rand.nextInt(MAXBOUND));
-        }
+        Collections.sort(listOfKeys);
         long timeElapsed = System.nanoTime() - start;
 
-        System.out.println("timeElapsed to search in a binary tree: " + timeElapsedBinarySearchTree);
-        System.out.println("timeElapsed to search using contains(): " + timeElapsed);
+        System.out.println("timeElapsed to sort with a binary tree: \t \t" + timeElapsedBinarySearchTree);
+        System.out.println("timeElapsed to sort with Collections.sort(): \t" + timeElapsed);
     }
 
 }
