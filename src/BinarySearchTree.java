@@ -129,7 +129,7 @@ public class BinarySearchTree {
         }
     }
 
-    //region getters and setters
+    //region Getters and Setters
     public BinarySearchNode getRoot() {
         return root;
     }
@@ -161,5 +161,5 @@ public class BinarySearchTree {
     public void setPrefixDepthCourseList(List<Integer> prefixDepthCourseList) {
         this.prefixDepthCourseList = prefixDepthCourseList;
     }
-    //endregion getters and setters
+    //endregion Getters and Setters
 }

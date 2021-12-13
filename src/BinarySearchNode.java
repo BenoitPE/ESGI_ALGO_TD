@@ -1,38 +1,53 @@
-public class BinarySearchNode{
+public class BinarySearchNode {
     private int data;
     private BinarySearchNode leftChild, rightChild;
     private BinarySearchNode parent = null;
 
+    //region Constructors
     public BinarySearchNode(int data) {
         this.data = data;
     }
 
     public BinarySearchNode(BinarySearchNode another) {
-            this.data = another.data;
-            this.leftChild = another.leftChild;
-            this.rightChild = another.rightChild;
+        this.data = another.data;
+        this.leftChild = another.leftChild;
+        this.rightChild = another.rightChild;
+        this.parent = another.parent;
     }
 
-    public void simpleLeftRotate(BinarySearchNode node) {
-        BinarySearchNode temp = new BinarySearchNode(node.getRightChild().getLeftChild());
-        BinarySearchNode old_root = new BinarySearchNode(node);
-        node = new BinarySearchNode(node.getRightChild());
-        node.setLeftChild(old_root);
-        node.getLeftChild().setRightChild(temp);
+    public BinarySearchNode(int data, BinarySearchNode leftChild, BinarySearchNode rightChild, BinarySearchNode parent) {
+        this.data = data;
+        this.leftChild = leftChild;
+        this.rightChild = rightChild;
+        this.parent = parent;
+    }
+    //endregion Constructors
+
+    public static BinarySearchNode simpleLeftRotate(BinarySearchNode node) {
+        BinarySearchNode new_parent = new BinarySearchNode(node.rightChild);
+        new_parent.parent = node.parent;
+        BinarySearchNode left = new BinarySearchNode(
+                node.data,
+                node.leftChild,
+                new_parent.leftChild,
+                new_parent);
+        new_parent.leftChild = left;
+        return new_parent;
     }
 
-    public int balanceFactor(BinarySearchNode node) {
+    public static int balanceFactor(BinarySearchNode node) {
         return height(node.getLeftChild()) - height(node.getRightChild());
     }
 
-    public int height(BinarySearchNode node) {
-        if(node == null)
+    public static int height(BinarySearchNode node) {
+        if (node == null)
             return 0;
         else {
-            return Math.max(height(node.getLeftChild()),height(node.getRightChild())) +1;
+            return Math.max(height(node.getLeftChild()), height(node.getRightChild())) + 1;
         }
     }
 
+    //region Getters and Setters
     public int getData() {
         return data;
     }
@@ -46,6 +61,7 @@ public class BinarySearchNode{
     }
 
     public BinarySearchNode setLeftChild(BinarySearchNode leftChild) {
+        leftChild.parent = this;
         this.leftChild = leftChild;
         return this.leftChild;
     }
@@ -55,6 +71,7 @@ public class BinarySearchNode{
     }
 
     public BinarySearchNode setRightChild(BinarySearchNode rightChild) {
+        rightChild.parent = this;
         this.rightChild = rightChild;
         return this.rightChild;
     }
@@ -66,5 +83,6 @@ public class BinarySearchNode{
     public void setParent(BinarySearchNode parent) {
         this.parent = parent;
     }
+    //endregion Getters and Setters
 
 }
