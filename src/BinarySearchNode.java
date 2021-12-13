@@ -7,6 +7,20 @@ public class BinarySearchNode{
         this.data = data;
     }
 
+    public BinarySearchNode(BinarySearchNode another) {
+            this.data = another.data;
+            this.leftChild = another.leftChild;
+            this.rightChild = another.rightChild;
+    }
+
+    public void simpleLeftRotate(BinarySearchNode node) {
+        BinarySearchNode temp = new BinarySearchNode(node.getRightChild().getLeftChild());
+        BinarySearchNode old_root = new BinarySearchNode(node);
+        node = new BinarySearchNode(node.getRightChild());
+        node.setLeftChild(old_root);
+        node.getLeftChild().setRightChild(temp);
+    }
+
     public int balanceFactor(BinarySearchNode node) {
         return height(node.getLeftChild()) - height(node.getRightChild());
     }
