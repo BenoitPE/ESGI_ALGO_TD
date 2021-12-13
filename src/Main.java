@@ -1,27 +1,16 @@
 import java.util.*;
 
 public class Main {
-    private static final int MAXBOUND = 10000;
-
     public static void main(String[] args) {
         List<Integer> listOfKeys = new ArrayList<Integer>();
-        Random rand = new Random();
-        for(int i=0; i< MAXBOUND; i++) {
-            listOfKeys.add(rand.nextInt(MAXBOUND));
-        }
+        listOfKeys = Arrays.asList(11, 8, 14,5, 10, 13, 15,17);
+
         BinarySearchTree binarySearchTree = new BinarySearchTree();
         binarySearchTree.listToTree(listOfKeys);
 
-        long startBinarySearchTree = System.nanoTime();
-        binarySearchTree.infixDepthCourse(binarySearchTree.getRoot());
-        long timeElapsedBinarySearchTree = System.nanoTime() - startBinarySearchTree;
-
-        long start = System.nanoTime();
-        Collections.sort(listOfKeys);
-        long timeElapsed = System.nanoTime() - start;
-
-        System.out.println("timeElapsed to sort with a binary tree: \t \t" + timeElapsedBinarySearchTree);
-        System.out.println("timeElapsed to sort with Collections.sort(): \t" + timeElapsed);
+        binarySearchTree.print(binarySearchTree.getRoot(), "-");
+        System.out.println(binarySearchTree.getRoot().balanceFactor(binarySearchTree.getRoot()));
+        System.out.println(binarySearchTree.isBalanceTree());
     }
 
 }

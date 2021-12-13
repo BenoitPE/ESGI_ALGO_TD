@@ -99,7 +99,7 @@ public class BinarySearchTree {
         //traverse the tree
         if (key.getData() < rootNode.getData()) //insert in the left subtree
             rootNode.setLeftChild(insertRecursive(rootNode.getLeftChild(), key));
-        else if (key.getData() > root.getData()) //insert in the right subtree
+        else if (key.getData() > rootNode.getData()) //insert in the right subtree
             rootNode.setRightChild(insertRecursive(rootNode.getRightChild(), key));
         // return pointer
         return rootNode;
@@ -109,6 +109,13 @@ public class BinarySearchTree {
         for (int i = 0; i< listNode.size(); i++) {
             insert(new BinarySearchNode(listNode.get(i)));
         }
+    }
+
+    public boolean isBalanceTree() {
+        if(-1 >= root.balanceFactor(root) && root.balanceFactor(root) <= 1)
+            return true;
+        else
+            return false;
     }
 
     public void print(BinarySearchNode binarySearchNode, String appender) {
