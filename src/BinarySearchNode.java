@@ -36,14 +36,14 @@ public class BinarySearchNode {
     }
 
     public static int balanceFactor(BinarySearchNode node) {
-        return height(node.getLeftChild()) - height(node.getRightChild());
+        return getHeight(node.getLeftChild()) - getHeight(node.getRightChild());
     }
 
-    public static int height(BinarySearchNode node) {
+    public static int getHeight(BinarySearchNode node) {
         if (node == null)
             return 0;
         else {
-            return Math.max(height(node.getLeftChild()), height(node.getRightChild())) + 1;
+            return Math.max(getHeight(node.getLeftChild()), getHeight(node.getRightChild())) + 1;
         }
     }
 

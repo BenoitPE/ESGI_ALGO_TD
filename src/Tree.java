@@ -15,37 +15,39 @@ public class Tree {
     }
 
     //Parcours en largeur
-    public List<Node> breadthFirstSearch(Node node) {
+    public static List<Node> widthCourse(Node node) {
         Queue<Node> currentNodes  = new LinkedList<>();
         currentNodes.add(node);
 
         List<Node> result = new ArrayList<Node>();
         while (!currentNodes.isEmpty()) {
-            Node currentNode = currentNodes.remove(); //We make one item go out
+            Node currentNode = currentNodes.remove();
             result.add(currentNode);
-            System.out.println("[breadthFirstSearch] Adding node " + currentNode.getData() + " to result");
+            System.out.print(currentNode.getData() + " ");
             currentNode.getChildren().forEach(child -> currentNodes.add((Node) child));
         }
         return result;
     }
 
     //Parcours en profondeur préfixe
-    public List<Node> depthFirstSearch(Node node, List<Node> result) {
+    public static List<Node> prefixDepthCourse(Node node, List<Node> result) {
         result.add(node);
-        System.out.println("[depthFirstSearch] Adding node " + node.getData() + " to result");
+        System.out.print(node.getData() + " ");
+
         node.getChildren().forEach(
-                child -> depthFirstSearch((Node) child, result)
+                child -> prefixDepthCourse((Node) child, result)
         );
         return result;
     }
 
     //Parcours en profondeur suffixe
-    public List<Node> suffixSearch(Node node, List<Node> result) {
+    public static List<Node> postfixDepthCourse(Node node, List<Node> result) {
         node.getChildren().forEach(
-                child -> suffixSearch((Node) child, result)
+                child -> postfixDepthCourse((Node) child, result)
         );
         result.add(node);
-        System.out.println("[suffixSearch] Adding node " + node.getData() + " to result");
+        System.out.print(node.getData() + " ");
+
         return result;
     }
 
@@ -57,7 +59,7 @@ public class Tree {
         this.root = root;
     }
 
-    public <T> void print(Node<T> node, String appender) {
+    public static <T> void print(Node<T> node, String appender) {
         System.out.println(appender + node.getData());
         node.getChildren().forEach(each ->  print(each, appender + appender));
     }

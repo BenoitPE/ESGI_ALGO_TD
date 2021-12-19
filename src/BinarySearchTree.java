@@ -21,9 +21,10 @@ public class BinarySearchTree {
 
     //region Depth Courses
     //Infix depth course for a Binary Search Tree
-    public void infixDepthCourse(BinarySearchNode node) {
+    public List<Integer> infixDepthCourse(BinarySearchNode node) {
         infixDepthCourseList = new ArrayList<Integer>();
         infixDepthCourseRecursive(node);
+        return infixDepthCourseList;
     }
 
     public void infixDepthCourseRecursive(BinarySearchNode node) {
@@ -44,7 +45,7 @@ public class BinarySearchTree {
     }
 
     public void prefixDepthCourseListRecursive(BinarySearchNode node) {
-        prefixDepthCourseList = new ArrayList<Integer>();
+        prefixDepthCourseList.add(node.getData());
 
         if(node.getLeftChild() != null) {
             prefixDepthCourseListRecursive(node.getLeftChild());
@@ -118,7 +119,7 @@ public class BinarySearchTree {
             return false;
     }
 
-    public void print(BinarySearchNode binarySearchNode, String appender) {
+    public static void print(BinarySearchNode binarySearchNode, String appender) {
         System.out.println(appender + binarySearchNode.getData());
         if(binarySearchNode.getLeftChild() != null) {
             print(binarySearchNode.getLeftChild(), appender + appender);

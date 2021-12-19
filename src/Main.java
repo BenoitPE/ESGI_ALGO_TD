@@ -10,10 +10,13 @@ public class Main {
         binarySearchTree.listToTree(listOfKeys);
 
         binarySearchTree.print(binarySearchTree.getRoot().getRightChild(), "-");
+        System.out.println("Facteur d'équilibrage: " + BinarySearchNode.balanceFactor(binarySearchTree.getRoot().getRightChild()));
 
         System.out.println("*******************************");
 
-        binarySearchTree.print(BinarySearchNode.simpleLeftRotate(binarySearchTree.getRoot().getRightChild()), "-");
+        BinarySearchTree.print(BinarySearchNode.simpleLeftRotate(binarySearchTree.getRoot().getRightChild()), "-");
+        System.out.println("Facteur d'équilibrage: " + BinarySearchNode.balanceFactor(BinarySearchNode.simpleLeftRotate(binarySearchTree.getRoot().getRightChild())));
+
     }
 
 }
