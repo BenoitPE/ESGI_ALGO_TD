@@ -70,11 +70,11 @@ public class Main {
         System.out.println("Parcours pour l'arbre de l'exercice 1");
         System.out.print("Parcours en largeur: \t\t\t\t");
         Tree.widthCourse(tree.getRoot());
-        System.out.print("\nParcours en profondeur préfixe: \t");
+        System.out.print("\nParcours en profondeur prefixe: \t");
         Tree.prefixDepthCourse(tree.getRoot(), new ArrayList<>());
         System.out.print("\nParcours en profondeur suffixe: \t");
         Tree.postfixDepthCourse(tree.getRoot(), new ArrayList<>());
-        System.out.println("\nParcours en profondeur infixe: \t\tImpossible (arbre de degré 3)");
+        System.out.println("\nParcours en profondeur infixe: \t\tImpossible (arbre de degre 3)");
 
         BinaryNode<Integer> i20 = new BinaryNode<>(20);
         BinaryNode<Integer> i5 = i20.setLeftChild(new BinaryNode<>(5));
@@ -91,7 +91,7 @@ public class Main {
         System.out.println("\nParcours pour l'arbre de l'exercice 2");
         System.out.print("Parcours en largeur: \t\t\t\t");
         BinaryTree.widthCourse(binaryTree.getRoot());
-        System.out.print("\nParcours en profondeur préfixe: \t");
+        System.out.print("\nParcours en profondeur prefixe: \t");
         System.out.println(binaryTree.prefixDepthCourse(binaryTree.getRoot()));
         System.out.print("Parcours en profondeur suffixe: \t");
         System.out.println(binaryTree.postfixDepthCourse(binaryTree.getRoot()));
@@ -100,7 +100,7 @@ public class Main {
     }
 
     private static void Implementation_TD2() {
-        System.out.println("\n[TD2] Implementation du tri par tas (HeapSort)");
+        System.out.println("\n\n[TD2] Implementation du tri par tas (HeapSort)");
 
         int firstArray[] = {25, 40, 2, 65, 10};
         int secondArray[] = {10, 50, 1, 25, 35, 15};
@@ -121,7 +121,7 @@ public class Main {
     }
 
     private static void Implementation_TD3_Exo1() {
-        System.out.println("\n[TD3] Implementation de l'Exercice 1");
+        System.out.println("\n\n[TD3] Implementation de l'Exercice 1");
         BinarySearchTree binarySearchTree = new BinarySearchTree();
         binarySearchTree.insert(new BinarySearchNode(20));
         binarySearchTree.insert(new BinarySearchNode(5));
@@ -150,7 +150,7 @@ public class Main {
     }
 
     private static void Implementation_TD3_Exo2() {
-        System.out.println("\n[TD3] Implementation de l'Exercice 2");
+        System.out.println("\n\n[TD3] Implementation de l'Exercice 2");
 
         final int MAXBOUND = 10000;
         List<Integer> array = new ArrayList<Integer>();
@@ -174,7 +174,7 @@ public class Main {
     }
 
     private static void Implementation_TD4_Exo1() {
-        System.out.println("\n[TD4] Implementation de l'Exercice 1");
+        System.out.println("\n\n[TD4] Implementation de l'Exercice 1");
 
         BinarySearchTree binarySearchTree = new BinarySearchTree();
         binarySearchTree.insert(new BinarySearchNode(20));
@@ -189,12 +189,12 @@ public class Main {
         binarySearchTree.insert(new BinarySearchNode(6));
 
         System.out.println("Hauteur de la racine de l'arbre binaire de recherche: " + BinarySearchNode.getHeight(binarySearchTree.getRoot()));
-        System.out.println("Facteur d'équilibrage de la racine de l'arbre binaire de recherche: " + BinarySearchNode.balanceFactor(binarySearchTree.getRoot()));
-        System.out.println("Cet arbre est un arbre équilibré ? " + binarySearchTree.isBalanceTree());
+        System.out.println("Facteur d'equilibrage de la racine de l'arbre binaire de recherche: " + BinarySearchNode.balanceFactor(binarySearchTree.getRoot()));
+        System.out.println("Cet arbre est un arbre equilibre ? " + binarySearchTree.isBalanceTree());
     }
 
     private static void Implementation_TD4_Exo2() {
-        System.out.println("\n[TD4] Implementation de l'Exercice 2");
+        System.out.println("\n\n[TD4] Implementation de l'Exercice 2");
 
         List<Integer> array = new ArrayList<>();
         BinarySearchTree binarySearchTree = new BinarySearchTree();
@@ -202,9 +202,9 @@ public class Main {
         array = Arrays.asList(10, 5, 12, 2, 7, 15, 4, 17);
         binarySearchTree.listToTree(array);
         BinarySearchTree.print(binarySearchTree.getRoot().getRightChild(), "-");
-        System.out.println("Facteur d'équilibrage du fils droit de la racine avant rotation simple gauche: " + BinarySearchNode.balanceFactor(binarySearchTree.getRoot().getRightChild()) + "\n");
+        System.out.println("Facteur d'equilibrage du fils droit de la racine avant rotation simple gauche: " + BinarySearchNode.balanceFactor(binarySearchTree.getRoot().getRightChild()) + "\n");
 
         BinarySearchTree.print(BinarySearchNode.simpleLeftRotate(binarySearchTree.getRoot().getRightChild()), "-");
-        System.out.println("Facteur d'équilibrage du fils droit de la racine après rotation simple gauche: " + BinarySearchNode.balanceFactor(BinarySearchNode.simpleLeftRotate(binarySearchTree.getRoot().getRightChild())));
+        System.out.println("Facteur d'equilibrage du fils droit de la racine après rotation simple gauche: " + BinarySearchNode.balanceFactor(BinarySearchNode.simpleLeftRotate(binarySearchTree.getRoot().getRightChild())));
     }
 }
