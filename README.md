@@ -1,49 +1,33 @@
-# Rendus des 4 premiers TPs
+# TD6
 ##### Auteur : Benoit PEGAZ
 
-Rendu des implémentations des 4 premiers TPs.
+## Exercice 1
+### 1.
+s0: 1  
+s1: 3  
+s2: 3  
+s3: 3  
+s4: 2  
+s5: 1  
+s6: 1  
 
-Les TPs ont été implémentés en Java version 16.
-## Installation
-Clonez le projet:
-```bash=
-git clone https://github.com/BenoitPE/ESGI_ALGO_TD.git
-```
-Ouvrez le dossier du projet et sélectionnez la branche "Rendu_TPs":
-```bash=
-cd 'ESGI_ALGO_TD'; git checkout remotes/origin/Rendu_TPs
-```
+### 2.
+s0: s6  
+s1: s2, s3, s5  
+s2: s1, s3, s4  
+s3: s1, s2, s4  
+s4: s2, s3  
+s5: s1  
+s6: s0
 
-L'ensemble des classes implémentées sont situées dans le dossier src:
-```bash=
-cd src;
-```
+### 3.
 
-La classe contenant l'ensemble des implémentations est `Main.java`.  
-Chaque implémentation est stockée dans une méthode  
-<img src="https://i.imgur.com/kvKPIBy.png" height="200"/>
+![img.png](gitressources/matrice_adjacence.png)
 
+## Exercice 2
 
-## Exécution
-L'implémentation des TPs est une applications console, la solution est affichée dans une invite de commande.  
-Il est donc possible d'exécuter l'application à partir d'un IDE adapté ou directement à partir d'une invite de commande
+### 1.
+![img.png](gitressources/td6_exo2_1.png)
 
-### Si vous avez un IDE adapté:
-Configurer le projet pour une version de Java récente (si possible la version 16, les versions précédentes peuvent potentiellement générer des erreurs de build)  
-Sélectionnez la classe `Main.java` comme exécutable:  
-<img src="https://i.imgur.com/JtggU9O.png" alt="Exemple avec l'IDE Intellij Idea" height="400"/>
-
-Exécutez l'application:  
-<img src="https://i.imgur.com/u3YSypl.png"/>
-
-
-### Avec une invite de commande
-Compilez les classes:
-```bash=
-javac *.java
-```
-Exécutez Main:
-```bash=
-java Main
-```
-
+### 2.
+![img.png](gitressources/td6_exo2_2.png)
