@@ -15,5 +15,4 @@ public class Main {
         graph.setVerticesByMatrix(matrix);
         graph.adjacenciesList();
     }
-
 }

@@ -13,15 +13,19 @@ public class Graph<T> {
     }
 
     public void setVerticesByMatrix(Integer[][] matrix) {
+        List<Vertex> listVertices = new ArrayList<>();
+        for (int i=0; i< matrix.length; i++) {
+            listVertices.add(new Vertex<>(i));
+        }
+
         for(int i=0; i < matrix.length; i++) {
-            Vertex<Integer> vertex = new Vertex<>(i);
             for(int j=0; j < matrix[i].length; j++) {
                 if(matrix[i][j] == 1) {
-                    vertex.setAdjacentVertex(new Vertex<Integer>(j));
+                    listVertices.get(i).setAdjacentVertex(listVertices.get(j));
                 }
             }
-            this.vertices.add(vertex);
         }
+        this.vertices = listVertices;
     }
 
     public List<Vertex> getVertices() {
