@@ -1,8 +1,8 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Graph<T> {
     private List<Vertex> vertices;
+    List<Vertex> depthCourseVisitedVertices = new ArrayList<>();
 
     public Graph(List<Vertex> vertices) {
         this.vertices = vertices;
@@ -14,13 +14,13 @@ public class Graph<T> {
 
     public void setVerticesByMatrix(Integer[][] matrix) {
         List<Vertex> listVertices = new ArrayList<>();
-        for (int i=0; i< matrix.length; i++) {
+        for (int i = 0; i < matrix.length; i++) {
             listVertices.add(new Vertex<>(i));
         }
 
-        for(int i=0; i < matrix.length; i++) {
-            for(int j=0; j < matrix[i].length; j++) {
-                if(matrix[i][j] == 1) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] == 1) {
                     listVertices.get(i).setAdjacentVertex(listVertices.get(j));
                 }
             }
@@ -45,13 +45,54 @@ public class Graph<T> {
     }
 
     public void adjacenciesList() {
-        for (int i =0; i< this.vertices.size(); i++) {
+        for (int i = 0; i < this.vertices.size(); i++) {
             System.out.print(this.vertices.get(i).getName() + ": ");
-            for (int j=0; j < this.vertices.get(i).getDegree(); j++) {
+            for (int j = 0; j < this.vertices.get(i).getDegree(); j++) {
                 Vertex vertex = (Vertex) this.vertices.get(i).getAdjacentVertices().get(j);
                 System.out.print(vertex.getName() + ", ");
             }
             System.out.println();
         }
+    }
+
+    public static Queue<Vertex> widthCourse(Vertex startingVertex) {
+        Queue<Vertex> resultQueue = new LinkedList<>();
+        Queue<Vertex> queue = listToQueue(startingVertex.getAdjacentVertices());
+        List<Vertex> visitedVerticesList = new ArrayList<>();
+        visitedVerticesList.add(startingVertex);
+        resultQueue.add(startingVertex);
+
+        while (!queue.isEmpty()) {
+            Vertex currentVertex = queue.remove();
+            if (!visitedVerticesList.contains(currentVertex)) {
+                visitedVerticesList.add(currentVertex);
+                resultQueue.add(currentVertex);
+
+                for (int i = 0; i < currentVertex.getAdjacentVertices().size(); i++) {
+                    queue.add((Vertex) currentVertex.getAdjacentVertices().get(i));
+                }
+            }
+        }
+        return resultQueue;
+    }
+
+
+    public List<Vertex> depthCourse(Vertex T, List<Vertex> result) {
+        if(!depthCourseVisitedVertices.contains(T)) {
+            result.add(T);
+            depthCourseVisitedVertices.add(T);
+            for(int i=0; i < T.getAdjacentVertices().size(); i++) {
+                depthCourse((Vertex) T.getAdjacentVertices().get(i), result);
+            }
+        }
+        return result;
+    }
+
+    public static Queue<Vertex> listToQueue(List<Vertex> listVertices) {
+        Queue<Vertex> q = new LinkedList<>();
+        for (int i = 0; i < listVertices.size(); i++) {
+            q.add(listVertices.get(i));
+        }
+        return q;
     }
 }

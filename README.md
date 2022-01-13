@@ -1,33 +1,29 @@
-# TD6
+# TD7
 ##### Auteur : Benoit PEGAZ
 
 ## Exercice 1
 ### 1.
-s0: 1  
-s1: 3  
-s2: 3  
-s3: 3  
-s4: 2  
-s5: 1  
-s6: 1  
+Parcours en largeur:  
+Sommet B: B A C D E F  
+Sommet C: C B E A D F  
+Sommet E: E F D C B A  
 
 ### 2.
-s0: s6  
-s1: s2, s3, s5  
-s2: s1, s3, s4  
-s3: s1, s2, s4  
-s4: s2, s3  
-s5: s1  
-s6: s0
-
-### 3.
-
-![img.png](gitressources/matrice_adjacence.png)
+Parcours en largeur:  
+Sommet C: C E F D B   
+Sommet D: D B C E F  
+Sommet F: F
 
 ## Exercice 2
 
 ### 1.
-![img.png](gitressources/td6_exo2_1.png)
+Parcours en profondeur:  
+Sommet B: B A C E F D  
+Sommet C: C B A D E F  
+Sommet E: E C B A D F
 
-### 2.
-![img.png](gitressources/td6_exo2_2.png)
+###2.
+Parcours en profondeur:  
+Sommet C: C E F D B   
+Sommet D: D B C E F  
+Sommet F: F
