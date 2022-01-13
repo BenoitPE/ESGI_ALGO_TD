@@ -1,29 +1,27 @@
-# TD7
+# TD8
 ##### Auteur : Benoit PEGAZ
 
-## Exercice 1
-### 1.
-Parcours en largeur:  
-Sommet B: B A C D E F  
-Sommet C: C B E A D F  
-Sommet E: E F D C B A  
-
-### 2.
-Parcours en largeur:  
-Sommet C: C E F D B   
-Sommet D: D B C E F  
-Sommet F: F
-
 ## Exercice 2
+### 1. 
+M = (  
+0 1 0 0  
+0 0 1 1  
+0 0 0 1  
+0 0 0 0 )
 
-### 1.
-Parcours en profondeur:  
-Sommet B: B A C E F D  
-Sommet C: C B A D E F  
-Sommet E: E C B A D F
+Transposée de M:  
+tM = (  
+0 0 0 0  
+1 0 0 0  
+0 1 0 0  
+0 1 1 0
+)  
 
-###2.
-Parcours en profondeur:  
-Sommet C: C E F D B   
-Sommet D: D B C E F  
-Sommet F: F
+Matrice de fermeture symétrique de ce graphe:  
+M + tM = (  
+0 1 0 0  
+1 0 1 1  
+0 1 0 1  
+0 1 1 0  
+)
+

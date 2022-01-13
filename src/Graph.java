@@ -83,11 +83,55 @@ public class Graph<T> {
         return result;
     }
 
-    public static Queue<Vertex> listToQueue(List<Vertex> listVertices) {
+    public static Queue<Vertex> listToQueue(List<Vertex> listVertices)
+    {
         Queue<Vertex> q = new LinkedList<>();
         for (int i = 0; i < listVertices.size(); i++) {
             q.add(listVertices.get(i));
         }
         return q;
     }
+
+    public static int[][] adjacencyMatrix(Graph g)
+    {
+        int[][] res = new int[g.vertices.size()][g.vertices.size()];
+
+        for (int i=0; i < g.vertices.size(); i++) {
+            Vertex vertex = (Vertex) g.vertices.get(i);
+
+            for(int j= 0; j < vertex.getAdjacentVertices().size(); j++) {
+                res[i][(int) ((Vertex) vertex.getAdjacentVertices().get(j)).getName()] = 1;
+            }
+        }
+        return res;
+    }
+
+    public static int[][] transposeSquareMatrix(int[][] matrix)
+    {
+        int[][] transposedMatrix = new int[matrix.length][matrix.length];
+        for (int i=0; i < matrix.length; i++) {
+            for (int j=0; j < matrix.length; j++) {
+                transposedMatrix[i][j] = matrix[j][i];
+            }
+        }
+        return transposedMatrix;
+    }
+
+    public static int[][] transitiveMatrixFromAdjancyMatrix(int[][] matrix) {
+        int[][] transposeSquareMatrix = transposeSquareMatrix(matrix);
+        return AddMatrix(matrix, transposeSquareMatrix);
+    }
+
+    public static int[][] AddMatrix(int[][] m1, int[][] m2) {
+        int[][] matrix = new int[m1.length][m1.length];
+        for (int i=0; i< m1.length; i++) {
+            for (int j=0; j< m1.length; j++) {
+                matrix[i][j] = (m1[i][j] + m2[i][j]) > 0 ? 1 : 0;
+            }
+        }
+        return matrix;
+    }
+
+
+
 }
