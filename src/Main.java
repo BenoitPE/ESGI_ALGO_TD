@@ -3,9 +3,13 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         Integer[][] matrix = {
-                {0, 0, 0},
-                {1, 0, 0},
-                {0, 1, 0}
+                {0, 1, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 1, 0},
+                {1, 1, 0, 0, 0, 0, 0},
+                {0, 0, 1, 0, 0, 0, 1},
+                {0, 0, 0, 1, 0, 1, 1},
+                {1, 0, 0, 0, 0, 1, 1},
+                {1, 0, 0, 0, 1, 1, 0}
         };
 
         Graph<Integer> graph = new Graph();
@@ -23,24 +27,22 @@ public class Main {
         System.out.println();
 
         System.out.println("Matrice d'adjacence:    ");
-        int[][] adjacencyMatrix = Graph.adjacencyMatrix(graph);
-        printMatrix(adjacencyMatrix);
+        SquareMatrix adjacencyMatrix = Graph.adjacencyMatrix(graph);
+        SquareMatrix.print(adjacencyMatrix);
 
         System.out.println("Matrice transposée");
-        int[][] transposeSquareMatrix = Graph.transposeSquareMatrix(adjacencyMatrix);
-        printMatrix(transposeSquareMatrix);
+        SquareMatrix transposeSquareMatrix = SquareMatrix.transposeSquareMatrix(adjacencyMatrix);
+        SquareMatrix.print(transposeSquareMatrix);
 
         System.out.println("Matrice d'adjacence de la fermeture symétrique");
-        printMatrix(Graph.transitiveMatrixFromAdjancyMatrix(adjacencyMatrix));
+        SquareMatrix.print(SquareMatrix.transitiveMatrixFromAdjancyMatrix(adjacencyMatrix));
+        System.out.println();
 
+        List<Vertex> invertedPath = new LinkedList<>();
+        System.out.println(Graph.depthCoursePoint(graph.getVertex(1), graph.getVertex(5), invertedPath, new LinkedList<>()));
+        System.out.print("Chemin inversé: ");
+        invertedPath.forEach(v -> System.out.print(v.getName() + ", "));
     }
 
-    private static void printMatrix(int[][] matrix) {
-        for (int i=0; i < matrix.length; i++) {
-            for (int j=0; j < matrix[i].length; j++) {
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
+
 }
