@@ -9,3 +9,5 @@ Here all Algorithmic TDs in different branches
 - TD3 : Binary Search Tree
 - TD4 : Balance Tree
 - TD5 : Huffman coding
+- TD6 : Graph building
+- TD7 : Graph search
