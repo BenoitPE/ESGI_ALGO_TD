@@ -19,12 +19,10 @@ public class Main {
         qWidthCourse.forEach(v -> System.out.print(v.getName() + ", "));
         System.out.println();
 
-        /*System.out.print("Parcours en profondeur:      ");
+        System.out.print("Parcours en profondeur:   ");
         List<Vertex> qDepthCourse = new ArrayList<>();
-        graph.depthCourse(graph.getVertex(1), qDepthCourse);
+        Graph.depthCourse(graph.getVertex(1), qDepthCourse, new ArrayList<>());
         qDepthCourse.forEach(v -> System.out.print(v.getName() + ", "));
-        System.out.println();*/
-
-
+        System.out.println();
     }
 }

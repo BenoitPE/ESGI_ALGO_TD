@@ -2,11 +2,6 @@ import java.util.*;
 
 public class Graph<T> {
     private List<Vertex> vertices;
-    List<Vertex> depthCourseVisitedVertices = new ArrayList<>();
-
-    public Graph(List<Vertex> vertices) {
-        this.vertices = vertices;
-    }
 
     public Graph() {
         this.vertices = new ArrayList<>();
@@ -77,12 +72,12 @@ public class Graph<T> {
     }
 
 
-    public List<Vertex> depthCourse(Vertex T, List<Vertex> result) {
-        if(!depthCourseVisitedVertices.contains(T)) {
+    public static List<Vertex> depthCourse(Vertex T, List<Vertex> result, List<Vertex> visitedVertices) {
+        if(!visitedVertices.contains(T)) {
             result.add(T);
-            depthCourseVisitedVertices.add(T);
+            visitedVertices.add(T);
             for(int i=0; i < T.getAdjacentVertices().size(); i++) {
-                depthCourse((Vertex) T.getAdjacentVertices().get(i), result);
+                depthCourse((Vertex) T.getAdjacentVertices().get(i), result, visitedVertices);
             }
         }
         return result;
