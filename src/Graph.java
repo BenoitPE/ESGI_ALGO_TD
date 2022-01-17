@@ -23,6 +23,22 @@ public class Graph<T> {
         this.vertices = listVertices;
     }
 
+    public void setVerticesByMatrix(List<String> verticesNames,Integer[][] matrix) {
+        List<Vertex> listVertices = new ArrayList<>();
+        for (int i = 0; i < matrix.length; i++) {
+            listVertices.add(new Vertex<>(verticesNames.get(i)));
+        }
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] == 1) {
+                    listVertices.get(i).setAdjacentVertex(listVertices.get(j));
+                }
+            }
+        }
+        this.vertices = listVertices;
+    }
+
     public List<Vertex> getVertices() {
         return vertices;
     }
