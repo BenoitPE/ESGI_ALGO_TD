@@ -1,15 +1,13 @@
-import java.awt.*;
-import javax.swing.*;
-
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import javax.swing.*;
+import java.awt.*;
 
-public class TestWindow
-{
+public class PositionWindow {
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -18,34 +16,8 @@ public class TestWindow
         }
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                Graph graph = new SingleGraph("Tutorial 1");
-
-                Viewer viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
-                View view = viewer.addDefaultView(false);
-                graph.addNode("A");
-                graph.addNode("B");
-                graph.addNode("C");
-                graph.addEdge("AB", "A", "B");
-                graph.addEdge("BC", "B", "C");
-                graph.addEdge("CA", "C", "A");
-
-                graph.addAttribute("ui.quality");
-                graph.addAttribute("ui.antialias");
-
-                /*JFrame frame = new JFrame();
-                frame.setLayout(new BorderLayout());
-                //add(new JButton("test"), BorderLayout.NORTH);
-                frame.add((Component) view, BorderLayout.CENTER);
-                frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-                frame.setSize(320, 240);
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);*/
-
-
                 JPanel graphPanel = new JPanel();
                 graphPanel.setLayout(new BoxLayout(graphPanel, BoxLayout.Y_AXIS));
-                graphPanel.add((Component) view, BorderLayout.CENTER);
 
                 JPanel inputsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
@@ -62,7 +34,8 @@ public class TestWindow
                 inputsPanel.add(endingCombobox);
 
                 inputsPanel.add(new JButton("Calculer l'itinéraire"));
-                inputsPanel.setMaximumSize(new Dimension(300, 10000));
+                inputsPanel.setMaximumSize(new Dimension(100, 100));
+                inputsPanel.setPreferredSize(new Dimension(100, 100));
 
                 JPanel mainPanel = new JPanel();
                 mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
