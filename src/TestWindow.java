@@ -48,8 +48,8 @@ public class TestWindow
                 JComboBox startingCombobox = new JComboBox(stations);
                 JComboBox endingCombobox = new JComboBox(stations);
 
-                JLabel l1 = new JLabel("Départ: ");
-                JLabel l2 = new JLabel("Arrivée: ");
+                JLabel l1 = new JLabel("From: ");
+                JLabel l2 = new JLabel("To: ");
 
                 inputsPanel.add(l1);
                 inputsPanel.add(startingCombobox);
