@@ -1,17 +1,19 @@
-public class SquareMatrix {
+package Models;
+
+public class MySquareMatrix {
     private int[][] values;
 
-    public SquareMatrix(int[][] values) {
+    public MySquareMatrix(int[][] values) {
         this.values = values;
     }
 
-    public SquareMatrix(int size) {
+    public MySquareMatrix(int size) {
         this.values = new int[size][size];
     }
 
-    public static SquareMatrix transposeSquareMatrix(SquareMatrix matrix)
+    public static MySquareMatrix transposeSquareMatrix(MySquareMatrix matrix)
     {
-        SquareMatrix transposedMatrix = new SquareMatrix(matrix.values.length);
+        MySquareMatrix transposedMatrix = new MySquareMatrix(matrix.values.length);
         for (int i=0; i < matrix.values.length; i++) {
             for (int j=0; j < matrix.values.length; j++) {
                 transposedMatrix.values[i][j] = matrix.values[j][i];
@@ -21,13 +23,13 @@ public class SquareMatrix {
     }
 
 
-    public static SquareMatrix transitiveMatrixFromAdjancyMatrix(SquareMatrix matrix) {
-        SquareMatrix transposeSquareMatrix = transposeSquareMatrix(matrix);
+    public static MySquareMatrix transitiveMatrixFromAdjancyMatrix(MySquareMatrix matrix) {
+        MySquareMatrix transposeSquareMatrix = transposeSquareMatrix(matrix);
         return AddMatrix(matrix, transposeSquareMatrix);
     }
 
-    public static SquareMatrix AddMatrix(SquareMatrix m1, SquareMatrix m2) {
-        SquareMatrix matrix = new SquareMatrix(m1.values.length);
+    public static MySquareMatrix AddMatrix(MySquareMatrix m1, MySquareMatrix m2) {
+        MySquareMatrix matrix = new MySquareMatrix(m1.values.length);
         for (int i=0; i< m1.values.length; i++) {
             for (int j=0; j< m1.values.length; j++) {
                 matrix.values[i][j] = (m1.values[i][j] + m2.values[i][j]) > 0 ? 1 : 0;
@@ -36,7 +38,7 @@ public class SquareMatrix {
         return matrix;
     }
 
-    public static void print(SquareMatrix matrix) {
+    public static void print(MySquareMatrix matrix) {
         for (int i=0; i < matrix.values.length; i++) {
             for (int j=0; j < matrix.values[i].length; j++) {
                 System.out.print(matrix.values[i][j] + " ");

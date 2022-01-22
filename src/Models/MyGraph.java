@@ -1,16 +1,18 @@
+package Models;
+
 import java.util.*;
 
-public class Graph<T> {
-    private List<Vertex> vertices;
+public class MyGraph<T> {
+    private List<MyVertex> vertices;
 
-    public Graph() {
+    public MyGraph() {
         this.vertices = new ArrayList<>();
     }
 
     public void setVerticesByMatrix(Integer[][] matrix) {
-        List<Vertex> listVertices = new ArrayList<>();
+        List<MyVertex> listVertices = new ArrayList<>();
         for (int i = 0; i < matrix.length; i++) {
-            listVertices.add(new Vertex<>(i));
+            listVertices.add(new MyVertex<>(i));
         }
 
         for (int i = 0; i < matrix.length; i++) {
@@ -24,9 +26,9 @@ public class Graph<T> {
     }
 
     public void setVerticesByMatrix(List<String> verticesNames,Integer[][] matrix) {
-        List<Vertex> listVertices = new ArrayList<>();
+        List<MyVertex> listVertices = new ArrayList<>();
         for (int i = 0; i < matrix.length; i++) {
-            listVertices.add(new Vertex<>(verticesNames.get(i)));
+            listVertices.add(new MyVertex<>(verticesNames.get(i)));
         }
 
         for (int i = 0; i < matrix.length; i++) {
@@ -39,48 +41,48 @@ public class Graph<T> {
         this.vertices = listVertices;
     }
 
-    public List<Vertex> getVertices() {
+    public List<MyVertex> getVertices() {
         return vertices;
     }
 
-    public Vertex getVertex(int i) {
+    public MyVertex getVertex(int i) {
         return this.vertices.get(i);
     }
 
-    public void setVertices(List<Vertex> vertices) {
+    public void setVertices(List<MyVertex> vertices) {
         this.vertices = vertices;
     }
 
-    public void setVertex(Vertex vertex) {
-        this.vertices.add(vertex);
+    public void setVertex(MyVertex myVertex) {
+        this.vertices.add(myVertex);
     }
 
     public void adjacenciesList() {
         for (int i = 0; i < this.vertices.size(); i++) {
             System.out.print(this.vertices.get(i).getName() + ": ");
             for (int j = 0; j < this.vertices.get(i).getDegree(); j++) {
-                Vertex vertex = (Vertex) this.vertices.get(i).getAdjacentVertices().get(j);
-                System.out.print(vertex.getName() + ", ");
+                MyVertex myVertex = (MyVertex) this.vertices.get(i).getAdjacentVertices().get(j);
+                System.out.print(myVertex.getName() + ", ");
             }
             System.out.println();
         }
     }
 
-    public static Queue<Vertex> widthCourse(Vertex startingVertex) {
-        Queue<Vertex> resultQueue = new LinkedList<>();
-        Queue<Vertex> queue = listToQueue(startingVertex.getAdjacentVertices());
-        List<Vertex> visitedVerticesList = new ArrayList<>();
+    public static Queue<MyVertex> widthCourse(MyVertex startingVertex) {
+        Queue<MyVertex> resultQueue = new LinkedList<>();
+        Queue<MyVertex> queue = listToQueue(startingVertex.getAdjacentVertices());
+        List<MyVertex> visitedVerticesList = new ArrayList<>();
         visitedVerticesList.add(startingVertex);
         resultQueue.add(startingVertex);
 
         while (!queue.isEmpty()) {
-            Vertex currentVertex = queue.remove();
+            MyVertex currentVertex = queue.remove();
             if (!visitedVerticesList.contains(currentVertex)) {
                 visitedVerticesList.add(currentVertex);
                 resultQueue.add(currentVertex);
 
                 for (int i = 0; i < currentVertex.getAdjacentVertices().size(); i++) {
-                    queue.add((Vertex) currentVertex.getAdjacentVertices().get(i));
+                    queue.add((MyVertex) currentVertex.getAdjacentVertices().get(i));
                 }
             }
         }
@@ -88,18 +90,18 @@ public class Graph<T> {
     }
 
 
-    public static List<Vertex> depthCourse(Vertex T, List<Vertex> result, List<Vertex> visitedVertices) {
+    public static List<MyVertex> depthCourse(MyVertex T, List<MyVertex> result, List<MyVertex> visitedVertices) {
         if(!visitedVertices.contains(T)) {
             result.add(T);
             visitedVertices.add(T);
             for(int i=0; i < T.getAdjacentVertices().size(); i++) {
-                depthCourse((Vertex) T.getAdjacentVertices().get(i), result, visitedVertices);
+                depthCourse((MyVertex) T.getAdjacentVertices().get(i), result, visitedVertices);
             }
         }
         return result;
     }
 
-    public static boolean depthCoursePoint(Vertex T, Vertex search, List<Vertex> invertedPath, List<Vertex> visitedVertices)
+    public static boolean depthCoursePoint(MyVertex T, MyVertex search, List<MyVertex> invertedPath, List<MyVertex> visitedVertices)
     {
         if(T.getName() == search.getName()) {
             return true;
@@ -108,7 +110,7 @@ public class Graph<T> {
         {
             visitedVertices.add(T);
             for (int i=0; i< T.getAdjacentVertices().size(); i++) {
-                if(depthCoursePoint((Vertex) T.getAdjacentVertices().get(i), search, invertedPath, visitedVertices) == true) {
+                if(depthCoursePoint((MyVertex) T.getAdjacentVertices().get(i), search, invertedPath, visitedVertices) == true) {
                     invertedPath.add(T);
                     return true;
                 }
@@ -117,24 +119,24 @@ public class Graph<T> {
         return false;
     }
 
-    public static Queue<Vertex> listToQueue(List<Vertex> listVertices)
+    public static Queue<MyVertex> listToQueue(List<MyVertex> listVertices)
     {
-        Queue<Vertex> q = new LinkedList<>();
+        Queue<MyVertex> q = new LinkedList<>();
         for (int i = 0; i < listVertices.size(); i++) {
             q.add(listVertices.get(i));
         }
         return q;
     }
 
-    public static SquareMatrix adjacencyMatrix(Graph g)
+    public static MySquareMatrix adjacencyMatrix(MyGraph g)
     {
-        SquareMatrix res = new SquareMatrix(g.vertices.size());
+        MySquareMatrix res = new MySquareMatrix(g.vertices.size());
 
         for (int i=0; i < g.vertices.size(); i++) {
-            Vertex vertex = (Vertex) g.vertices.get(i);
+            MyVertex myVertex = (MyVertex) g.vertices.get(i);
 
-            for(int j= 0; j < vertex.getAdjacentVertices().size(); j++) {
-                res.setValue(i, (int) ((Vertex) vertex.getAdjacentVertices().get(j)).getName(), 1);
+            for(int j = 0; j < myVertex.getAdjacentVertices().size(); j++) {
+                res.setValue(i, (int) ((MyVertex) myVertex.getAdjacentVertices().get(j)).getName(), 1);
             }
         }
         return res;

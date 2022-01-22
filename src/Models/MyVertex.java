@@ -1,18 +1,20 @@
+package Models;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Vertex<T> {
+public class MyVertex<T> {
     private T name;
-    private List<Vertex<T>> adjacentVertices;
+    private List<MyVertex<T>> adjacentVertices;
 
-    public Vertex(T name, List<Vertex<T>> adjacentVertices) {
+    public MyVertex(T name, List<MyVertex<T>> adjacentVertices) {
         this.name = name;
         this.adjacentVertices = adjacentVertices;
     }
 
-    public Vertex(T name) {
+    public MyVertex(T name) {
         this.name = name;
-        this.adjacentVertices = new ArrayList<Vertex<T>>();
+        this.adjacentVertices = new ArrayList<MyVertex<T>>();
     }
 
     public int getDegree() {
@@ -27,15 +29,15 @@ public class Vertex<T> {
         this.name = name;
     }
 
-    public List<Vertex<T>> getAdjacentVertices() {
+    public List<MyVertex<T>> getAdjacentVertices() {
         return adjacentVertices;
     }
 
-    public void setAdjacentVertices(List<Vertex<T>> adjacentVertices) {
+    public void setAdjacentVertices(List<MyVertex<T>> adjacentVertices) {
         this.adjacentVertices = adjacentVertices;
     }
 
-    public void setAdjacentVertex(Vertex adjacentVertex) {
+    public void setAdjacentVertex(MyVertex adjacentVertex) {
         this.adjacentVertices.add(adjacentVertex);
     }
 }

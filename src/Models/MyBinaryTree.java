@@ -1,47 +1,49 @@
+package Models;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class BinaryTree {
-    private BinaryNode root;
+public class MyBinaryTree {
+    private MyBinaryNode root;
     private List<Integer> infixDepthCourseList;
     private List<Integer> postfixDepthCourseList;
     private List<Integer> prefixDepthCourseList;
 
-    public BinaryTree(BinaryNode root) {
+    public MyBinaryTree(MyBinaryNode root) {
         this.root = root;
     }
 
 
     //region Depth Courses
     //Parcours en largeur
-    public static List<BinaryNode> widthCourse(BinaryNode node) {
-        Queue<BinaryNode> currentNodes  = new LinkedList<>();
+    public static List<MyBinaryNode> widthCourse(MyBinaryNode node) {
+        Queue<MyBinaryNode> currentNodes  = new LinkedList<>();
         currentNodes.add(node);
 
-        List<BinaryNode> result = new ArrayList<BinaryNode>();
+        List<MyBinaryNode> result = new ArrayList<MyBinaryNode>();
         while (!currentNodes.isEmpty()) {
-            BinaryNode currentNode = currentNodes.remove();
+            MyBinaryNode currentNode = currentNodes.remove();
             result.add(currentNode);
             System.out.print(currentNode.getData() + " ");
             if(currentNode.getLeftChild() != null)
                 currentNodes.add(currentNode.getLeftChild());
             if(currentNode.getRightChild() != null)
                 currentNodes.add(currentNode.getRightChild());
-            //currentNode.getChildren().forEach(child -> currentNodes.add((Node) child));
+            //currentNode.getChildren().forEach(child -> currentNodes.add((Models.Node) child));
         }
         return result;
     }
 
-    //Infix depth course for a Binary Tree
-    public List<Integer> infixDepthCourse(BinaryNode<Integer> node) {
+    //Infix depth course for a Binary Models.Tree
+    public List<Integer> infixDepthCourse(MyBinaryNode<Integer> node) {
         infixDepthCourseList = new ArrayList<Integer>();
         infixDepthCourseRecursive(node);
         return infixDepthCourseList;
     }
 
-    private void infixDepthCourseRecursive(BinaryNode<Integer> node) {
+    private void infixDepthCourseRecursive(MyBinaryNode<Integer> node) {
         if(node.getLeftChild() != null) {
             infixDepthCourseRecursive(node.getLeftChild());
         }
@@ -52,14 +54,14 @@ public class BinaryTree {
         }
     }
 
-    //Prefix depth course for a Binary Tree
-    public List<Integer> prefixDepthCourse(BinaryNode<Integer> node) {
+    //Prefix depth course for a Binary Models.Tree
+    public List<Integer> prefixDepthCourse(MyBinaryNode<Integer> node) {
         prefixDepthCourseList = new ArrayList<Integer>();
         prefixDepthCourseListRecursive(node);
         return prefixDepthCourseList;
     }
 
-    private void prefixDepthCourseListRecursive(BinaryNode<Integer> node) {
+    private void prefixDepthCourseListRecursive(MyBinaryNode<Integer> node) {
         prefixDepthCourseList.add(node.getData());
         if(node.getLeftChild() != null) {
             prefixDepthCourseListRecursive(node.getLeftChild());
@@ -69,14 +71,14 @@ public class BinaryTree {
         }
     }
 
-    //Postfix depth course for a Binary Tree
-    public List<Integer> postfixDepthCourse(BinaryNode<Integer> node) {
+    //Postfix depth course for a Binary Models.Tree
+    public List<Integer> postfixDepthCourse(MyBinaryNode<Integer> node) {
         postfixDepthCourseList = new ArrayList<Integer>();
         postfixDepthCourseRecursive(node);
         return postfixDepthCourseList;
     }
 
-    private void postfixDepthCourseRecursive(BinaryNode<Integer> node) {
+    private void postfixDepthCourseRecursive(MyBinaryNode<Integer> node) {
         if(node.getLeftChild() != null) {
             postfixDepthCourseRecursive(node.getLeftChild());
         }
@@ -88,22 +90,22 @@ public class BinaryTree {
     //endregion Depth Courses
 
 
-    public BinaryNode getRoot() {
+    public MyBinaryNode getRoot() {
         return root;
     }
 
-    public void setRoot(BinaryNode root) {
+    public void setRoot(MyBinaryNode root) {
         this.root = root;
     }
 
-    public static <T> void print(BinaryNode<T> binaryNode, String appender) {
-        System.out.println(appender + binaryNode.getData());
-        if(binaryNode.getLeftChild() != null) {
-            print(binaryNode.getLeftChild(), appender + appender);
+    public static <T> void print(MyBinaryNode<T> myBinaryNode, String appender) {
+        System.out.println(appender + myBinaryNode.getData());
+        if(myBinaryNode.getLeftChild() != null) {
+            print(myBinaryNode.getLeftChild(), appender + appender);
         }
 
-        if(binaryNode.getRightChild() != null) {
-            print(binaryNode.getRightChild(), appender + appender);
+        if(myBinaryNode.getRightChild() != null) {
+            print(myBinaryNode.getRightChild(), appender + appender);
         }
     }
 }

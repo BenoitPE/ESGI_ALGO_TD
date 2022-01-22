@@ -1,4 +1,6 @@
-public class HeapSort {
+package Models;
+
+public class MyHeapSort {
     // Tri par tas
     public static void sort(int array[])
     {

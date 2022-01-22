@@ -1,33 +1,35 @@
+package Models;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class BinarySearchTree {
-    private BinarySearchNode root;
+public class MyBinarySearchTree {
+    private MyBinarySearchNode root;
     private List<Integer> infixDepthCourseList;
     private List<Integer> postfixDepthCourseList;
     private List<Integer> prefixDepthCourseList;
 
     //region Constructors
-    public BinarySearchTree(BinarySearchNode root) {
+    public MyBinarySearchTree(MyBinarySearchNode root) {
         this.root = root;
         this.infixDepthCourseList =  new ArrayList<Integer>();
     }
 
-    public BinarySearchTree() {
+    public MyBinarySearchTree() {
         this.root = null;
         this.infixDepthCourseList =  new ArrayList<Integer>();
     }
     //endregion Constructors
 
     //region Depth Courses
-    //Infix depth course for a Binary Search Tree
-    public List<Integer> infixDepthCourse(BinarySearchNode node) {
+    //Infix depth course for a Binary Search Models.Tree
+    public List<Integer> infixDepthCourse(MyBinarySearchNode node) {
         infixDepthCourseList = new ArrayList<Integer>();
         infixDepthCourseRecursive(node);
         return infixDepthCourseList;
     }
 
-    public void infixDepthCourseRecursive(BinarySearchNode node) {
+    public void infixDepthCourseRecursive(MyBinarySearchNode node) {
         if(node.getLeftChild() != null) {
             infixDepthCourseRecursive(node.getLeftChild());
         }
@@ -38,13 +40,13 @@ public class BinarySearchTree {
         }
     }
 
-    //Prefix depth course for a Binary Search Tree
-    public void prefixDepthCourse(BinarySearchNode node) {
+    //Prefix depth course for a Binary Search Models.Tree
+    public void prefixDepthCourse(MyBinarySearchNode node) {
         prefixDepthCourseList = new ArrayList<Integer>();
         prefixDepthCourseListRecursive(node);
     }
 
-    public void prefixDepthCourseListRecursive(BinarySearchNode node) {
+    public void prefixDepthCourseListRecursive(MyBinarySearchNode node) {
         prefixDepthCourseList.add(node.getData());
 
         if(node.getLeftChild() != null) {
@@ -55,13 +57,13 @@ public class BinarySearchTree {
         }
     }
 
-    //Postfix depth course for a Binary Search Tree
-    public void postfixDepthCourse(BinarySearchNode node) {
+    //Postfix depth course for a Binary Search Models.Tree
+    public void postfixDepthCourse(MyBinarySearchNode node) {
         postfixDepthCourseList = new ArrayList<Integer>();
         postfixDepthCourseRecursive(node);
     }
 
-    public void postfixDepthCourseRecursive(BinarySearchNode node) {
+    public void postfixDepthCourseRecursive(MyBinarySearchNode node) {
         if(node.getLeftChild() != null) {
             postfixDepthCourseRecursive(node.getLeftChild());
         }
@@ -72,7 +74,7 @@ public class BinarySearchTree {
     }
     //endregion Depth Courses
 
-    public boolean search(BinarySearchNode rootNode, BinarySearchNode key) {
+    public boolean search(MyBinarySearchNode rootNode, MyBinarySearchNode key) {
         if(rootNode == null) {
             return false;
         }
@@ -87,11 +89,11 @@ public class BinarySearchTree {
         }
     }
 
-    void insert(BinarySearchNode key)  {
+    void insert(MyBinarySearchNode key)  {
         root = insertRecursive(root, key);
     }
 
-    BinarySearchNode insertRecursive(BinarySearchNode rootNode, BinarySearchNode key) {
+    MyBinarySearchNode insertRecursive(MyBinarySearchNode rootNode, MyBinarySearchNode key) {
         //tree is empty
         if (rootNode == null) {
             rootNode = key;
@@ -108,7 +110,7 @@ public class BinarySearchTree {
 
     public void listToTree(List<Integer> listNode) {
         for (int i = 0; i< listNode.size(); i++) {
-            insert(new BinarySearchNode(listNode.get(i)));
+            insert(new MyBinarySearchNode(listNode.get(i)));
         }
     }
 
@@ -119,23 +121,23 @@ public class BinarySearchTree {
             return false;
     }
 
-    public static void print(BinarySearchNode binarySearchNode, String appender) {
-        System.out.println(appender + binarySearchNode.getData());
-        if(binarySearchNode.getLeftChild() != null) {
-            print(binarySearchNode.getLeftChild(), appender + appender);
+    public static void print(MyBinarySearchNode myBinarySearchNode, String appender) {
+        System.out.println(appender + myBinarySearchNode.getData());
+        if(myBinarySearchNode.getLeftChild() != null) {
+            print(myBinarySearchNode.getLeftChild(), appender + appender);
         }
 
-        if(binarySearchNode.getRightChild() != null) {
-            print(binarySearchNode.getRightChild(), appender + appender);
+        if(myBinarySearchNode.getRightChild() != null) {
+            print(myBinarySearchNode.getRightChild(), appender + appender);
         }
     }
 
     //region Getters and Setters
-    public BinarySearchNode getRoot() {
+    public MyBinarySearchNode getRoot() {
         return root;
     }
 
-    public void setRoot(BinarySearchNode root) {
+    public void setRoot(MyBinarySearchNode root) {
         this.root = root;
     }
 

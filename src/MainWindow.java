@@ -1,10 +1,10 @@
-import org.graphstream.graph.*;
+import Models.MyGraph;
+import Models.MyVertex;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
 import java.util.*;
 import java.util.List;
 
@@ -55,7 +55,7 @@ public class MainWindow {
                 {1, 0, 0, 0, 1, 1, 0}
         };
         List<String> verticesNames = Arrays.asList("Madrid", "Londres", "Tokyo", "Berlin", "Paris", "New-York", "Dubai");
-        Graph<Integer> g = new Graph();
+        MyGraph<Integer> g = new MyGraph();
         g.setVerticesByMatrix(verticesNames, matrix);
 
         //View
@@ -65,9 +65,9 @@ public class MainWindow {
         graph.setAttribute("ui.stylesheet", "url(graph_style.css);");
         graph.display();
         for (int i = 0; i < g.getVertices().size(); i++) {
-            Vertex v = g.getVertices().get(i);
+            MyVertex v = g.getVertices().get(i);
             for (int j = 0; j < v.getAdjacentVertices().size(); j++) {
-                Vertex adj = (Vertex) v.getAdjacentVertices().get(j);
+                MyVertex adj = (MyVertex) v.getAdjacentVertices().get(j);
                 graph.addEdge((String) v.getName() + (String) adj.getName(), (String) v.getName(), (String) adj.getName());
 
 

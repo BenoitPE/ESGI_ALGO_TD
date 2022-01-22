@@ -2,7 +2,7 @@
 	<!--
 		This file is part of GraphStream <http://graphstream-project.org>.
 		GraphStream is a library whose purpose is to handle static or dynamic
-		graph, create them from scratch, file or any source and display them.
+		myGraph, create them from scratch, file or any source and display them.
 		This program is free software distributed under the terms of two
 		licenses, the CeCILL-C license that fits European law, and the GNU
 		Lesser General Public License. You can use, modify and/ or
@@ -39,7 +39,7 @@
 		The GraphStream library. With GraphStream you deal with
 		graphs. Static and Dynamic. You create them from scratch, from a file
 		or any source. You display and render them. This is the core package
-		that contains the minimal needed to read, display and write a graph.
+		that contains the minimal needed to read, display and write a myGraph.
 	</description>
 	<url>http://graphstream-project.org</url>
 
