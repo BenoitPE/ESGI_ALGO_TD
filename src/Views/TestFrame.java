@@ -1,3 +1,5 @@
+package Views;
+
 import Models.MyGraph;
 import Models.MyVertex;
 import org.graphstream.graph.Node;
@@ -8,25 +10,20 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public class MainWindow {
+public class TestFrame {
     public static void main(String args[]) {
-        JFrame frame = new JFrame("frame");
-
+        /*JFrame frame = new JFrame("frame");
         // définir la disposition du frame
         frame.setLayout(new FlowLayout());
-
         // tableau de chaînes contenant des langages
         String s1[] = { "Java", "PHP", "Python", "C++", "Ruby" };
-
         // créer une case à cocher
         JComboBox combobox = new JComboBox(s1);
         // créer des étiquettes
         JLabel l1 = new JLabel("Quel est votre langage prefere? ");
         JLabel l2 = new JLabel("[Java]");
-
         // définir la couleur du texte
         l2.setForeground(Color.blue);
-
         // créer un nouveau panneau
         JPanel p = new JPanel();
         // ajouter combobox et labels au panneau
@@ -37,7 +34,7 @@ public class MainWindow {
         frame.add(p);
         // définir la taille du frame
         frame.setSize(400, 200);
-        frame.show();
+        frame.show();*/
 
         showGraph();
     }
@@ -62,7 +59,7 @@ public class MainWindow {
         graph.setStrict(false);
         graph.setAutoCreate(true);
         System.setProperty("org.graphstream.ui", "swing");
-        graph.setAttribute("ui.stylesheet", "url(graph_style.css);");
+        graph.setAttribute("ui.stylesheet", "url(./graph_style.css);");
         graph.display();
         for (int i = 0; i < g.getVertices().size(); i++) {
             MyVertex v = g.getVertices().get(i);

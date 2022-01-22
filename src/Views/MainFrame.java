@@ -3,10 +3,10 @@ package Views;
 import javax.swing.*;
 import java.awt.*;
 
-public class TestLayout extends JFrame {
+public class MainFrame extends JFrame {
 
-    public TestLayout() {
-        super("ALGO - Trees and graphs");
+    public MainFrame() {
+        super("ALGO - Arbres et graphes");
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         init();
     }
@@ -15,10 +15,19 @@ public class TestLayout extends JFrame {
         this.getContentPane().setLayout(new GridBagLayout());
 
         String stations[] = {"Madrid", "Londres", "Tokyo", "Berlin", "Paris", "New-York", "Dubai"};
+        Integer[][] matrix = {
+                {0, 1, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 1, 0},
+                {1, 1, 0, 0, 0, 0, 0},
+                {0, 0, 1, 0, 0, 0, 1},
+                {0, 0, 0, 1, 0, 1, 1},
+                {1, 0, 0, 0, 0, 1, 1},
+                {1, 0, 0, 0, 1, 1, 0}
+        };
 
         PanelInputs panelInputs = new PanelInputs(stations);
         PanelSide panelSide = new PanelSide();
-        PanelGraph panelGraph = new PanelGraph();
+        PanelGraph panelGraph = new PanelGraph(stations, matrix);
 
         this.getContentPane().add(panelInputs, new GridBagConstraints(0, 0, 3, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 
@@ -37,13 +46,9 @@ public class TestLayout extends JFrame {
             ex.printStackTrace();
         }
 
-        TestLayout frame = new TestLayout();
+        MainFrame frame = new MainFrame();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        while (true) {
-            (view).repaint();
-
-        }
     }
 }
