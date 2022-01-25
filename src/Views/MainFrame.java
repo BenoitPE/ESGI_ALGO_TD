@@ -1,7 +1,14 @@
 package Views;
 
+import Models.MyGraph;
+import Models.MyVertex;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MainFrame extends JFrame {
 
@@ -29,6 +36,28 @@ public class MainFrame extends JFrame {
         PanelSide panelSide = new PanelSide();
         PanelGraph panelGraph = new PanelGraph(stations, matrix);
 
+        ActionListener comboBoxListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(panelInputs.startingCombobox.getSelectedItem());
+                System.out.println(panelInputs.endingCombobox.getSelectedItem());
+
+                List<MyVertex> invertedPath = new LinkedList<>();
+                System.out.println("----------------------");
+                System.out.println(MyGraph.depthCoursePoint(
+                        panelGraph.g.getVertex((String) panelInputs.startingCombobox.getSelectedItem()),
+                        panelGraph.g.getVertex((String) panelInputs.endingCombobox.getSelectedItem()),
+                        invertedPath,
+                        new LinkedList<>()));
+                System.out.print("Chemin inversé: ");
+                invertedPath.forEach(v -> System.out.print(v.getName() + ", "));
+                System.out.println();
+            }
+        };
+
+        panelInputs.startingCombobox.addActionListener(comboBoxListener);
+        panelInputs.endingCombobox.addActionListener(comboBoxListener);
+
         this.getContentPane().add(panelInputs, new GridBagConstraints(0, 0, 3, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 
         this.getContentPane().add(panelSide, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
@@ -51,4 +80,5 @@ public class MainFrame extends JFrame {
         frame.setVisible(true);
 
     }
+
 }

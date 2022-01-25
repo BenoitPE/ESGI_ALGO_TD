@@ -4,9 +4,11 @@ import java.util.*;
 
 public class MyGraph<T> {
     private List<MyVertex> vertices;
+    private Map<String, Integer> mapVerticesNameIndex;
 
     public MyGraph() {
         this.vertices = new ArrayList<>();
+        this.mapVerticesNameIndex = new HashMap<>();
     }
 
     public void setVerticesByMatrix(Integer[][] matrix) {
@@ -29,6 +31,8 @@ public class MyGraph<T> {
         List<MyVertex> listVertices = new ArrayList<>();
         for (int i = 0; i < matrix.length; i++) {
             listVertices.add(new MyVertex<>(verticesNames.get(i)));
+            mapVerticesNameIndex.put(verticesNames.get(i), i);
+
         }
 
         for (int i = 0; i < matrix.length; i++) {
@@ -47,6 +51,10 @@ public class MyGraph<T> {
 
     public MyVertex getVertex(int i) {
         return this.vertices.get(i);
+    }
+
+    public MyVertex getVertex(String name) {
+        return this.vertices.get(mapVerticesNameIndex.get(name));
     }
 
     public void setVertices(List<MyVertex> vertices) {

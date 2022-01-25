@@ -11,12 +11,13 @@ import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 
 public class PanelGraph extends JPanel {
+    public MultiGraph graph = new MultiGraph("Main Graph");
+    public MyGraph<Integer> g;
 
     public PanelGraph(String[] stations, Integer[][] matrix) {
-        MultiGraph graph = new MultiGraph("Main Graph");
 
         List<String> verticesNames = Arrays.asList(stations);
-        MyGraph<Integer> g = new MyGraph<>();
+        g = new MyGraph<>();
         g.setVerticesByMatrix(verticesNames, matrix);
 
         for(int i=0; i< verticesNames.size(); i++) {
@@ -28,7 +29,7 @@ public class PanelGraph extends JPanel {
             MyVertex v = g.getVertices().get(i);
             for (int j = 0; j < v.getAdjacentVertices().size(); j++) {
                 MyVertex adj = (MyVertex) v.getAdjacentVertices().get(j);
-                graph.addEdge(v.getName() + "-" + adj.getName(), (String) v.getName(), (String) adj.getName());
+                graph.addEdge(v.getName() + "-" + adj.getName(), (String) v.getName(), (String) adj.getName(), true);
             }
         }
 
@@ -41,7 +42,6 @@ public class PanelGraph extends JPanel {
         View view = viewer.addDefaultView(false);
         setLayout(new BorderLayout());
         add((Component) view, BorderLayout.CENTER);
-
     }
 
 }

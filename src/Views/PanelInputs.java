@@ -4,13 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PanelInputs extends JPanel {
+    public JComboBox startingCombobox;
+    public JComboBox endingCombobox;
 
     public PanelInputs(String[] stations) {
 
         JLabel labelFrom = new JLabel("From: ");
         JLabel labelTo = new JLabel("To: ");
-        JComboBox startingCombobox = new JComboBox(stations);
-        JComboBox endingCombobox = new JComboBox(stations);
+        startingCombobox = new JComboBox(stations);
+        endingCombobox = new JComboBox(stations);
 
         add(labelFrom);
         add(startingCombobox);

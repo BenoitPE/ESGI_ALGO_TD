@@ -31,7 +31,8 @@ node {
 }
 
 edge {
-    size:           2px;
+    size:           1px;
     fill-mode:      plain;
     /*changing edge layout here also doesn't work*/
 }
+
