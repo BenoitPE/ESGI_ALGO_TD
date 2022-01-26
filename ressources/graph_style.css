@@ -18,10 +18,10 @@ node {
     stroke-mode:  plain;
     stroke-color: black;
     */
-        fill-color: red;
-        text-size:    16;
+        fill-color: black;
+        text-size:    30;
         text-style:   bold;
-        text-color:   red;
+        text-color:   black;
         text-alignment: at-right;
         text-padding: 3px, 2px;
         text-background-mode: rounded-box;
@@ -33,6 +33,6 @@ node {
 edge {
     size:           1px;
     fill-mode:      plain;
+    fill-color: black;
     /*changing edge layout here also doesn't work*/
 }
-

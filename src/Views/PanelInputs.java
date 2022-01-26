@@ -23,9 +23,8 @@ public class PanelInputs extends JPanel {
         setMaximumSize(new Dimension(100000,50));
         setPreferredSize(new Dimension(500,50));
 
-        setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        setBorder(BorderFactory.createEtchedBorder());
-        setBackground(new Color(250,250,250));
+        setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+        setBackground(new Color(240,240,240));
     }
 
 }
