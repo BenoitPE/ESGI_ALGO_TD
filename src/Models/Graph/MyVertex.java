@@ -1,22 +1,25 @@
-package Models;
+package Models.Graph;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyVertex<T> {
     private T name;
-    private List<MyVertex<T>> adjacentVertices;
+    private List<MyOrientedEdge> adjacentVertices;
 
-    public MyVertex(T name, List<MyVertex<T>> adjacentVertices) {
+    //region Constructors
+    public MyVertex(T name, List<MyOrientedEdge> adjacentVertices) {
         this.name = name;
         this.adjacentVertices = adjacentVertices;
     }
 
     public MyVertex(T name) {
         this.name = name;
-        this.adjacentVertices = new ArrayList<MyVertex<T>>();
+        this.adjacentVertices = new ArrayList<>();
     }
+    //endregion
 
+    //region Getters and Setters
     public int getDegree() {
         return this.adjacentVertices.size();
     }
@@ -29,15 +32,16 @@ public class MyVertex<T> {
         this.name = name;
     }
 
-    public List<MyVertex<T>> getAdjacentVertices() {
+    public List<MyOrientedEdge> getAdjacentVertices() {
         return adjacentVertices;
     }
 
-    public void setAdjacentVertices(List<MyVertex<T>> adjacentVertices) {
+    public void setAdjacentVertices(List<MyOrientedEdge> adjacentVertices) {
         this.adjacentVertices = adjacentVertices;
     }
 
-    public void setAdjacentVertex(MyVertex adjacentVertex) {
+    public void setAdjacentVertex(MyOrientedEdge adjacentVertex) {
         this.adjacentVertices.add(adjacentVertex);
     }
+    //endregion
 }

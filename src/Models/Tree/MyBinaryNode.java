@@ -1,4 +1,4 @@
-package Models;
+package Models.Tree;
 
 public class MyBinaryNode<T> {
     private T data;

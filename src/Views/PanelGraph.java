@@ -1,6 +1,7 @@
 package Views;
-import Models.MyGraph;
-import Models.MyVertex;
+import Models.Graph.MyGraph;
+import Models.Graph.MyOrientedEdge;
+import Models.Graph.MyVertex;
 import org.graphstream.graph.implementations.MultiGraph;
 
 import javax.swing.*;
@@ -18,11 +19,10 @@ public class PanelGraph extends JPanel {
 
     public PanelGraph(String[] stations, Integer[][] matrix) {
 
-        List<String> verticesNames = Arrays.asList(stations);
         structGraph = new MyGraph<>();
-        structGraph.setVerticesByMatrix(verticesNames, matrix);
+        structGraph.setVerticesByMatrix(stations, matrix);
 
-        setVertices(verticesNames);
+        setVertices(stations);
         setEdges();
 
         uiGraph.setStrict(false);
@@ -40,16 +40,16 @@ public class PanelGraph extends JPanel {
         for (int i = 0; i < structGraph.getVertices().size(); i++) {
             MyVertex v = structGraph.getVertices().get(i);
             for (int j = 0; j < v.getAdjacentVertices().size(); j++) {
-                MyVertex adj = (MyVertex) v.getAdjacentVertices().get(j);
+                MyVertex adj = ((MyOrientedEdge) v.getAdjacentVertices().get(j)).getDestination();
                 uiGraph.addEdge(v.getName() + "-" + adj.getName(), (String) v.getName(), (String) adj.getName(), true);
             }
         }
     }
     
-    private void setVertices(List<String> verticesNames) {
-        for(int i=0; i< verticesNames.size(); i++) {
-            uiGraph.addNode(verticesNames.get(i));
-            uiGraph.getNode(verticesNames.get(i)).setAttribute("ui.label", uiGraph.getNode(verticesNames.get(i)).getId());
+    private void setVertices(String[] verticesNames) {
+        for(int i=0; i< verticesNames.length; i++) {
+            uiGraph.addNode(verticesNames[i]);
+            uiGraph.getNode(verticesNames[i]).setAttribute("ui.label", uiGraph.getNode(verticesNames[i]).getId());
         }
     }
 

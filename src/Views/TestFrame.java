@@ -1,12 +1,10 @@
 package Views;
 
-import Models.MyGraph;
-import Models.MyVertex;
+import Models.Graph.MyGraph;
+import Models.Graph.MyVertex;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -51,7 +49,7 @@ public class TestFrame {
                 {1, 0, 0, 0, 0, 1, 1},
                 {1, 0, 0, 0, 1, 1, 0}
         };
-        List<String> verticesNames = Arrays.asList("Madrid", "Londres", "Tokyo", "Berlin", "Paris", "New-York", "Dubai");
+        String[] verticesNames = {"Madrid", "Londres", "Tokyo", "Berlin", "Paris", "New-York", "Dubai"};
         MyGraph<Integer> g = new MyGraph();
         g.setVerticesByMatrix(verticesNames, matrix);
 

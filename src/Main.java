@@ -1,11 +1,13 @@
-import Models.MyGraph;
-import Models.MySquareMatrix;
-import Models.MyVertex;
+import Models.Graph.MyDijkstraVertex;
+import Models.Graph.MyGraph;
+import Models.Graph.MySquareMatrix;
+import Models.Graph.MyVertex;
 
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+        String stations[] = {"Madrid", "Londres", "Tokyo", "Berlin", "Paris", "New-York", "Dubai"};
         Integer[][] matrix = {
                 {0, 1, 0, 0, 0, 0, 0},
                 {0, 0, 0, 1, 1, 1, 0},
@@ -17,8 +19,9 @@ public class Main {
         };
 
         MyGraph<Integer> myGraph = new MyGraph();
-        myGraph.setVerticesByMatrix(matrix);
+        myGraph.setVerticesByMatrix(stations, matrix);
 
+        /*
         System.out.print("Parcours en largeur:      ");
         Queue<MyVertex> qWidthCourse = MyGraph.widthCourse(myGraph.getVertex(1));
         qWidthCourse.forEach(v -> System.out.print(v.getName() + ", "));
@@ -31,7 +34,7 @@ public class Main {
         System.out.println();
 
         System.out.println("Matrice d'adjacence:    ");
-        MySquareMatrix adjacencyMatrix = MyGraph.adjacencyMatrix(myGraph);
+        MySquareMatrix adjacencyMatrix = myGraph.adjacencyMatrix();
         MySquareMatrix.print(adjacencyMatrix);
 
         System.out.println("Matrice transposée");
@@ -46,6 +49,12 @@ public class Main {
         System.out.println(MyGraph.depthCoursePoint(myGraph.getVertex(1), myGraph.getVertex(5), invertedPath, new LinkedList<>()));
         System.out.print("Chemin inversé: ");
         invertedPath.forEach(v -> System.out.print(v.getName() + ", "));
+        System.out.println();
+
+         */
+
+        System.out.println("Dijkstra: ");
+        //myGraph.getShortestPathDijkstra(myGraph.getVertex("Madrid"), myGraph.getVertex("Tokyo"));
     }
 
 

@@ -1,12 +1,15 @@
 package Views;
 
-import Models.MyGraph;
-import Models.MyVertex;
+import Models.Graph.MyDijkstraVertex;
+import Models.Graph.MyGraph;
+import Models.Graph.MyPathResult;
+import Models.Graph.MyVertex;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,7 +29,7 @@ public class MainFrame extends JFrame {
     private void init() {
         this.getContentPane().setLayout(new GridBagLayout());
 
-        /*String stations[] = {"Madrid", "Londres", "Tokyo", "Berlin", "Paris", "New-York", "Dubai"};
+        String stations[] = {"Madrid", "Londres", "Tokyo", "Berlin", "Paris", "New-York", "Dubai"};
         Integer[][] matrix = {
                 {0, 1, 0, 0, 0, 0, 0},
                 {0, 0, 0, 1, 1, 1, 0},
@@ -35,17 +38,16 @@ public class MainFrame extends JFrame {
                 {0, 0, 0, 1, 0, 1, 1},
                 {1, 0, 0, 0, 0, 1, 1},
                 {1, 0, 0, 0, 1, 1, 0}
-        };*/
+        };
 
-
-        String stations[] = {"Madrid", "Londres", "Paris", "New-York"};
+        /*String stations[] = {"Madrid", "Londres", "Paris", "New-York"};
         Integer[][] matrix = {
                 {0, 1, 0, 0},
                 {0, 0, 1, 0},
                 {1, 0, 0, 0},
                 {1, 0, 0, 0}
         };
-
+*/
         panelInputs = new PanelInputs(stations);
         panelSide = new PanelSide();
         panelGraph = new PanelGraph(stations, matrix);
@@ -53,6 +55,7 @@ public class MainFrame extends JFrame {
         panelInputs.startingCombobox.addActionListener(onClickSearch());
         panelInputs.endingCombobox.addActionListener(onClickSearch());
 
+        treatmentDijkstra(panelInputs.startingCombobox.getSelectedItem().toString(), panelInputs.endingCombobox.getSelectedItem().toString());
 
         this.getContentPane().add(panelInputs, new GridBagConstraints(0, 0, 3, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         this.getContentPane().add(panelSide, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
@@ -61,6 +64,7 @@ public class MainFrame extends JFrame {
         this.setPreferredSize(new Dimension(1200, 800));
         this.pack();
     }
+
 
     private ActionListener onClickSearch() {
         return a -> {
@@ -76,28 +80,43 @@ public class MainFrame extends JFrame {
                     invertedPath,
                     new LinkedList<>());
 
-            panelSide.labelTitle.setText("From " + startingStation + " to " + endingStation);
-            if(pathExists && invertedPath.size() > 0) {
-                panelSide.labelAccess.setText("Path exists from "+ startingStation + " to " + endingStation);
-
-                String startingVertex;
-                String endingVertex = endingStation;
-                String textLabel = "<html><body>";
-                panelGraph.markNode(endingVertex);
-
-                for (int i=0; i< invertedPath.size(); i++) {
-                    startingVertex = (String) invertedPath.get(i).getName();
-                    panelGraph.markEdge(startingVertex + "-" + endingVertex);
-                    panelGraph.markNode(startingVertex);
-                    textLabel += startingVertex + "-" + endingVertex + "<br>";
-                    endingVertex = (String) invertedPath.get(i).getName();
-                }
-                panelSide.labelPath.setText(textLabel);
+            if(pathExists) {
+                treatmentDijkstra(startingStation, endingStation);
 
             } else {
-                panelSide.labelAccess.setText("There is no path from "+ startingStation + " to " + endingStation);
+                panelSide.lAccess.setText("There is no path from "+ startingStation + " to " + endingStation);
             }
         };
+    }
+
+    public void treatmentDijkstra(String startingStation, String endingStation) {
+        panelSide.lTitle.setText("You search a path from " + startingStation + " to " + endingStation);
+        panelSide.lAccess.setText("Path exists from "+ startingStation + " to " + endingStation);
+
+        MyPathResult dijkstraResult = panelGraph.structGraph.getShortestPathDijkstra(
+                panelGraph.structGraph.getVertex(startingStation),
+                panelGraph.structGraph.getVertex(endingStation));
+
+        List<String> edgesName = MyPathResult.getEdgesName(dijkstraResult.getInvertedPath());
+        for (int i=0; i< edgesName.size(); i++) {
+            panelGraph.markEdge(edgesName.get(i));
+        }
+
+
+        String path = "";
+        for(int i = dijkstraResult.getInvertedPath().size() -1 ; i >= 0 ; i--) {
+            String nodeName = dijkstraResult.getInvertedPath().get(i).getName().toString();
+            panelGraph.markNode(nodeName);
+            path += nodeName + " -> ";
+        }
+        path = path.substring(0, path.length() -3);
+
+        panelSide.lAlgoName.setText("Dijkstra's algorithm: ");
+        panelSide.lAlgoPath.setText(path);
+        panelSide.lAlgoLength.setText("Shortest path length: " + (int) dijkstraResult.getLength() + " edge(s)");
+        panelSide.lAlgoRuntime.setText("Runtime: " + dijkstraResult.getRuntime() + " nanoseconds");
+
+
     }
 
     public static void main(String[] args) {
@@ -110,5 +129,6 @@ public class MainFrame extends JFrame {
         MainFrame frame = new MainFrame();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
     }
 }

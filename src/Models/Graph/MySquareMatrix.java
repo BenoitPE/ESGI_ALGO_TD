@@ -1,4 +1,4 @@
-package Models;
+package Models.Graph;
 
 public class MySquareMatrix {
     private int[][] values;
@@ -22,7 +22,6 @@ public class MySquareMatrix {
         return transposedMatrix;
     }
 
-
     public static MySquareMatrix transitiveMatrixFromAdjancyMatrix(MySquareMatrix matrix) {
         MySquareMatrix transposeSquareMatrix = transposeSquareMatrix(matrix);
         return AddMatrix(matrix, transposeSquareMatrix);
@@ -38,18 +37,12 @@ public class MySquareMatrix {
         return matrix;
     }
 
-    public static void print(MySquareMatrix matrix) {
-        for (int i=0; i < matrix.values.length; i++) {
-            for (int j=0; j < matrix.values[i].length; j++) {
-                System.out.print(matrix.values[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
-
+    //region Getters and Setters
     public int[][] getValues() {
         return values;
     }
+
+    public int getValue(int i, int j) { return values[i][j];}
 
     public void setValues(int[][] values) {
         this.values = values;
@@ -58,4 +51,16 @@ public class MySquareMatrix {
     public void setValue(int i, int j, int value) {
         this.values[i][j] = value;
     }
+    //endregion
+
+    //region Print
+    public static void print(MySquareMatrix matrix) {
+        for (int i=0; i < matrix.values.length; i++) {
+            for (int j=0; j < matrix.values[i].length; j++) {
+                System.out.print(matrix.values[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+    //endregion
 }

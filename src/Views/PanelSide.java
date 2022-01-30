@@ -1,28 +1,78 @@
 package Views;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class PanelSide extends JPanel {
-    public JLabel labelTitle;
-    public JLabel labelAccess;
-    public JLabel labelPathTitle;
-    public JLabel labelPath;
-    public JLabel label;
+    public JLabel lTitle;
+    public JLabel lAccess;
+    public JLabel lTempPathTitle;
+    public JLabel lTempPath;
+    
+    /*
+    Point A vers point B :
+    Un chemin existe ? Oui/Non
+
+    Si un chemin existe:
+    Algo de Dijkstra (par exemple):
+    Temps d'execution :....
+    Chemin: ....
+    Distance : .... (nombre de noeuds du chemin)
+    Nombre total de noeuds parcourus: ....
+    Complexité: O(...)
+    */
+    
+    public JLabel lAlgoName;
+    public JLabel lAlgoRuntime;
+    public JLabel lAlgoPath;
+    public JLabel lAlgoLength;
+    public JLabel lAlgoTotalVerticesTraveled;
+    public JLabel lAlgoComplexity;
 
     public PanelSide() {
+
+        Font fVerdana = new Font("Verdana", Font.PLAIN, 14);
         setLayout(new BorderLayout());
         setBackground(new Color(250,250,250));
-        labelTitle = new JLabel("Please select a travel");
-        labelAccess = new JLabel("This label tells if this travel is possible");
-        labelPathTitle = new JLabel("");
-        labelPath = new JLabel("");
-        label =  new JLabel("Data and Informations");
 
-        add(labelTitle);
-        add(labelAccess);
-        add(labelPathTitle);
-        add(labelPath);
+        //Temporary
+        lTitle = new JLabel("Please select a travel");
+        lAccess = new JLabel("");
+        lTempPathTitle = new JLabel("");
+        lTempPath = new JLabel("");
+
+        //1st algo
+        lAlgoName = new JLabel("");
+        lAlgoRuntime = new JLabel("");
+        lAlgoPath = new JLabel("");
+        lAlgoLength = new JLabel("");
+        lAlgoTotalVerticesTraveled = new JLabel("");
+        lAlgoComplexity = new JLabel("");
+
+        //Set fonts to label
+        lTitle.setFont(fVerdana);
+        lAccess.setFont(fVerdana);
+        lAlgoName.setFont(fVerdana);
+        lAlgoRuntime.setFont(fVerdana);
+        lAlgoPath.setFont(fVerdana);
+        lAlgoLength.setFont(fVerdana);
+        lAlgoTotalVerticesTraveled.setFont(fVerdana);
+        lAlgoComplexity.setFont(fVerdana);
+
+        //Temporary adding informations
+        add(lTitle);
+        add(lAccess);
+        add(lTempPathTitle);
+        add(lTempPath);
+
+        //Adding 1st algo to the panel
+        add(lAlgoName);
+        add(lAlgoPath);
+        add(lAlgoLength);
+        add(lAlgoRuntime);
+        //add(lAlgoTotalVerticesTraveled);
+        //add(lAlgoComplexity);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

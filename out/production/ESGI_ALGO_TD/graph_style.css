@@ -19,7 +19,7 @@ node {
     stroke-color: black;
     */
         fill-color: black;
-        text-size:    30;
+        text-size:    20;
         text-style:   bold;
         text-color:   black;
         text-alignment: at-right;
@@ -31,7 +31,7 @@ node {
 }
 
 edge {
-    size:           1px;
+    size:           2px;
     fill-mode:      plain;
     fill-color: black;
     /*changing edge layout here also doesn't work*/
