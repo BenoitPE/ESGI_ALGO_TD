@@ -7,19 +7,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        String stations[] = {"Madrid", "Londres", "Tokyo", "Berlin", "Paris", "New-York", "Dubai"};
-        Integer[][] matrix = {
-                {0, 1, 0, 0, 0, 0, 0},
-                {0, 0, 0, 1, 1, 1, 0},
-                {1, 1, 0, 0, 0, 0, 0},
-                {0, 0, 1, 0, 0, 0, 1},
-                {0, 0, 0, 1, 0, 1, 1},
-                {1, 0, 0, 0, 0, 1, 1},
-                {1, 0, 0, 0, 1, 1, 0}
-        };
 
-        MyGraph<Integer> myGraph = new MyGraph();
-        myGraph.setVerticesByMatrix(stations, matrix);
 
         /*
         System.out.print("Parcours en largeur:      ");
@@ -53,8 +41,24 @@ public class Main {
 
          */
 
-        System.out.println("Dijkstra: ");
-        //myGraph.getShortestPathDijkstra(myGraph.getVertex("Madrid"), myGraph.getVertex("Tokyo"));
+        Map<String, String[]> graphValues = new LinkedHashMap<>();
+        graphValues.put("Annecy",               new String[]{"La Roche-sur-Foron"});
+        graphValues.put("Annemasse",            new String[]{"Genève", "La Roche-sur-Foron"});
+        graphValues.put("Bellegarde",           new String[]{"Meyrin", "Seyssel"});
+        graphValues.put("Coppet",               new String[]{"Les Tuileries", "Nyon"});
+        graphValues.put("Evian-les-Bains",      new String[]{"Thonon-les-Bains"});
+        graphValues.put("Genève",               new String[]{"Annemasse", "Les Tuileries", "Meyrin"});
+        graphValues.put("La Plaine",            new String[]{"Meyrin"});
+        graphValues.put("La Roche-sur-Foron",   new String[]{"Annecy", "Annemasse", "St Gervais-les-Bains", "Thonon-les-Bains"});
+        graphValues.put("Les Tuileries",        new String[]{"Coppet", "Genève"});
+        graphValues.put("Meyrin",               new String[]{"Bellegarde", "Genève"});
+        graphValues.put("Nyon",                 new String[]{});
+        graphValues.put("Seyssel",              new String[]{});
+        graphValues.put("St Gervais-les-Bains", new String[]{"Annecy", "La Roche-sur-Foron"});
+        graphValues.put("Thonon-les-Bains",     new String[]{"Bellegarde", "La Roche-sur-Foron"});
+
+        MyGraph<Integer> myGraph = new MyGraph();
+        myGraph.setVerticesByMap(graphValues);
     }
 
 

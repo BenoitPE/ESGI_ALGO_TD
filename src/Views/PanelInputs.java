@@ -2,15 +2,24 @@ package Views;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 
 public class PanelInputs extends JPanel {
     public JComboBox startingCombobox;
     public JComboBox endingCombobox;
 
-    public PanelInputs(String[] stations) {
+    public PanelInputs(Map<String, String[]> values) {
+
+        String[] stations = new String[values.size()];
+        int i=0;
+        for (String from : values.keySet()) {
+            stations[i] = from;
+            i++;
+        }
 
         JLabel labelFrom = new JLabel("From: ");
         JLabel labelTo = new JLabel("To: ");
+
         startingCombobox = new JComboBox(stations);
         endingCombobox = new JComboBox(stations);
 

@@ -11,6 +11,28 @@ public class MyGraph<T> {
         this.mapVerticesToIndex = new HashMap<>();
     }
 
+    public void setVerticesByMap(Map<String, String[]> vertices) {
+        List<MyVertex> listVertices = new ArrayList<>();
+        //Initialize all vertices
+        int i=0;
+        for (String vertexName : vertices.keySet()) {
+            listVertices.add(new MyVertex<>(vertexName));
+            mapVerticesToIndex.put(vertexName, i);
+            i++;
+        }
+
+        //Adds adjacent vertices
+        for (String from : vertices.keySet()) {
+            //System.out.println(from + ":");
+            for (String to : vertices.get(from)) {
+                //System.out.println("\t" + to);
+                listVertices.get(mapVerticesToIndex.get(from)).setAdjacentVertex(new MyOrientedEdge(listVertices.get(mapVerticesToIndex.get(to))));
+            }
+        }
+
+        this.vertices = listVertices;
+    }
+
     public void setVerticesByMatrix(Integer[][] matrix) {
         List<MyVertex> listVertices = new ArrayList<>();
         //Initialize all vertices

@@ -8,13 +8,14 @@ import Models.Graph.MyVertex;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
 
 public class MainFrame extends JFrame {
-
+    public double screenSizeWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    public double screenSizeHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+    public double windowWidth = (double) 7/8 * screenSizeWidth;
+    public double windowHeight = (double) 9/16 * windowWidth;
     private PanelInputs panelInputs;
     private PanelSide panelSide;
     private PanelGraph panelGraph;
@@ -23,34 +24,49 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         super("ALGO - Arbres et graphes");
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.setMinimumSize(new Dimension((int) windowWidth, (int) windowHeight));
+        this.setPreferredSize(new Dimension((int) windowWidth, (int) windowHeight));
+        this.getContentPane().setLayout(new GridBagLayout());
+        this.pack();
+
         init();
+
     }
 
     private void init() {
-        this.getContentPane().setLayout(new GridBagLayout());
-
-        String stations[] = {"Madrid", "Londres", "Tokyo", "Berlin", "Paris", "New-York", "Dubai"};
-        Integer[][] matrix = {
-                {0, 1, 0, 0, 0, 0, 0},
-                {0, 0, 0, 1, 1, 1, 0},
-                {1, 1, 0, 0, 0, 0, 0},
-                {0, 0, 1, 0, 0, 0, 1},
-                {0, 0, 0, 1, 0, 1, 1},
-                {1, 0, 0, 0, 0, 1, 1},
-                {1, 0, 0, 0, 1, 1, 0}
-        };
-
-        /*String stations[] = {"Madrid", "Londres", "Paris", "New-York"};
+        /*
+        String stations[] = {"Madrid", "Londres", "Paris", "New-York"};
         Integer[][] matrix = {
                 {0, 1, 0, 0},
                 {0, 0, 1, 0},
                 {1, 0, 0, 0},
                 {1, 0, 0, 0}
         };
-*/
-        panelInputs = new PanelInputs(stations);
+        */
+
+        Map<String, String[]> graphValues = new LinkedHashMap<>();
+        graphValues.put("Annecy",               new String[]{"La Roche-sur-Foron"});
+        graphValues.put("Annemasse",            new String[]{"Genève", "La Roche-sur-Foron"});
+        graphValues.put("Bellegarde",           new String[]{"Meyrin", "Seyssel"});
+        graphValues.put("Coppet",               new String[]{"Les Tuileries", "Nyon"});
+        graphValues.put("Evian-les-Bains",      new String[]{"Thonon-les-Bains"});
+        graphValues.put("Genève",               new String[]{"Annemasse", "Les Tuileries", "Meyrin"});
+        graphValues.put("La Plaine",            new String[]{"Meyrin"});
+        graphValues.put("La Roche-sur-Foron",   new String[]{"Annecy", "Annemasse", "St Gervais-les-Bains", "Thonon-les-Bains"});
+        graphValues.put("Les Tuileries",        new String[]{"Coppet", "Genève"});
+        graphValues.put("Meyrin",               new String[]{"Bellegarde", "Genève"});
+        graphValues.put("Nyon",                 new String[]{});
+        graphValues.put("Seyssel",              new String[]{});
+        graphValues.put("St Gervais-les-Bains", new String[]{"Annecy", "La Roche-sur-Foron"});
+        graphValues.put("Thonon-les-Bains",     new String[]{"Bellegarde", "La Roche-sur-Foron"});
+
+        MyGraph<Integer> myGraph = new MyGraph();
+        myGraph.setVerticesByMap(graphValues);
+
+        panelInputs = new PanelInputs(graphValues);
         panelSide = new PanelSide();
-        panelGraph = new PanelGraph(stations, matrix);
+        panelGraph = new PanelGraph(graphValues);
 
         panelInputs.startingCombobox.addActionListener(onClickSearch());
         panelInputs.endingCombobox.addActionListener(onClickSearch());
@@ -61,8 +77,7 @@ public class MainFrame extends JFrame {
         this.getContentPane().add(panelSide, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         this.getContentPane().add(panelGraph, new GridBagConstraints(1, 1, 2, 1, 2, 2, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 
-        this.setPreferredSize(new Dimension(1200, 800));
-        this.pack();
+
     }
 
 
@@ -102,12 +117,15 @@ public class MainFrame extends JFrame {
             panelGraph.markEdge(edgesName.get(i));
         }
 
-
-        String path = "";
+        String path = "<html><body>- ";
         for(int i = dijkstraResult.getInvertedPath().size() -1 ; i >= 0 ; i--) {
             String nodeName = dijkstraResult.getInvertedPath().get(i).getName().toString();
-            panelGraph.markNode(nodeName);
-            path += nodeName + " -> ";
+            if(nodeName == startingStation || nodeName == endingStation)
+                panelGraph.markNodeExtremity(nodeName);
+            else
+                panelGraph.markNode(nodeName);
+
+            path += nodeName + "<br>- ";
         }
         path = path.substring(0, path.length() -3);
 
@@ -115,8 +133,6 @@ public class MainFrame extends JFrame {
         panelSide.lAlgoPath.setText(path);
         panelSide.lAlgoLength.setText("Shortest path length: " + (int) dijkstraResult.getLength() + " edge(s)");
         panelSide.lAlgoRuntime.setText("Runtime: " + dijkstraResult.getRuntime() + " nanoseconds");
-
-
     }
 
     public static void main(String[] args) {
@@ -125,10 +141,11 @@ public class MainFrame extends JFrame {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        System.setProperty("org.graphstream.ui.renderer",
+                "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 
         MainFrame frame = new MainFrame();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
     }
 }

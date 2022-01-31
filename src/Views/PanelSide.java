@@ -33,7 +33,6 @@ public class PanelSide extends JPanel {
     public PanelSide() {
 
         Font fVerdana = new Font("Verdana", Font.PLAIN, 14);
-        setLayout(new BorderLayout());
         setBackground(new Color(250,250,250));
 
         //Temporary
@@ -79,5 +78,6 @@ public class PanelSide extends JPanel {
         //label.setHorizontalAlignment(SwingConstants.CENTER);
         //label.setVerticalAlignment(SwingConstants.TOP);
         //add(label,BorderLayout.CENTER);
+
     }
 }

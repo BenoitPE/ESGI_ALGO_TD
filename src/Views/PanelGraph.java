@@ -14,15 +14,27 @@ import org.graphstream.ui.view.Viewer;
 public class PanelGraph extends JPanel {
     public MultiGraph uiGraph = new MultiGraph("Main Graph");
     public MyGraph<Integer> structGraph;
-    private String defaultColor = "rgb(0, 0, 0);";
-    private String markedColor = "rgb(0, 100, 255);";
 
-    public PanelGraph(String[] stations, Integer[][] matrix) {
+    private String defaultNodeColor = "#A3CB38;";
+    private String defaultEdgeColor = "rgb(200,210,200);";
+
+    private String markedNodeColor = "rgb(0, 100, 255);";
+    private String markedNodeExtremityColor = "#F79F1F;";
+    private String markedEdgeColor = markedNodeColor;
+
+    public PanelGraph(Map<String, String[]> values) {
 
         structGraph = new MyGraph<>();
-        structGraph.setVerticesByMatrix(stations, matrix);
+        structGraph.setVerticesByMap(values);
 
-        setVertices(stations);
+        String[] verticesName = new String[values.size()];
+        int i=0;
+        for (String verticeName : values.keySet()) {
+            verticesName[i] = verticeName;
+            i++;
+        }
+
+        setVertices(verticesName);
         setEdges();
 
         uiGraph.setStrict(false);
@@ -33,6 +45,9 @@ public class PanelGraph extends JPanel {
         viewer.enableAutoLayout();
         View view = viewer.addDefaultView(false);
         setLayout(new BorderLayout());
+        setMaximumSize(new Dimension(1200,1200));
+        setMinimumSize(new Dimension(1200,1200));
+        setPreferredSize(new Dimension(1200,1200));
         add((Component) view, BorderLayout.CENTER);
     }
 
@@ -56,23 +71,24 @@ public class PanelGraph extends JPanel {
     public void resetColors() {
         //reset color of edges
         for (int i =0; i< uiGraph.getEdgeCount(); i++) {
-            uiGraph.getEdge(i).setAttribute("ui.style", "fill-color: " + defaultColor);
-            //uiGraph.getEdge(i).removeAttribute("ui.style");
+            uiGraph.getEdge(i).setAttribute("ui.style", "fill-color: " + defaultEdgeColor);
         }
 
         //reset color of nodes
         for (int i =0; i< uiGraph.getNodeCount(); i++) {
-            uiGraph.getNode(i).setAttribute("ui.style", "text-color: " + defaultColor+ "fill-color: " + defaultColor);
-            //uiGraph.getEdge(i).removeAttribute("ui.style");
+            uiGraph.getNode(i).setAttribute("ui.style", "text-color: black; fill-color: " + defaultNodeColor);
         }
     }
 
     public void markEdge(String edgeName) {
-        uiGraph.getEdge(edgeName).setAttribute("ui.style", "fill-color: " + markedColor);
+        uiGraph.getEdge(edgeName).setAttribute("ui.style", "fill-color: " + markedEdgeColor);
     }
 
     public void markNode(String nodeName) {
-        uiGraph.getNode(nodeName).setAttribute("ui.style", "text-color: " + markedColor +" fill-color: " + markedColor);
+        uiGraph.getNode(nodeName).setAttribute("ui.style", "text-color: black; fill-color: " + markedNodeColor);
     }
 
+    public void markNodeExtremity(String nodeName) {
+        uiGraph.getNode(nodeName).setAttribute("ui.style", "text-color: black; fill-color: " + markedNodeExtremityColor);
+    }
 }
