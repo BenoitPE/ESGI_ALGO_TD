@@ -2,82 +2,120 @@ package Views;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class PanelSide extends JPanel {
-    public JLabel lTitle;
-    public JLabel lAccess;
-    public JLabel lTempPathTitle;
-    public JLabel lTempPath;
-    
-    /*
-    Point A vers point B :
-    Un chemin existe ? Oui/Non
+    public JComboBox cSelectAlgorithm;
 
-    Si un chemin existe:
-    Algo de Dijkstra (par exemple):
-    Temps d'execution :....
-    Chemin: ....
-    Distance : .... (nombre de noeuds du chemin)
-    Nombre total de noeuds parcourus: ....
-    Complexité: O(...)
-    */
-    
+    public JLabel lIsAccessible;
+    public JLabel lSelection;
     public JLabel lAlgoName;
     public JLabel lAlgoRuntime;
+    public JLabel lAlgoPathTitle;
     public JLabel lAlgoPath;
     public JLabel lAlgoLength;
     public JLabel lAlgoTotalVerticesTraveled;
     public JLabel lAlgoComplexity;
+    public JLabel lAlgoDesc;
 
     public PanelSide() {
+        Color bgColor = new Color(250,250,250);
+        //bgColor = Color.blue;
+        setBackground(bgColor);
 
-        Font fVerdana = new Font("Verdana", Font.PLAIN, 14);
-        setBackground(new Color(250,250,250));
+        lIsAccessible = new JLabel("");
+        lIsAccessible.setBorder(new EmptyBorder(30,0,0,0));
+        add(lIsAccessible);
 
-        //Temporary
-        lTitle = new JLabel("Please select a travel");
-        lAccess = new JLabel("");
-        lTempPathTitle = new JLabel("");
-        lTempPath = new JLabel("");
+        lSelection = new JLabel("");
+        lSelection.setBorder(new EmptyBorder(10,0,0,0));
+        add(lSelection);
 
-        //1st algo
+        String[] algorithms = {"Dijkstra", "Bellman-Ford"};
+        cSelectAlgorithm = new JComboBox(algorithms);
+        cSelectAlgorithm.setVisible(false);
+        JPanel panelComboBox = new JPanel();
+        panelComboBox.add(cSelectAlgorithm);
+        panelComboBox.setOpaque(false);
+        panelComboBox.setMaximumSize(new Dimension(10000, 30));
+        add(panelComboBox);
+
         lAlgoName = new JLabel("");
-        lAlgoRuntime = new JLabel("");
-        lAlgoPath = new JLabel("");
-        lAlgoLength = new JLabel("");
-        lAlgoTotalVerticesTraveled = new JLabel("");
-        lAlgoComplexity = new JLabel("");
-
-        //Set fonts to label
-        lTitle.setFont(fVerdana);
-        lAccess.setFont(fVerdana);
-        lAlgoName.setFont(fVerdana);
-        lAlgoRuntime.setFont(fVerdana);
-        lAlgoPath.setFont(fVerdana);
-        lAlgoLength.setFont(fVerdana);
-        lAlgoTotalVerticesTraveled.setFont(fVerdana);
-        lAlgoComplexity.setFont(fVerdana);
-
-        //Temporary adding informations
-        add(lTitle);
-        add(lAccess);
-        add(lTempPathTitle);
-        add(lTempPath);
-
-        //Adding 1st algo to the panel
+        lAlgoName.setBorder(new EmptyBorder(10,0,0,0));
         add(lAlgoName);
-        add(lAlgoPath);
-        add(lAlgoLength);
+
+        lAlgoRuntime = new JLabel("");
         add(lAlgoRuntime);
-        //add(lAlgoTotalVerticesTraveled);
-        //add(lAlgoComplexity);
+
+        lAlgoLength = new JLabel("");
+        add(lAlgoLength);
+
+        lAlgoTotalVerticesTraveled = new JLabel("");
+        add(lAlgoTotalVerticesTraveled);
+
+        lAlgoComplexity = new JLabel("");
+        add(lAlgoComplexity);
+
+        lAlgoPathTitle = new JLabel("");
+        lAlgoPathTitle.setBorder(new EmptyBorder(10,0,0,0));
+        add(lAlgoPathTitle);
+
+        lAlgoPath = new JLabel("");
+        add(lAlgoPath);
+
+        lAlgoDesc = new JLabel("");
+        add(lAlgoDesc);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        Dimension dim = new Dimension(500, 1000);
+        setMaximumSize(dim);
+        setMinimumSize(dim);
+        setPreferredSize(dim);
 
-        //label.setHorizontalAlignment(SwingConstants.CENTER);
-        //label.setVerticalAlignment(SwingConstants.TOP);
-        //add(label,BorderLayout.CENTER);
-
+        setFonts();
     }
+
+    public void setFonts() {
+        Font fVerdana = new Font("Verdana", Font.PLAIN, 14);
+
+        lIsAccessible.setFont(fVerdana);
+        lSelection.setFont(fVerdana);
+        lAlgoName.setFont(fVerdana);
+        lAlgoRuntime.setFont(fVerdana);
+        lAlgoLength.setFont(fVerdana);
+        lAlgoPathTitle.setFont(fVerdana);
+        lAlgoPath.setFont(fVerdana);
+        lAlgoTotalVerticesTraveled.setFont(fVerdana);
+        lAlgoComplexity.setFont(fVerdana);
+        lAlgoDesc.setFont(fVerdana);
+    }
+
+    public void cleanInformations() {
+        lSelection.setText("");
+        lAlgoName.setText("");
+        lAlgoRuntime.setText("");
+        lAlgoPath.setText("");
+        lAlgoPath.setText("");
+        lAlgoLength.setText("");
+        lAlgoTotalVerticesTraveled.setText("");
+        lAlgoComplexity.setText("");
+        lAlgoDesc.setText("");
+    }
+
+    public void accessible(boolean access, String startingStation, String endingStation) {
+        if(access) {
+            cSelectAlgorithm.setVisible(true);
+            lIsAccessible.setText("Path exists from "+ startingStation + " to " + endingStation + "!");
+            lAlgoPathTitle.setText("Passage through: ");
+            lSelection.setText("Please select an algorithm: ");
+        } else {
+            cleanInformations();
+            cSelectAlgorithm.setVisible(false);
+            lIsAccessible.setText("There is no path from "+ startingStation + " to " + endingStation);
+        }
+    }
+
+
 }

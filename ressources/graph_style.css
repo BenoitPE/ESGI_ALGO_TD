@@ -4,7 +4,7 @@ node {
     stroke-mode:  plain;
     stroke-color: black;
     fill-color: #A3CB38;
-    text-size:    15;
+    text-size:    16;
     text-style:   normal;
     text-color:   black;
     text-alignment: at-right;
@@ -14,19 +14,13 @@ node {
     text-offset: 5px, 0px;
 }
 
-node.test {
-        fill-color:  yellow;
-}
-
 node:clicked {
-    fill-color: red;
-    text-size:    16;
-    text-style:   bold;
+    fill-color: #1B1464;
     text-color:   #FFF;
     text-alignment: at-right;
     text-padding: 3px, 2px;
     text-background-mode: rounded-box;
-    text-background-color: #A7CC;
+    text-background-color: #1B1464;
     text-color: white;
     text-offset: 5px, 0px;
 }
