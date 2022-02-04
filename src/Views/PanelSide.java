@@ -21,19 +21,19 @@ public class PanelSide extends JPanel {
     public JLabel lAlgoDesc;
 
     public PanelSide() {
-        Color bgColor = new Color(250,250,250);
+        Color bgColor = new Color(250, 250, 250);
         //bgColor = Color.blue;
         setBackground(bgColor);
 
         lIsAccessible = new JLabel("");
-        lIsAccessible.setBorder(new EmptyBorder(30,0,0,0));
+        lIsAccessible.setBorder(new EmptyBorder(30, 0, 0, 0));
         add(lIsAccessible);
 
         lSelection = new JLabel("");
-        lSelection.setBorder(new EmptyBorder(10,0,0,0));
+        lSelection.setBorder(new EmptyBorder(10, 0, 0, 0));
         add(lSelection);
 
-        String[] algorithms = {"Dijkstra", "Bellman-Ford"};
+        String[] algorithms = {"Dijkstra", "Bellman-Ford", "Modified depth course"};
         cSelectAlgorithm = new JComboBox(algorithms);
         cSelectAlgorithm.setVisible(false);
         JPanel panelComboBox = new JPanel();
@@ -43,7 +43,7 @@ public class PanelSide extends JPanel {
         add(panelComboBox);
 
         lAlgoName = new JLabel("");
-        lAlgoName.setBorder(new EmptyBorder(10,0,0,0));
+        lAlgoName.setBorder(new EmptyBorder(10, 0, 0, 0));
         add(lAlgoName);
 
         lAlgoRuntime = new JLabel("");
@@ -59,13 +59,14 @@ public class PanelSide extends JPanel {
         add(lAlgoComplexity);
 
         lAlgoPathTitle = new JLabel("");
-        lAlgoPathTitle.setBorder(new EmptyBorder(10,0,0,0));
+        lAlgoPathTitle.setBorder(new EmptyBorder(10, 0, 0, 0));
         add(lAlgoPathTitle);
 
         lAlgoPath = new JLabel("");
         add(lAlgoPath);
 
         lAlgoDesc = new JLabel("");
+        lAlgoDesc.setBorder(new EmptyBorder(10, 0, 0, 0));
         add(lAlgoDesc);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -102,18 +103,19 @@ public class PanelSide extends JPanel {
         lAlgoTotalVerticesTraveled.setText("");
         lAlgoComplexity.setText("");
         lAlgoDesc.setText("");
+        lAlgoPathTitle.setText("");
     }
 
     public void accessible(boolean access, String startingStation, String endingStation) {
-        if(access) {
+        if (access) {
             cSelectAlgorithm.setVisible(true);
-            lIsAccessible.setText("Path exists from "+ startingStation + " to " + endingStation + "!");
+            lIsAccessible.setText("<html>Path exists <br>From " + startingStation + "<br>To " + endingStation + "!");
             lAlgoPathTitle.setText("Passage through: ");
             lSelection.setText("Please select an algorithm: ");
         } else {
             cleanInformations();
             cSelectAlgorithm.setVisible(false);
-            lIsAccessible.setText("There is no path from "+ startingStation + " to " + endingStation);
+            lIsAccessible.setText("<html>There is no path <br>From " + startingStation + "<br>To " + endingStation);
         }
     }
 

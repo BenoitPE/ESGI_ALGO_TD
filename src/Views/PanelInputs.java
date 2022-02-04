@@ -11,7 +11,7 @@ public class PanelInputs extends JPanel {
     public PanelInputs(Map<String, String[]> values) {
 
         String[] stations = new String[values.size()];
-        int i=0;
+        int i = 0;
         for (String from : values.keySet()) {
             stations[i] = from;
             i++;
@@ -22,18 +22,19 @@ public class PanelInputs extends JPanel {
 
         startingCombobox = new JComboBox(stations);
         endingCombobox = new JComboBox(stations);
+        endingCombobox.setSelectedIndex(2);
 
         add(labelFrom);
         add(startingCombobox);
         add(labelTo);
         add(endingCombobox);
 
-        setMinimumSize(new Dimension(500,50));
-        setMaximumSize(new Dimension(100000,50));
-        setPreferredSize(new Dimension(500,50));
+        setMinimumSize(new Dimension(500, 50));
+        setMaximumSize(new Dimension(100000, 50));
+        setPreferredSize(new Dimension(500, 50));
 
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
-        setBackground(new Color(240,240,240));
+        setBackground(new Color(240, 240, 240));
     }
 
 }

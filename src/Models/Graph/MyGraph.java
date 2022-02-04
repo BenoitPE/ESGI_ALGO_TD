@@ -19,7 +19,7 @@ public class MyGraph<T> {
         List<MyVertex> listVertices = new ArrayList<>();
 
         //Initialize all vertices
-        int i=0;
+        int i = 0;
         for (String vertexName : vertices.keySet()) {
             listVertices.add(new MyVertex<>(vertexName));
             nbVertices++;
@@ -117,6 +117,7 @@ public class MyGraph<T> {
 
     public static boolean depthCoursePoint(MyVertex T, MyVertex search, List<MyVertex> invertedPath, List<MyVertex> visitedVertices) {
         if (T.getName() == search.getName()) {
+            invertedPath.add(T);
             return true;
         } else if (!visitedVertices.contains(T)) {
             visitedVertices.add(T);
@@ -230,20 +231,21 @@ public class MyGraph<T> {
         String src = start.getName().toString();
         List<MyBellmanFordVertex> list = new ArrayList<>();
 
-        for(int i=0; i < this.nbVertices; i++) {
+        for (int i = 0; i < this.nbVertices; i++) {
             list.add(new MyBellmanFordVertex(vertices.get(i)));
         }
         list.get(mapVerticesToIndex.get(src)).setDistanceFromSource(0);
 
         for (int i = 1; i <= this.nbVertices - 1; i++) {
-            for (int j=0; j< this.nbVertices; j++) {
+            for (int j = 0; j < this.nbVertices; j++) {
                 MyBellmanFordVertex U = list.get(j);
                 int u = mapVerticesToIndex.get(U.getVertex().getName());
                 for (MyOrientedEdge e : (List<MyOrientedEdge>) U.getVertex().getAdjacentVertices()) {
                     int v = mapVerticesToIndex.get(e.getDestination().getName());
                     double w = e.getWeight();
                     if (list.get(u).getDistanceFromSource() + w < list.get(v).getDistanceFromSource()) {
-                        list.get(v).setDistanceFromSource(list.get(u).getDistanceFromSource() + w);;
+                        list.get(v).setDistanceFromSource(list.get(u).getDistanceFromSource() + w);
+                        ;
                         list.get(v).setBestParentFromSource(vertices.get(u));
                     }
                 }
