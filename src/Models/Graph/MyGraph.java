@@ -19,7 +19,7 @@ public class MyGraph<T> {
         List<MyVertex> listVertices = new ArrayList<>();
 
         //Initialize all vertices
-        int i=0;
+        int i = 0;
         for (String vertexName : vertices.keySet()) {
             listVertices.add(new MyVertex<>(vertexName));
             nbVertices++;
@@ -230,26 +230,61 @@ public class MyGraph<T> {
         String src = start.getName().toString();
         List<MyBellmanFordVertex> list = new ArrayList<>();
 
-        for(int i=0; i < this.nbVertices; i++) {
+        for (int i = 0; i < this.nbVertices; i++) {
             list.add(new MyBellmanFordVertex(vertices.get(i)));
         }
         list.get(mapVerticesToIndex.get(src)).setDistanceFromSource(0);
 
         for (int i = 1; i <= this.nbVertices - 1; i++) {
-            for (int j=0; j< this.nbVertices; j++) {
+            for (int j = 0; j < this.nbVertices; j++) {
                 MyBellmanFordVertex U = list.get(j);
                 int u = mapVerticesToIndex.get(U.getVertex().getName());
                 for (MyOrientedEdge e : (List<MyOrientedEdge>) U.getVertex().getAdjacentVertices()) {
                     int v = mapVerticesToIndex.get(e.getDestination().getName());
                     double w = e.getWeight();
                     if (list.get(u).getDistanceFromSource() + w < list.get(v).getDistanceFromSource()) {
-                        list.get(v).setDistanceFromSource(list.get(u).getDistanceFromSource() + w);;
+                        list.get(v).setDistanceFromSource(list.get(u).getDistanceFromSource() + w);
+                        ;
                         list.get(v).setBestParentFromSource(vertices.get(u));
                     }
                 }
             }
         }
         return list;
+    }
+    //endregion
+
+    //region Floyd-Warshall's algorithm
+    public MySquareMatrix floydWarshall() {
+        MySquareMatrix W = this.getAdjacencyMatrix();
+        int N = W.getValues().length;
+        MySquareMatrix P = new MySquareMatrix(N);
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                P.setValue(i,j,Integer.MAX_VALUE);
+                if (W.getValue(i, j) == 0 && i != j) {
+                    W.setValue(i, j, Integer.MAX_VALUE);
+                }
+                else if(i == j) {
+                    P.setValue(i,i,i);
+                }
+            }
+        }
+
+        for (int k = 0; k < W.getValues().length; k++) {
+            for (int i = 0; i < W.getValues().length; i++) {
+                for (int j = 0; j < W.getValues().length; j++) {
+                    if (W.getValue(i, k) == Integer.MAX_VALUE || W.getValue(k, j) == Integer.MAX_VALUE) {
+                        continue;
+                    }
+
+                    W.setValue(i, j, Math.min(W.getValue(i, j), W.getValue(i, k) + W.getValue(k, j)));
+                    P.setValue(i,j, P.getValue(k,j));
+                }
+            }
+        }
+        //MySquareMatrix.print(P);
+        return W;
     }
     //endregion
 
