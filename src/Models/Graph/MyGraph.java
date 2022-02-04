@@ -117,6 +117,7 @@ public class MyGraph<T> {
 
     public static boolean depthCoursePoint(MyVertex T, MyVertex search, List<MyVertex> invertedPath, List<MyVertex> visitedVertices) {
         if (T.getName() == search.getName()) {
+            invertedPath.add(T);
             return true;
         } else if (!visitedVertices.contains(T)) {
             visitedVertices.add(T);

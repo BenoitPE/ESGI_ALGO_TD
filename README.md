@@ -59,8 +59,25 @@ En faisant ce choix, cela revient à considérer que le plus court chemin calcul
 
 ### Algorithmes utilisés
 
+#### Dijkstra
+L'algorithme de Dijkstra est l'algorithme le plus connu résolvant le problème du plus court chemin
+Cet algorithme fonctionne exclusivement avec des arêtes de poids positifs
 
 
+#### Bellman-Ford
+L'algorithme de Bellman-Ford
+
+#### Floyd-Warshall
+
+#### Parcours en profondeur modifié
+> Le parcours en profondeur modifié n'est **PAS** un algorithme qui résout le problème du plus court chemin.
+
+Cet algo exécute un parcours en profondeur depuis le sommet de départ, si cet algo parvient à atteindre le sommet de destination il retourne le chemin obtenu.  
+Comme le chemin trouvé n'est pas comparé avec les autres chemins possibles, nous ne pouvons pas affirmer que le chemin obtenu est le plus court chemin.
+
+Cet algorithme a été ajouté à la liste des algorithmes implémentés afin de montrer que trouver un chemin a une complexité bien inférieure à trouver le plus court chemin
+
+Complexité:
 
 
 

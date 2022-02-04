@@ -1,4 +1,5 @@
 package Views;
+
 import Models.Graph.MyGraph;
 import Models.Graph.MyOrientedEdge;
 import Models.Graph.MyVertex;
@@ -8,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 
@@ -28,7 +30,7 @@ public class PanelGraph extends JPanel {
         structGraph.setVerticesByMap(values);
 
         String[] verticesName = new String[values.size()];
-        int i=0;
+        int i = 0;
         for (String verticeName : values.keySet()) {
             verticesName[i] = verticeName;
             i++;
@@ -45,9 +47,9 @@ public class PanelGraph extends JPanel {
         viewer.enableAutoLayout();
         View view = viewer.addDefaultView(false);
         setLayout(new BorderLayout());
-        setMaximumSize(new Dimension(1200,1200));
-        setMinimumSize(new Dimension(1200,1200));
-        setPreferredSize(new Dimension(1200,1200));
+        setMaximumSize(new Dimension(1200, 1200));
+        setMinimumSize(new Dimension(1200, 1200));
+        setPreferredSize(new Dimension(1200, 1200));
         add((Component) view, BorderLayout.CENTER);
     }
 
@@ -60,9 +62,9 @@ public class PanelGraph extends JPanel {
             }
         }
     }
-    
+
     private void setVertices(String[] verticesNames) {
-        for(int i=0; i< verticesNames.length; i++) {
+        for (int i = 0; i < verticesNames.length; i++) {
             uiGraph.addNode(verticesNames[i]);
             uiGraph.getNode(verticesNames[i]).setAttribute("ui.label", uiGraph.getNode(verticesNames[i]).getId());
         }
@@ -70,12 +72,12 @@ public class PanelGraph extends JPanel {
 
     public void resetColors() {
         //reset color of edges
-        for (int i =0; i< uiGraph.getEdgeCount(); i++) {
+        for (int i = 0; i < uiGraph.getEdgeCount(); i++) {
             uiGraph.getEdge(i).setAttribute("ui.style", "fill-color: " + defaultEdgeColor);
         }
 
         //reset color of nodes
-        for (int i =0; i< uiGraph.getNodeCount(); i++) {
+        for (int i = 0; i < uiGraph.getNodeCount(); i++) {
             uiGraph.getNode(i).setAttribute("ui.style", "text-color: black; fill-color: " + defaultNodeColor);
         }
     }
