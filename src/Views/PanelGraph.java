@@ -8,7 +8,6 @@ import org.graphstream.graph.implementations.MultiGraph;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
@@ -41,7 +40,7 @@ public class PanelGraph extends JPanel {
 
         uiGraph.setStrict(false);
         uiGraph.setAutoCreate(true);
-        uiGraph.setAttribute("ui.stylesheet", "url(./ressources/graph_style.css);");
+        uiGraph.setAttribute("ui.stylesheet", "url(style.css);");
 
         Viewer viewer = new Viewer(uiGraph, Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
         viewer.enableAutoLayout();

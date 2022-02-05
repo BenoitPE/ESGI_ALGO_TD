@@ -20,7 +20,7 @@ public class MainFrame extends JFrame {
 
 
     public MainFrame() {
-        super("ALGO - Arbres et graphes");
+        super("PEGAZ - Final project");
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setMinimumSize(windowDimension);
         this.setMaximumSize(windowDimension);
@@ -60,36 +60,14 @@ public class MainFrame extends JFrame {
         this.getContentPane().add(panelInputs, new GridBagConstraints(0, 0, 3, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         this.getContentPane().add(panelSide, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         this.getContentPane().add(panelGraph, new GridBagConstraints(1, 1, 2, 1, 2, 2, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+
+        displaySidePanel();
+
     }
 
     private ActionListener verticesOnClick() {
         return a -> {
-            panelGraph.resetColors();
-
-            String from = (String) panelInputs.startingCombobox.getSelectedItem();
-            String to = (String) panelInputs.endingCombobox.getSelectedItem();
-
-            if (from == to) {
-                panelSide.cleanInformations();
-                panelSide.cSelectAlgorithm.setVisible(false);
-                panelSide.lIsAccessible.setText("<html>The source and the<br>destination are the same");
-            } else {
-                List<MyVertex> invertedPath = new LinkedList<>();
-                boolean pathExists = MyGraph.depthCoursePoint(
-                        panelGraph.structGraph.getVertex(from),
-                        panelGraph.structGraph.getVertex(to),
-                        invertedPath,
-                        new LinkedList<>());
-
-                if (pathExists) {
-                    panelSide.accessible(true, from, to);
-                    runChosenAlgo();
-                } else {
-                    panelSide.accessible(false, from, to);
-                }
-            }
-
-
+            displaySidePanel();
         };
     }
 
@@ -97,6 +75,33 @@ public class MainFrame extends JFrame {
         return a -> {
             runChosenAlgo();
         };
+    }
+
+    private void displaySidePanel() {
+        panelGraph.resetColors();
+
+        String from = (String) panelInputs.startingCombobox.getSelectedItem();
+        String to = (String) panelInputs.endingCombobox.getSelectedItem();
+
+        if (from == to) {
+            panelSide.cleanInformations();
+            panelSide.cSelectAlgorithm.setVisible(false);
+            panelSide.lIsAccessible.setText("<html>The source and the<br>destination are the same");
+        } else {
+            List<MyVertex> invertedPath = new LinkedList<>();
+            boolean pathExists = MyGraph.depthCoursePoint(
+                    panelGraph.structGraph.getVertex(from),
+                    panelGraph.structGraph.getVertex(to),
+                    invertedPath,
+                    new LinkedList<>());
+
+            if (pathExists) {
+                panelSide.accessible(true, from, to);
+                runChosenAlgo();
+            } else {
+                panelSide.accessible(false, from, to);
+            }
+        }
     }
 
     private void runChosenAlgo() {
