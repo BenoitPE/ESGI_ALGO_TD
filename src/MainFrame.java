@@ -125,7 +125,7 @@ public class MainFrame extends JFrame {
 
         StringBuilder path = new StringBuilder("<html><body>- ");
         for (int i = dijkstraResult.getInvertedPath().size() - 1; i >= 0; i--) {
-            String name = dijkstraResult.getInvertedPath().get(i).getName().toString();
+            String name = dijkstraResult.getInvertedPath().get(i).getName();
             if (Objects.equals(name, from) || Objects.equals(name, to))
                 panelGraph.markNodeExtremity(name);
             else
@@ -154,7 +154,7 @@ public class MainFrame extends JFrame {
 
         StringBuilder path = new StringBuilder("<html><body>- ");
         for (int i = dijkstraResult.getInvertedPath().size() - 1; i >= 0; i--) {
-            String name = dijkstraResult.getInvertedPath().get(i).getName().toString();
+            String name = dijkstraResult.getInvertedPath().get(i).getName();
             if (Objects.equals(name, from) || Objects.equals(name, to))
                 panelGraph.markNodeExtremity(name);
             else
@@ -184,9 +184,9 @@ public class MainFrame extends JFrame {
 
         //Mark edges
         if (invertedPath.size() >= 2) {
-            StringBuilder edgeName = new StringBuilder(invertedPath.get(invertedPath.size() - 1).getName().toString());
+            StringBuilder edgeName = new StringBuilder(invertedPath.get(invertedPath.size() - 1).getName());
             for (int i = invertedPath.size() - 2; i >= 0; i--) {
-                String v = invertedPath.get(i).getName().toString();
+                String v = invertedPath.get(i).getName();
                 edgeName.append("-").append(v);
                 panelGraph.markEdge(edgeName.toString());
                 edgeName = new StringBuilder(v);
@@ -196,7 +196,7 @@ public class MainFrame extends JFrame {
         //Mark nodes
         StringBuilder path = new StringBuilder("<html><body>- ");
         for (int i = invertedPath.size() - 1; i >= 0; i--) {
-            String name = invertedPath.get(i).getName().toString();
+            String name = invertedPath.get(i).getName();
             if (Objects.equals(name, from) || Objects.equals(name, to))
                 panelGraph.markNodeExtremity(name);
             else

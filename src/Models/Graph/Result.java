@@ -40,17 +40,9 @@ public class Result {
         String startingVertex;
         String endingVertex;
         for (int i = vertices.size() - 1; i > 0; i-- ) {
-            startingVertex = vertices.get(i).getName().toString();
-            endingVertex = vertices.get(i-1).getName().toString();
+            startingVertex = vertices.get(i).getName();
+            endingVertex = vertices.get(i-1).getName();
             res.add(startingVertex + "-" + endingVertex);
-        }
-        return res;
-    }
-
-    public static List<String> getNodesName(List<Vertex> vertices) {
-        List<String> res = new ArrayList<>();
-        for (int i = vertices.size() - 1; i > 0; i-- ) {
-            res.add(vertices.get(i).getName().toString());
         }
         return res;
     }

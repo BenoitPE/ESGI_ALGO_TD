@@ -38,47 +38,14 @@ public class Graph {
         this.vertices = listVertices;
     }
 
-    //region Width and Depth Courses
-    public static Queue<Vertex> widthCourse(Vertex startingVertex) {
-        Queue<Vertex> resultQueue = new LinkedList<>();
-        Queue<Vertex> queue = listToQueue(startingVertex.getAdjacents());
-        List<Vertex> visitedVerticesList = new ArrayList<>();
-        visitedVerticesList.add(startingVertex);
-        resultQueue.add(startingVertex);
-
-        while (!queue.isEmpty()) {
-            Vertex currentVertex = queue.remove();
-            if (!visitedVerticesList.contains(currentVertex)) {
-                visitedVerticesList.add(currentVertex);
-                resultQueue.add(currentVertex);
-
-                for (int i = 0; i < currentVertex.getAdjacents().size(); i++) {
-                    queue.add(((Edge) currentVertex.getAdjacents().get(i)).getDest());
-                }
-            }
-        }
-        return resultQueue;
-    }
-
-    public static List<Vertex> depthCourse(Vertex T, List<Vertex> result, List<Vertex> visitedVertices) {
-        if (!visitedVertices.contains(T)) {
-            result.add(T);
-            visitedVertices.add(T);
-            for (int i = 0; i < T.getAdjacents().size(); i++) {
-                depthCourse(((Edge) T.getAdjacents().get(i)).getDest(), result, visitedVertices);
-            }
-        }
-        return result;
-    }
-
     public static boolean depthCoursePoint(Vertex T, Vertex search, List<Vertex> invertedPath, List<Vertex> visitedVertices) {
-        if (T.getName() == search.getName()) {
+        if (Objects.equals(T.getName(), search.getName())) {
             invertedPath.add(T);
             return true;
         } else if (!visitedVertices.contains(T)) {
             visitedVertices.add(T);
             for (int i = 0; i < T.getAdjacents().size(); i++) {
-                if (depthCoursePoint(((Edge) T.getAdjacents().get(i)).getDest(), search, invertedPath, visitedVertices)) {
+                if (depthCoursePoint(T.getAdjacents().get(i).getDest(), search, invertedPath, visitedVertices)) {
                     invertedPath.add(T);
                     return true;
                 }
@@ -86,7 +53,6 @@ public class Graph {
         }
         return false;
     }
-    //endregion
 
     //region Dijkstra's algorithm
     public Result getShortestPathDijkstra(Vertex from, Vertex to) {
@@ -119,24 +85,24 @@ public class Graph {
         //Initialization
         for (int i = 0; i < vertices.size(); i++) {
             VertexDijkstra dijkstraVertex = new VertexDijkstra(vertices.get(i));
-            if (dijkstraVertex.getVertex().getName() == start.getName()) {
+            if (Objects.equals(dijkstraVertex.getVertex().getName(), start.getName())) {
                 dijkstraVertex.setDistFromSource(0);
                 currentNode = dijkstraVertex;
             }
-            vertexToIndex.put(dijkstraVertex.getVertex().getName().toString(), i);
+            vertexToIndex.put(dijkstraVertex.getVertex().getName(), i);
             dList.add(dijkstraVertex);
         }
 
         while (currentNode != null) {
             currentNode.setVisited(true);
             for (int i = 0; i < currentNode.getVertex().getAdjacents().size(); i++) {
-                Edge branch = (Edge) currentNode.getVertex().getAdjacents().get(i);
-                VertexDijkstra branchNode = dList.get(vertexToIndex.get(((Edge) currentNode.getVertex().getAdjacents().get(i)).getDest().getName()));
+                Edge branch = currentNode.getVertex().getAdjacents().get(i);
+                VertexDijkstra branchNode = dList.get(vertexToIndex.get(currentNode.getVertex().getAdjacents().get(i).getDest().getName()));
 
                 if (branchNode.getDistFromSource() > currentNode.getDistFromSource() + branch.getWeight()) {
                     branchNode.setDistFromSource(currentNode.getDistFromSource() + branch.getWeight());
                     branchNode.setBestParent(currentNode.getVertex());
-                    dList.set(vertexToIndex.get(((Edge) currentNode.getVertex().getAdjacents().get(i)).getDest().getName()), branchNode);
+                    dList.set(vertexToIndex.get(currentNode.getVertex().getAdjacents().get(i).getDest().getName()), branchNode);
                 }
             }
 
@@ -193,7 +159,7 @@ public class Graph {
             for (int j = 0; j < this.nbVertices; j++) {
                 VertexBF U = list.get(j);
                 int u = mapVerticesToIndex.get(U.getVertex().getName());
-                for (Edge e : (List<Edge>) U.getVertex().getAdjacents()) {
+                for (Edge e : U.getVertex().getAdjacents()) {
                     int v = mapVerticesToIndex.get(e.getDest().getName());
                     double w = e.getWeight();
                     if (list.get(u).getDistFromSource() + w < list.get(v).getDistFromSource()) {
@@ -254,14 +220,6 @@ public class Graph {
             }
         }
         return res;
-    }
-
-    public static Queue<Vertex> listToQueue(List<Edge> listVertices) {
-        Queue<Vertex> q = new LinkedList<>();
-        for (Edge listVertex : listVertices) {
-            q.add(listVertex.getDest());
-        }
-        return q;
     }
 
     public List<Vertex> getVertices() {
