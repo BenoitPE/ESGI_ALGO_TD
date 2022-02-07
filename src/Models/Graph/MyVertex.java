@@ -5,14 +5,9 @@ import java.util.List;
 
 public class MyVertex<T> {
     private T name;
-    private List<MyOrientedEdge> adjacentVertices;
+    private List<MyEdge> adjacentVertices;
 
     //region Constructors
-    public MyVertex(T name, List<MyOrientedEdge> adjacentVertices) {
-        this.name = name;
-        this.adjacentVertices = adjacentVertices;
-    }
-
     public MyVertex(T name) {
         this.name = name;
         this.adjacentVertices = new ArrayList<>();
@@ -32,15 +27,15 @@ public class MyVertex<T> {
         this.name = name;
     }
 
-    public List<MyOrientedEdge> getAdjacentVertices() {
+    public List<MyEdge> getAdjacentVertices() {
         return adjacentVertices;
     }
 
-    public void setAdjacentVertices(List<MyOrientedEdge> adjacentVertices) {
+    public void setAdjacentVertices(List<MyEdge> adjacentVertices) {
         this.adjacentVertices = adjacentVertices;
     }
 
-    public void setAdjacentVertex(MyOrientedEdge adjacentVertex) {
+    public void setAdjacentVertex(MyEdge adjacentVertex) {
         this.adjacentVertices.add(adjacentVertex);
     }
     //endregion

@@ -1,7 +1,7 @@
 package Views;
 
 import Models.Graph.MyGraph;
-import Models.Graph.MyOrientedEdge;
+import Models.Graph.MyEdge;
 import Models.Graph.MyVertex;
 import org.graphstream.graph.implementations.MultiGraph;
 
@@ -14,7 +14,7 @@ import org.graphstream.ui.view.Viewer;
 
 public class PanelGraph extends JPanel {
     public MultiGraph uiGraph = new MultiGraph("Main Graph");
-    public MyGraph<Integer> structGraph;
+    public Models.Graph.MyGraph structGraph;
 
     private String defaultNodeColor = "#A3CB38;";
     private String defaultEdgeColor = "rgb(200,210,200);";
@@ -25,7 +25,7 @@ public class PanelGraph extends JPanel {
 
     public PanelGraph(Map<String, String[]> values) {
 
-        structGraph = new MyGraph<>();
+        structGraph = new MyGraph();
         structGraph.setVertices(values);
 
         String[] verticesName = new String[values.size()];
@@ -56,7 +56,7 @@ public class PanelGraph extends JPanel {
         for (int i = 0; i < structGraph.getVertices().size(); i++) {
             MyVertex v = structGraph.getVertices().get(i);
             for (int j = 0; j < v.getAdjacentVertices().size(); j++) {
-                MyVertex adj = ((MyOrientedEdge) v.getAdjacentVertices().get(j)).getDestination();
+                MyVertex adj = ((MyEdge) v.getAdjacentVertices().get(j)).getDestination();
                 uiGraph.addEdge(v.getName() + "-" + adj.getName(), (String) v.getName(), (String) adj.getName(), true);
             }
         }

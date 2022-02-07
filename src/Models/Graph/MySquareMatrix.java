@@ -3,10 +3,6 @@ package Models.Graph;
 public class MySquareMatrix {
     private int[][] values;
 
-    public MySquareMatrix(int[][] values) {
-        this.values = values;
-    }
-
     public MySquareMatrix(int size) {
         this.values = new int[size][size];
     }
@@ -22,7 +18,7 @@ public class MySquareMatrix {
         return transposedMatrix;
     }
 
-    public static MySquareMatrix transitiveMatrixFromAdjancyMatrix(MySquareMatrix matrix) {
+    public static MySquareMatrix transitiveMatrix(MySquareMatrix matrix) {
         MySquareMatrix transposeSquareMatrix = transposeSquareMatrix(matrix);
         return AddMatrix(matrix, transposeSquareMatrix);
     }

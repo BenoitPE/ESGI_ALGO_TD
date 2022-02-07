@@ -1,12 +1,12 @@
 package Models.Graph;
 
-public class MyBellmanFordVertex
+public class MyBFVertex
 {
     private MyVertex vertex;
     private double distanceFromSource;
     private MyVertex bestParentFromSource;
 
-    public MyBellmanFordVertex(MyVertex vertex) {
+    public MyBFVertex(MyVertex vertex) {
         this.vertex = vertex;
         this.distanceFromSource = Double.POSITIVE_INFINITY;
         this.bestParentFromSource = null;
@@ -21,20 +21,20 @@ public class MyBellmanFordVertex
         this.vertex = vertex;
     }
 
-    public double getDistanceFromSource() {
+    public double getDistFromSource() {
         return distanceFromSource;
     }
 
-    public void setDistanceFromSource(double distanceFromSource) {
-        this.distanceFromSource = distanceFromSource;
+    public void setDistFromSource(double distance) {
+        this.distanceFromSource = distance;
     }
 
-    public MyVertex getBestParentFromSource() {
+    public MyVertex getBestParent() {
         return bestParentFromSource;
     }
 
-    public void setBestParentFromSource(MyVertex bestParentFromSource) {
-        this.bestParentFromSource = bestParentFromSource;
+    public void setBestParent(MyVertex parent) {
+        this.bestParentFromSource = parent;
     }
     //endregion
 }

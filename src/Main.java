@@ -1,7 +1,4 @@
-import Models.Graph.MyDijkstraVertex;
 import Models.Graph.MyGraph;
-import Models.Graph.MySquareMatrix;
-import Models.Graph.MyVertex;
 
 import java.util.*;
 
@@ -57,7 +54,7 @@ public class Main {
         graphValues.put("St Gervais-les-Bains", new String[]{"Annecy", "La Roche-sur-Foron"});
         graphValues.put("Thonon-les-Bains",     new String[]{"Bellegarde", "La Roche-sur-Foron"});
 
-        MyGraph<Integer> myGraph = new MyGraph();
+        MyGraph myGraph = new MyGraph();
         myGraph.setVertices(graphValues);
     }
 

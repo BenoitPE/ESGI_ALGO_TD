@@ -15,12 +15,6 @@ public class MyPathResult {
         this.runtime = 0;
     }
 
-    public MyPathResult(List<MyVertex> invertedPath, double length) {
-        this.invertedPath = invertedPath;
-        this.length = length;
-        this.runtime = 0;
-    }
-
     public List<MyVertex> getInvertedPath() {
         return invertedPath;
     }

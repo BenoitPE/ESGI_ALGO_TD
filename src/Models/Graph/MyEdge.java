@@ -1,16 +1,16 @@
 package Models.Graph;
 
-public class MyOrientedEdge {
+public class MyEdge {
     private MyVertex destination;
     private double weight;
 
     //region Constructors
-    public MyOrientedEdge(MyVertex destination, double weight) {
+    public MyEdge(MyVertex destination, double weight) {
         this.destination = destination;
         this.weight = weight;
     }
 
-    public MyOrientedEdge(MyVertex destination) {
+    public MyEdge(MyVertex destination) {
         this.destination = destination;
         this.weight = 1;
     }

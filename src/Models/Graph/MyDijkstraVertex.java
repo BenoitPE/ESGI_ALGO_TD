@@ -37,33 +37,20 @@ public class MyDijkstraVertex {
         this.visited = visited;
     }
 
-    public double getDistanceFromSource() {
+    public double getDistFromSource() {
         return distanceFromSource;
     }
 
-    public void setDistanceFromSource(double distanceFromSource) {
-        this.distanceFromSource = distanceFromSource;
+    public void setDistFromSource(double distance) {
+        this.distanceFromSource = distance;
     }
 
-    public MyVertex getBestParentFromSource() {
+    public MyVertex getBestParent() {
         return bestParentFromSource;
     }
 
-    public void setBestParentFromSource(MyVertex bestParentFromSource) {
-        this.bestParentFromSource = bestParentFromSource;
-    }
-    //endregion
-
-    //region Print
-    public static void print(MyDijkstraVertex v) {
-        System.out.print("Name: " + v.getVertex().getName()
-                + ", v.isVisited(): " + v.isVisited()
-                + ", v.getDistanceFromSource(): " + v.getDistanceFromSource()
-        );
-        if (v.getBestParentFromSource() != null)
-            System.out.println(", v.getBestParentFromSource().getName(): " + v.getBestParentFromSource().getName());
-        else
-            System.out.println();
+    public void setBestParent(MyVertex parent) {
+        this.bestParentFromSource = parent;
     }
     //endregion
 }

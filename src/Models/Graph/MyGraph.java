@@ -2,7 +2,7 @@ package Models.Graph;
 
 import java.util.*;
 
-public class MyGraph<T> {
+public class MyGraph {
     private List<MyVertex> vertices;
     private Map<String, Integer> mapVerticesToIndex;
     private int nbEdges;
@@ -12,9 +12,9 @@ public class MyGraph<T> {
         this.vertices = new ArrayList<>();
         this.mapVerticesToIndex = new HashMap<>();
         this.nbEdges = 0;
+        this.nbVertices = 0;
     }
 
-    //region Set Vertices
     public void setVertices(Map<String, String[]> vertices) {
         List<MyVertex> listVertices = new ArrayList<>();
 
@@ -29,58 +29,14 @@ public class MyGraph<T> {
 
         //Adds adjacent vertices
         for (String from : vertices.keySet()) {
-            //System.out.println(from + ":");
             for (String to : vertices.get(from)) {
-                //System.out.println("\t" + to);
-                listVertices.get(mapVerticesToIndex.get(from)).setAdjacentVertex(new MyOrientedEdge(listVertices.get(mapVerticesToIndex.get(to))));
+                listVertices.get(mapVerticesToIndex.get(from)).setAdjacentVertex(new MyEdge(listVertices.get(mapVerticesToIndex.get(to))));
                 nbEdges++;
             }
         }
 
         this.vertices = listVertices;
     }
-
-    public void setVertices(Integer[][] matrix) {
-        List<MyVertex> listVertices = new ArrayList<>();
-        //Initialize all vertices
-        for (int i = 0; i < matrix.length; i++) {
-            listVertices.add(new MyVertex<>(i));
-            nbVertices++;
-        }
-
-        //Adds adjacent vertices
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                if (matrix[i][j] == 1) {
-                    listVertices.get(i).setAdjacentVertex(new MyOrientedEdge(listVertices.get(j)));
-                    nbEdges++;
-                }
-            }
-        }
-        this.vertices = listVertices;
-    }
-
-    public void setVertices(String[] verticesNames, Integer[][] matrix) {
-        List<MyVertex> listVertices = new ArrayList<>();
-        //Initialize all vertices
-        for (int i = 0; i < matrix.length; i++) {
-            listVertices.add(new MyVertex<>(verticesNames[i]));
-            nbVertices++;
-            mapVerticesToIndex.put(verticesNames[i], i);
-        }
-
-        //Adds adjacent vertices
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                if (matrix[i][j] == 1) {
-                    listVertices.get(i).setAdjacentVertex(new MyOrientedEdge(listVertices.get(j)));
-                    nbEdges++;
-                }
-            }
-        }
-        this.vertices = listVertices;
-    }
-    //endregion
 
     //region Width and Depth Courses
     public static Queue<MyVertex> widthCourse(MyVertex startingVertex) {
@@ -97,7 +53,7 @@ public class MyGraph<T> {
                 resultQueue.add(currentVertex);
 
                 for (int i = 0; i < currentVertex.getAdjacentVertices().size(); i++) {
-                    queue.add(((MyOrientedEdge) currentVertex.getAdjacentVertices().get(i)).getDestination());
+                    queue.add(((MyEdge) currentVertex.getAdjacentVertices().get(i)).getDestination());
                 }
             }
         }
@@ -109,7 +65,7 @@ public class MyGraph<T> {
             result.add(T);
             visitedVertices.add(T);
             for (int i = 0; i < T.getAdjacentVertices().size(); i++) {
-                depthCourse(((MyOrientedEdge) T.getAdjacentVertices().get(i)).getDestination(), result, visitedVertices);
+                depthCourse(((MyEdge) T.getAdjacentVertices().get(i)).getDestination(), result, visitedVertices);
             }
         }
         return result;
@@ -122,7 +78,7 @@ public class MyGraph<T> {
         } else if (!visitedVertices.contains(T)) {
             visitedVertices.add(T);
             for (int i = 0; i < T.getAdjacentVertices().size(); i++) {
-                if (depthCoursePoint(((MyOrientedEdge) T.getAdjacentVertices().get(i)).getDestination(), search, invertedPath, visitedVertices) == true) {
+                if (depthCoursePoint(((MyEdge) T.getAdjacentVertices().get(i)).getDestination(), search, invertedPath, visitedVertices) == true) {
                     invertedPath.add(T);
                     return true;
                 }
@@ -135,72 +91,69 @@ public class MyGraph<T> {
     //region Dijkstra's algorithm
     public MyPathResult getShortestPathDijkstra(MyVertex from, MyVertex to) {
         MyPathResult res = new MyPathResult();
-        Map<String, Integer> mapNameToIndex = new HashMap<>();
+        Map<String, Integer> vertexToIndex = new HashMap<>();
 
-        long startTimer = System.nanoTime();
-        List<MyDijkstraVertex> list = dijkstra(from, mapNameToIndex);
         // Sets the runtime for the Dijkstra algorithm
+        long startTimer = System.nanoTime();
+        List<MyDijkstraVertex> list = dijkstra(from, vertexToIndex);
         res.setRuntime(System.nanoTime() - startTimer);
 
-        MyDijkstraVertex current = list.get(mapNameToIndex.get(to.getName()));
         // Defines the length of the path from the start vertex to the end vertex
-        res.setLength(current.getDistanceFromSource());
+        MyDijkstraVertex current = list.get(vertexToIndex.get(to.getName()));
+        res.setLength(current.getDistFromSource());
 
         // Makes the inverse way (the start vertex towards the end vertex)
-        while (current.getBestParentFromSource() != to && current.getBestParentFromSource() != null) {
+        while (current.getBestParent() != to && current.getBestParent() != null) {
             res.getInvertedPath().add(current.getVertex());
-            current = list.get(mapNameToIndex.get(current.getBestParentFromSource().getName()));
+            current = list.get(vertexToIndex.get(current.getBestParent().getName()));
         }
         res.getInvertedPath().add(from);
 
         return res;
     }
 
-    public List<MyDijkstraVertex> dijkstra(MyVertex start, Map<String, Integer> mapNameToIndex) {
-        List<MyDijkstraVertex> dijkstraList = new ArrayList<>();
+    public List<MyDijkstraVertex> dijkstra(MyVertex start, Map<String, Integer> vertexToIndex) {
+        List<MyDijkstraVertex> dList = new ArrayList<>();
         MyDijkstraVertex currentNode = new MyDijkstraVertex(new MyVertex(""));
 
         //Initialization
         for (int i = 0; i < vertices.size(); i++) {
             MyDijkstraVertex dijkstraVertex = new MyDijkstraVertex(vertices.get(i));
             if (dijkstraVertex.getVertex().getName() == start.getName()) {
-                dijkstraVertex.setDistanceFromSource(0);
+                dijkstraVertex.setDistFromSource(0);
                 currentNode = dijkstraVertex;
             }
-            mapNameToIndex.put(dijkstraVertex.getVertex().getName().toString(), i);
-            dijkstraList.add(dijkstraVertex);
+            vertexToIndex.put(dijkstraVertex.getVertex().getName().toString(), i);
+            dList.add(dijkstraVertex);
         }
 
         while (currentNode != null) {
             currentNode.setVisited(true);
             for (int i = 0; i < currentNode.getVertex().getAdjacentVertices().size(); i++) {
-                MyOrientedEdge branch = (MyOrientedEdge) currentNode.getVertex().getAdjacentVertices().get(i);
-                MyDijkstraVertex branchNode = dijkstraList.get(mapNameToIndex.get(((MyOrientedEdge) currentNode.getVertex().getAdjacentVertices().get(i)).getDestination().getName()));
+                MyEdge branch = (MyEdge) currentNode.getVertex().getAdjacentVertices().get(i);
+                MyDijkstraVertex branchNode = dList.get(vertexToIndex.get(((MyEdge) currentNode.getVertex().getAdjacentVertices().get(i)).getDestination().getName()));
 
-                if (branchNode.getDistanceFromSource() > currentNode.getDistanceFromSource() + branch.getWeight()) {
-                    // We found a more optimal way, we save it
-                    branchNode.setDistanceFromSource(currentNode.getDistanceFromSource() + branch.getWeight());
-                    branchNode.setBestParentFromSource(currentNode.getVertex());
-                    dijkstraList.set(mapNameToIndex.get(((MyOrientedEdge) currentNode.getVertex().getAdjacentVertices().get(i)).getDestination().getName()), branchNode);
+                if (branchNode.getDistFromSource() > currentNode.getDistFromSource() + branch.getWeight()) {
+                    branchNode.setDistFromSource(currentNode.getDistFromSource() + branch.getWeight());
+                    branchNode.setBestParent(currentNode.getVertex());
+                    dList.set(vertexToIndex.get(((MyEdge) currentNode.getVertex().getAdjacentVertices().get(i)).getDestination().getName()), branchNode);
                 }
             }
 
-            // Assign to currentNode the instance with the smallest value to the distanceFromSource property
-            MyDijkstraVertex tmpNode = new MyDijkstraVertex(null, true, Double.POSITIVE_INFINITY, null);
-            for (int i = 0; i < dijkstraList.size(); i++) {
-                //System.out.println(tmpNode.getDistanceFromSource() + " > " + dijkstraList.get(i).getDistanceFromSource() + " && " + dijkstraList.get(i).isVisited());
-                if (tmpNode.getDistanceFromSource() > dijkstraList.get(i).getDistanceFromSource() && dijkstraList.get(i).isVisited() == false) {
-                    tmpNode = dijkstraList.get(i);
+            MyDijkstraVertex init = new MyDijkstraVertex(null, true, Double.POSITIVE_INFINITY, null);
+            for (int i = 0; i < dList.size(); i++) {
+                if (init.getDistFromSource() > dList.get(i).getDistFromSource() && !dList.get(i).isVisited()) {
+                    init = dList.get(i);
                 }
             }
-            if (tmpNode.getDistanceFromSource() != Double.POSITIVE_INFINITY) {
-                currentNode = tmpNode;
+            if (init.getDistFromSource() != Double.POSITIVE_INFINITY) {
+                currentNode = init;
             } else {
                 currentNode = null;
             }
         }
 
-        return dijkstraList;
+        return dList;
     }
     //endregion
 
@@ -208,45 +161,45 @@ public class MyGraph<T> {
     public MyPathResult getShortestPathBellmanFord(MyVertex from, MyVertex to) {
         MyPathResult res = new MyPathResult();
 
-        long startTimer = System.nanoTime();
-        List<MyBellmanFordVertex> list = bellmanFord(from);
         // Sets the runtime for the Dijkstra algorithm
+        long startTimer = System.nanoTime();
+        List<MyBFVertex> list = bellmanFord(from);
         res.setRuntime(System.nanoTime() - startTimer);
 
-        MyBellmanFordVertex current = list.get(mapVerticesToIndex.get(to.getName()));
         // Defines the length of the path from the start vertex to the end vertex
-        res.setLength(current.getDistanceFromSource());
+        MyBFVertex current = list.get(mapVerticesToIndex.get(to.getName()));
+        res.setLength(current.getDistFromSource());
 
-        // Makes the inverse way (the start vertex towards the end vertex)
-        while (current.getBestParentFromSource() != to && current.getBestParentFromSource() != null) {
+        // Makes the inverse path (the start vertex towards the end vertex)
+        while (current.getBestParent() != to && current.getBestParent() != null) {
             res.getInvertedPath().add(current.getVertex());
-            current = list.get(mapVerticesToIndex.get(current.getBestParentFromSource().getName()));
+            current = list.get(mapVerticesToIndex.get(current.getBestParent().getName()));
         }
         res.getInvertedPath().add(from);
 
         return res;
     }
 
-    public List<MyBellmanFordVertex> bellmanFord(MyVertex start) {
+    public List<MyBFVertex> bellmanFord(MyVertex start) {
         String src = start.getName().toString();
-        List<MyBellmanFordVertex> list = new ArrayList<>();
+        List<MyBFVertex> list = new ArrayList<>();
 
         for (int i = 0; i < this.nbVertices; i++) {
-            list.add(new MyBellmanFordVertex(vertices.get(i)));
+            list.add(new MyBFVertex(vertices.get(i)));
         }
-        list.get(mapVerticesToIndex.get(src)).setDistanceFromSource(0);
+        list.get(mapVerticesToIndex.get(src)).setDistFromSource(0);
 
         for (int i = 1; i <= this.nbVertices - 1; i++) {
             for (int j = 0; j < this.nbVertices; j++) {
-                MyBellmanFordVertex U = list.get(j);
+                MyBFVertex U = list.get(j);
                 int u = mapVerticesToIndex.get(U.getVertex().getName());
-                for (MyOrientedEdge e : (List<MyOrientedEdge>) U.getVertex().getAdjacentVertices()) {
+                for (MyEdge e : (List<MyEdge>) U.getVertex().getAdjacentVertices()) {
                     int v = mapVerticesToIndex.get(e.getDestination().getName());
                     double w = e.getWeight();
-                    if (list.get(u).getDistanceFromSource() + w < list.get(v).getDistanceFromSource()) {
-                        list.get(v).setDistanceFromSource(list.get(u).getDistanceFromSource() + w);
+                    if (list.get(u).getDistFromSource() + w < list.get(v).getDistFromSource()) {
+                        list.get(v).setDistFromSource(list.get(u).getDistFromSource() + w);
                         ;
-                        list.get(v).setBestParentFromSource(vertices.get(u));
+                        list.get(v).setBestParent(vertices.get(u));
                     }
                 }
             }
@@ -260,6 +213,8 @@ public class MyGraph<T> {
         MySquareMatrix W = this.getAdjacencyMatrix();
         int N = W.getValues().length;
         MySquareMatrix P = new MySquareMatrix(N);
+
+        //Set the matrix
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 P.setValue(i,j,Integer.MAX_VALUE);
@@ -272,6 +227,7 @@ public class MyGraph<T> {
             }
         }
 
+        //Execute Floyd-Warshall's algorithm
         for (int k = 0; k < W.getValues().length; k++) {
             for (int i = 0; i < W.getValues().length; i++) {
                 for (int j = 0; j < W.getValues().length; j++) {
@@ -290,29 +246,18 @@ public class MyGraph<T> {
     //endregion
 
     //region Getters and Setters
-    public void getAdjacencyList() {
-        for (int i = 0; i < this.vertices.size(); i++) {
-            System.out.print(this.vertices.get(i).getName() + ": ");
-            for (int j = 0; j < this.vertices.get(i).getDegree(); j++) {
-                MyVertex myVertex = ((MyOrientedEdge) this.vertices.get(i).getAdjacentVertices().get(j)).getDestination();
-                System.out.print(myVertex.getName() + ", ");
-            }
-            System.out.println();
-        }
-    }
-
     public MySquareMatrix getAdjacencyMatrix() {
         MySquareMatrix res = new MySquareMatrix(vertices.size());
         for (int i = 0; i < vertices.size(); i++) {
             MyVertex myVertex = vertices.get(i);
             for (int j = 0; j < myVertex.getAdjacentVertices().size(); j++) {
-                res.setValue(i, mapVerticesToIndex.get(((MyOrientedEdge) myVertex.getAdjacentVertices().get(j)).getDestination().getName()), 1);
+                res.setValue(i, mapVerticesToIndex.get(((MyEdge) myVertex.getAdjacentVertices().get(j)).getDestination().getName()), 1);
             }
         }
         return res;
     }
 
-    public static Queue<MyVertex> listToQueue(List<MyOrientedEdge> listVertices) {
+    public static Queue<MyVertex> listToQueue(List<MyEdge> listVertices) {
         Queue<MyVertex> q = new LinkedList<>();
         for (int i = 0; i < listVertices.size(); i++) {
             q.add(listVertices.get(i).getDestination());
@@ -332,21 +277,6 @@ public class MyGraph<T> {
         return this.vertices.get(mapVerticesToIndex.get(name));
     }
 
-    public void setVertices(List<MyVertex> vertices) {
-        this.vertices = vertices;
-    }
-
-    public void setVertex(MyVertex myVertex) {
-        this.vertices.add(myVertex);
-    }
-
-    public Map<String, Integer> getMapVerticesToIndex() {
-        return mapVerticesToIndex;
-    }
-
-    public void setMapVerticesToIndex(Map<String, Integer> mapVerticesToIndex) {
-        this.mapVerticesToIndex = mapVerticesToIndex;
-    }
     //endregion
 
 }
