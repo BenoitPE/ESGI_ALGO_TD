@@ -1,9 +1,7 @@
 package Views;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class PanelSide extends JPanel {
@@ -22,7 +20,6 @@ public class PanelSide extends JPanel {
 
     public PanelSide() {
         Color bgColor = new Color(250, 250, 250);
-        //bgColor = Color.blue;
         setBackground(bgColor);
 
         lIsAccessible = new JLabel("");
@@ -67,7 +64,7 @@ public class PanelSide extends JPanel {
 
         lAlgoDesc = new JLabel("");
         lAlgoDesc.setBorder(new EmptyBorder(10, 0, 0, 0));
-        add(lAlgoDesc);
+        //add(lAlgoDesc);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         Dimension dim = new Dimension(500, 1000);

@@ -1,6 +1,7 @@
-package Views;
-
 import Models.Graph.*;
+import Views.PanelGraph;
+import Views.PanelInputs;
+import Views.PanelSide;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,9 +10,8 @@ import java.util.*;
 import java.util.List;
 
 public class MainFrame extends JFrame {
-    public double screenSizeWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-    public double screenSizeHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-    public double windowWidth = (double) 7 / 8 * screenSizeWidth;
+    
+    public double windowWidth = (double) 7 / 8 * Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     public double windowHeight = (double) 9 / 16 * windowWidth;
     public Dimension windowDimension = new Dimension((int) windowWidth, (int) windowHeight);
     private PanelInputs panelInputs;
@@ -66,15 +66,11 @@ public class MainFrame extends JFrame {
     }
 
     private ActionListener verticesOnClick() {
-        return a -> {
-            displaySidePanel();
-        };
+        return a -> displaySidePanel();
     }
 
     private ActionListener algoSelected() {
-        return a -> {
-            runChosenAlgo();
-        };
+        return a -> runChosenAlgo();
     }
 
     private void displaySidePanel() {
@@ -83,13 +79,13 @@ public class MainFrame extends JFrame {
         String from = (String) panelInputs.startingCombobox.getSelectedItem();
         String to = (String) panelInputs.endingCombobox.getSelectedItem();
 
-        if (from == to) {
+        if (Objects.equals(from, to)) {
             panelSide.cleanInformations();
             panelSide.cSelectAlgorithm.setVisible(false);
             panelSide.lIsAccessible.setText("<html>The source and the<br>destination are the same");
         } else {
-            List<MyVertex> invertedPath = new LinkedList<>();
-            boolean pathExists = MyGraph.depthCoursePoint(
+            List<Vertex> invertedPath = new LinkedList<>();
+            boolean pathExists = Graph.depthCoursePoint(
                     panelGraph.structGraph.getVertex(from),
                     panelGraph.structGraph.getVertex(to),
                     invertedPath,
@@ -109,85 +105,77 @@ public class MainFrame extends JFrame {
         String from = (String) panelInputs.startingCombobox.getSelectedItem();
         String to = (String) panelInputs.endingCombobox.getSelectedItem();
 
-        switch (panelSide.cSelectAlgorithm.getSelectedItem().toString()) {
-            case "Dijkstra":
-                treatmentDijkstra(from, to);
-                break;
-            case "Bellman-Ford":
-                treatmentBellmanFord(from, to);
-                break;
-            case "Modified depth course":
-                treatmentModifiedDepthCourse(from, to);
-                break;
-            default:
-                System.err.println("Error: The algorithm '" + panelSide.cSelectAlgorithm.getSelectedItem().toString() + "' doesn't exist yet");
-                break;
+        switch (Objects.requireNonNull(panelSide.cSelectAlgorithm.getSelectedItem()).toString()) {
+            case "Dijkstra" -> treatmentDijkstra(from, to);
+            case "Bellman-Ford" -> treatmentBellmanFord(from, to);
+            case "Modified depth course" -> treatmentModifiedDepthCourse(from, to);
+            default -> System.err.println("Error: The algorithm '" + panelSide.cSelectAlgorithm.getSelectedItem().toString() + "' doesn't exist yet");
         }
     }
 
     public void treatmentDijkstra(String from, String to) {
-        MyPathResult dijkstraResult = panelGraph.structGraph.getShortestPathDijkstra(
+        Result dijkstraResult = panelGraph.structGraph.getShortestPathDijkstra(
                 panelGraph.structGraph.getVertex(from),
                 panelGraph.structGraph.getVertex(to));
 
-        List<String> edgesName = MyPathResult.getEdgesName(dijkstraResult.getInvertedPath());
-        for (int i = 0; i < edgesName.size(); i++) {
-            panelGraph.markEdge(edgesName.get(i));
+        List<String> edgesName = Result.getEdgesName(dijkstraResult.getInvertedPath());
+        for (String s : edgesName) {
+            panelGraph.markEdge(s);
         }
 
-        String path = "<html><body>- ";
+        StringBuilder path = new StringBuilder("<html><body>- ");
         for (int i = dijkstraResult.getInvertedPath().size() - 1; i >= 0; i--) {
-            String nodeName = dijkstraResult.getInvertedPath().get(i).getName().toString();
-            if (nodeName == from || nodeName == to)
-                panelGraph.markNodeExtremity(nodeName);
+            String name = dijkstraResult.getInvertedPath().get(i).getName().toString();
+            if (Objects.equals(name, from) || Objects.equals(name, to))
+                panelGraph.markNodeExtremity(name);
             else
-                panelGraph.markNode(nodeName);
-            path += nodeName + "<br>- ";
+                panelGraph.markNode(name);
+            path.append(name).append("<br>- ");
         }
-        path = path.substring(0, path.length() - 3);
+        path = new StringBuilder(path.substring(0, path.length() - 3));
 
         String desc = "<html>Details: Dijkstra's algorithm is one of the most famous shortest path algorithm</html>";
         panelSide.lAlgoDesc.setText(desc);
         panelSide.lAlgoName.setText("Dijkstra's algorithm: ");
-        panelSide.lAlgoPath.setText(path);
+        panelSide.lAlgoPath.setText(path.toString());
         panelSide.lAlgoLength.setText("Shortest path length: " + (int) dijkstraResult.getLength() + " edge(s)");
         panelSide.lAlgoRuntime.setText("Runtime: " + dijkstraResult.getRuntime() + " nanoseconds");
     }
 
     public void treatmentBellmanFord(String from, String to) {
-        MyPathResult dijkstraResult = panelGraph.structGraph.getShortestPathBellmanFord(
+        Result dijkstraResult = panelGraph.structGraph.getShortestPathBellmanFord(
                 panelGraph.structGraph.getVertex(from),
                 panelGraph.structGraph.getVertex(to));
 
-        List<String> edgesName = MyPathResult.getEdgesName(dijkstraResult.getInvertedPath());
-        for (int i = 0; i < edgesName.size(); i++) {
-            panelGraph.markEdge(edgesName.get(i));
+        List<String> edgesName = Result.getEdgesName(dijkstraResult.getInvertedPath());
+        for (String s : edgesName) {
+            panelGraph.markEdge(s);
         }
 
-        String path = "<html><body>- ";
+        StringBuilder path = new StringBuilder("<html><body>- ");
         for (int i = dijkstraResult.getInvertedPath().size() - 1; i >= 0; i--) {
-            String nodeName = dijkstraResult.getInvertedPath().get(i).getName().toString();
-            if (nodeName == from || nodeName == to)
-                panelGraph.markNodeExtremity(nodeName);
+            String name = dijkstraResult.getInvertedPath().get(i).getName().toString();
+            if (Objects.equals(name, from) || Objects.equals(name, to))
+                panelGraph.markNodeExtremity(name);
             else
-                panelGraph.markNode(nodeName);
+                panelGraph.markNode(name);
 
-            path += nodeName + "<br>- ";
+            path.append(name).append("<br>- ");
         }
-        path = path.substring(0, path.length() - 3);
+        path = new StringBuilder(path.substring(0, path.length() - 3));
 
         String desc = "<html>Details: Bellman-Ford's algorithm is another algorithm</html>";
         panelSide.lAlgoDesc.setText(desc);
         panelSide.lAlgoName.setText("Bellman-Ford's algorithm: ");
-        panelSide.lAlgoPath.setText(path);
+        panelSide.lAlgoPath.setText(path.toString());
         panelSide.lAlgoLength.setText("Shortest path length: " + (int) dijkstraResult.getLength() + " edge(s)");
         panelSide.lAlgoRuntime.setText("Runtime: " + dijkstraResult.getRuntime() + " nanoseconds");
     }
 
     public void treatmentModifiedDepthCourse(String from, String to) {
-        List<MyVertex> invertedPath = new LinkedList<>();
+        List<Vertex> invertedPath = new LinkedList<>();
         long startTimer = System.nanoTime();
-        MyGraph.depthCoursePoint(
+        Graph.depthCoursePoint(
                 panelGraph.structGraph.getVertex(from),
                 panelGraph.structGraph.getVertex(to),
                 invertedPath,
@@ -196,35 +184,36 @@ public class MainFrame extends JFrame {
 
         //Mark edges
         if (invertedPath.size() >= 2) {
-            String edgeName = invertedPath.get(invertedPath.size() - 1).getName().toString();
+            StringBuilder edgeName = new StringBuilder(invertedPath.get(invertedPath.size() - 1).getName().toString());
             for (int i = invertedPath.size() - 2; i >= 0; i--) {
                 String v = invertedPath.get(i).getName().toString();
-                edgeName += "-" + v;
-                panelGraph.markEdge(edgeName);
-                edgeName = v;
+                edgeName.append("-").append(v);
+                panelGraph.markEdge(edgeName.toString());
+                edgeName = new StringBuilder(v);
             }
         }
 
         //Mark nodes
-        String path = "<html><body>- ";
+        StringBuilder path = new StringBuilder("<html><body>- ");
         for (int i = invertedPath.size() - 1; i >= 0; i--) {
-            String nodeName = invertedPath.get(i).getName().toString();
-            if (nodeName == from || nodeName == to)
-                panelGraph.markNodeExtremity(nodeName);
+            String name = invertedPath.get(i).getName().toString();
+            if (Objects.equals(name, from) || Objects.equals(name, to))
+                panelGraph.markNodeExtremity(name);
             else
-                panelGraph.markNode(nodeName);
+                panelGraph.markNode(name);
 
-            path += nodeName + "<br>- ";
+            path.append(name).append("<br>- ");
         }
-        path = path.substring(0, path.length() - 3);
+        path = new StringBuilder(path.substring(0, path.length() - 3));
 
-        String desc = "<html>Details: Modified depth course's algorithm is NOT an algorithm that solves the shortest path problem.\n" +
-                "This algo executes a deep path from the starting vertex, if this algo manages to reach the destination vertex it returns the obtained path.\n" +
-                "Since the path found is not compared with the other possible paths, we cannot assert that the path obtained is the shortest path.\n" +
-                "It has been added to the list of implemented algorithms in order to show that finding a path has a much lower complexity than finding the shortest path</html>";
+        String desc = """
+                <html>Details: Modified depth course's algorithm is NOT an algorithm that solves the shortest path problem.
+                This algo executes a deep path from the starting vertex, if this algo manages to reach the destination vertex it returns the obtained path.
+                Since the path found is not compared with the other possible paths, we cannot assert that the path obtained is the shortest path.
+                It has been added to the list of implemented algorithms in order to show that finding a path has a much lower complexity than finding the shortest path</html>""";
         panelSide.lAlgoDesc.setText(desc);
         panelSide.lAlgoName.setText("Modified depth course's algorithm: ");
-        panelSide.lAlgoPath.setText(path);
+        panelSide.lAlgoPath.setText(path.toString());
         panelSide.lAlgoLength.setText("Shortest path length: " + (invertedPath.size() - 1) + " edge(s)");
         panelSide.lAlgoRuntime.setText("Runtime: " + (int) runtime + " nanoseconds");
     }

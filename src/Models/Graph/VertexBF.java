@@ -1,24 +1,19 @@
 package Models.Graph;
 
-public class MyBFVertex
-{
-    private MyVertex vertex;
+public class VertexBF {
+    private final Vertex vertex;
     private double distanceFromSource;
-    private MyVertex bestParentFromSource;
+    private Vertex bestParentFromSource;
 
-    public MyBFVertex(MyVertex vertex) {
+    public VertexBF(Vertex vertex) {
         this.vertex = vertex;
         this.distanceFromSource = Double.POSITIVE_INFINITY;
         this.bestParentFromSource = null;
     }
 
     //region Getters and Setters
-    public MyVertex getVertex() {
+    public Vertex getVertex() {
         return vertex;
-    }
-
-    public void setVertex(MyVertex vertex) {
-        this.vertex = vertex;
     }
 
     public double getDistFromSource() {
@@ -29,11 +24,11 @@ public class MyBFVertex
         this.distanceFromSource = distance;
     }
 
-    public MyVertex getBestParent() {
+    public Vertex getBestParent() {
         return bestParentFromSource;
     }
 
-    public void setBestParent(MyVertex parent) {
+    public void setBestParent(Vertex parent) {
         this.bestParentFromSource = parent;
     }
     //endregion

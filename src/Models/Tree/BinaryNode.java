@@ -1,15 +1,15 @@
 package Models.Tree;
 
-public class MyBinaryNode<T> {
+public class BinaryNode<T> {
     private T data;
-    private MyBinaryNode<T> leftChild, rightChild;
-    private MyBinaryNode<T> parent = null;
+    private BinaryNode<T> leftChild, rightChild;
+    private BinaryNode<T> parent = null;
 
-    public MyBinaryNode(T data) {
+    public BinaryNode(T data) {
         this.data = data;
     }
 
-    public MyBinaryNode() {
+    public BinaryNode() {
         this.data = null;
     }
 
@@ -21,29 +21,29 @@ public class MyBinaryNode<T> {
         this.data = data;
     }
 
-    public MyBinaryNode<T> getLeftChild() {
+    public BinaryNode<T> getLeftChild() {
         return leftChild;
     }
 
-    public MyBinaryNode<T> setLeftChild(MyBinaryNode<T> leftChild) {
+    public BinaryNode<T> setLeftChild(BinaryNode<T> leftChild) {
         this.leftChild = leftChild;
         return this.leftChild;
     }
 
-    public MyBinaryNode<T> getRightChild() {
+    public BinaryNode<T> getRightChild() {
         return rightChild;
     }
 
-    public MyBinaryNode<T> setRightChild(MyBinaryNode<T> rightChild) {
+    public BinaryNode<T> setRightChild(BinaryNode<T> rightChild) {
         this.rightChild = rightChild;
         return this.rightChild;
     }
 
-    public MyBinaryNode<T> getParent() {
+    public BinaryNode<T> getParent() {
         return parent;
     }
 
-    public void setParent(MyBinaryNode<T> parent) {
+    public void setParent(BinaryNode<T> parent) {
         this.parent = parent;
     }
 

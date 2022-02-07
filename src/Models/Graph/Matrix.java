@@ -1,15 +1,15 @@
 package Models.Graph;
 
-public class MySquareMatrix {
+public class Matrix {
     private int[][] values;
 
-    public MySquareMatrix(int size) {
+    public Matrix(int size) {
         this.values = new int[size][size];
     }
 
-    public static MySquareMatrix transposeSquareMatrix(MySquareMatrix matrix)
+    public static Matrix transposeSquareMatrix(Matrix matrix)
     {
-        MySquareMatrix transposedMatrix = new MySquareMatrix(matrix.values.length);
+        Matrix transposedMatrix = new Matrix(matrix.values.length);
         for (int i=0; i < matrix.values.length; i++) {
             for (int j=0; j < matrix.values.length; j++) {
                 transposedMatrix.values[i][j] = matrix.values[j][i];
@@ -18,13 +18,13 @@ public class MySquareMatrix {
         return transposedMatrix;
     }
 
-    public static MySquareMatrix transitiveMatrix(MySquareMatrix matrix) {
-        MySquareMatrix transposeSquareMatrix = transposeSquareMatrix(matrix);
+    public static Matrix transitiveMatrix(Matrix matrix) {
+        Matrix transposeSquareMatrix = transposeSquareMatrix(matrix);
         return AddMatrix(matrix, transposeSquareMatrix);
     }
 
-    public static MySquareMatrix AddMatrix(MySquareMatrix m1, MySquareMatrix m2) {
-        MySquareMatrix matrix = new MySquareMatrix(m1.values.length);
+    public static Matrix AddMatrix(Matrix m1, Matrix m2) {
+        Matrix matrix = new Matrix(m1.values.length);
         for (int i=0; i< m1.values.length; i++) {
             for (int j=0; j< m1.values.length; j++) {
                 matrix.values[i][j] = (m1.values[i][j] + m2.values[i][j]) > 0 ? 1 : 0;
@@ -50,7 +50,7 @@ public class MySquareMatrix {
     //endregion
 
     //region Print
-    public static void print(MySquareMatrix matrix) {
+    public static void print(Matrix matrix) {
         for (int i=0; i < matrix.values.length; i++) {
             for (int j=0; j < matrix.values[i].length; j++) {
                 System.out.print(matrix.values[i][j] + " ");

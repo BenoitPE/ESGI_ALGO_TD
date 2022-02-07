@@ -1,6 +1,6 @@
 package Models.Tree;
 
-public class MyHeapSort {
+public class HeapSort {
     // Tri par tas
     public static void sort(int array[])
     {

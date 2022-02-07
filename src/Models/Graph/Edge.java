@@ -1,27 +1,27 @@
 package Models.Graph;
 
-public class MyEdge {
-    private MyVertex destination;
+public class Edge {
+    private Vertex destination;
     private double weight;
 
     //region Constructors
-    public MyEdge(MyVertex destination, double weight) {
+    public Edge(Vertex destination, double weight) {
         this.destination = destination;
         this.weight = weight;
     }
 
-    public MyEdge(MyVertex destination) {
+    public Edge(Vertex destination) {
         this.destination = destination;
         this.weight = 1;
     }
     //endregion
 
     //region Getters and Setters
-    public MyVertex getDestination() {
+    public Vertex getDest() {
         return destination;
     }
 
-    public void setDestination(MyVertex destination) {
+    public void setDest(Vertex destination) {
         this.destination = destination;
     }
 

@@ -3,24 +3,20 @@ package Models.Graph;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyPathResult {
+public class Result {
 
-    private List<MyVertex> invertedPath;
+    private final List<Vertex> invertedPath;
     private double length;
     private long runtime;
 
-    public MyPathResult() {
+    public Result() {
         this.invertedPath = new ArrayList<>();
         this.length = 0;
         this.runtime = 0;
     }
 
-    public List<MyVertex> getInvertedPath() {
+    public List<Vertex> getInvertedPath() {
         return invertedPath;
-    }
-
-    public void setInvertedPath(List<MyVertex> invertedPath) {
-        this.invertedPath = invertedPath;
     }
 
     public double getLength() {
@@ -39,10 +35,10 @@ public class MyPathResult {
         this.runtime = runtime;
     }
 
-    public static List<String> getEdgesName(List<MyVertex> vertices) {
+    public static List<String> getEdgesName(List<Vertex> vertices) {
         List<String> res= new ArrayList<>();
-        String startingVertex = "";
-        String endingVertex = "";
+        String startingVertex;
+        String endingVertex;
         for (int i = vertices.size() - 1; i > 0; i-- ) {
             startingVertex = vertices.get(i).getName().toString();
             endingVertex = vertices.get(i-1).getName().toString();
@@ -51,7 +47,7 @@ public class MyPathResult {
         return res;
     }
 
-    public static List<String> getNodesName(List<MyVertex> vertices) {
+    public static List<String> getNodesName(List<Vertex> vertices) {
         List<String> res = new ArrayList<>();
         for (int i = vertices.size() - 1; i > 0; i-- ) {
             res.add(vertices.get(i).getName().toString());

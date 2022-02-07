@@ -1,19 +1,19 @@
 package Models.Graph;
 
-public class MyDijkstraVertex {
-    private MyVertex vertex;
+public class VertexDijkstra {
+    private final Vertex vertex;
     private boolean visited;
     private double distanceFromSource;
-    private MyVertex bestParentFromSource;
+    private Vertex bestParentFromSource;
 
-    public MyDijkstraVertex(MyVertex vertex) {
+    public VertexDijkstra(Vertex vertex) {
         this.vertex = vertex;
         this.visited = false;
         this.distanceFromSource = Double.POSITIVE_INFINITY;
         this.bestParentFromSource = null;
     }
 
-    public MyDijkstraVertex(MyVertex vertex, boolean visited, double distanceFromSource, MyVertex bestParentFromSource) {
+    public VertexDijkstra(Vertex vertex, boolean visited, double distanceFromSource, Vertex bestParentFromSource) {
         this.vertex = vertex;
         this.visited = visited;
         this.distanceFromSource = distanceFromSource;
@@ -21,12 +21,8 @@ public class MyDijkstraVertex {
     }
 
     //region Getters and Setters
-    public MyVertex getVertex() {
+    public Vertex getVertex() {
         return vertex;
-    }
-
-    public void setVertex(MyVertex vertex) {
-        this.vertex = vertex;
     }
 
     public boolean isVisited() {
@@ -45,11 +41,11 @@ public class MyDijkstraVertex {
         this.distanceFromSource = distance;
     }
 
-    public MyVertex getBestParent() {
+    public Vertex getBestParent() {
         return bestParentFromSource;
     }
 
-    public void setBestParent(MyVertex parent) {
+    public void setBestParent(Vertex parent) {
         this.bestParentFromSource = parent;
     }
     //endregion

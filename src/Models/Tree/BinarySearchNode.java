@@ -1,23 +1,23 @@
 package Models.Tree;
 
-public class MyBinarySearchNode {
+public class BinarySearchNode {
     private int data;
-    private MyBinarySearchNode leftChild, rightChild;
-    private MyBinarySearchNode parent = null;
+    private BinarySearchNode leftChild, rightChild;
+    private BinarySearchNode parent = null;
 
     //region Constructors
-    public MyBinarySearchNode(int data) {
+    public BinarySearchNode(int data) {
         this.data = data;
     }
 
-    public MyBinarySearchNode(MyBinarySearchNode another) {
+    public BinarySearchNode(BinarySearchNode another) {
         this.data = another.data;
         this.leftChild = another.leftChild;
         this.rightChild = another.rightChild;
         this.parent = another.parent;
     }
 
-    public MyBinarySearchNode(int data, MyBinarySearchNode leftChild, MyBinarySearchNode rightChild, MyBinarySearchNode parent) {
+    public BinarySearchNode(int data, BinarySearchNode leftChild, BinarySearchNode rightChild, BinarySearchNode parent) {
         this.data = data;
         this.leftChild = leftChild;
         this.rightChild = rightChild;
@@ -25,10 +25,10 @@ public class MyBinarySearchNode {
     }
     //endregion Constructors
 
-    public static MyBinarySearchNode simpleLeftRotate(MyBinarySearchNode node) {
-        MyBinarySearchNode new_parent = new MyBinarySearchNode(node.rightChild);
+    public static BinarySearchNode simpleLeftRotate(BinarySearchNode node) {
+        BinarySearchNode new_parent = new BinarySearchNode(node.rightChild);
         new_parent.parent = node.parent;
-        MyBinarySearchNode left = new MyBinarySearchNode(
+        BinarySearchNode left = new BinarySearchNode(
                 node.data,
                 node.leftChild,
                 new_parent.leftChild,
@@ -37,11 +37,11 @@ public class MyBinarySearchNode {
         return new_parent;
     }
 
-    public static int balanceFactor(MyBinarySearchNode node) {
+    public static int balanceFactor(BinarySearchNode node) {
         return getHeight(node.getLeftChild()) - getHeight(node.getRightChild());
     }
 
-    public static int getHeight(MyBinarySearchNode node) {
+    public static int getHeight(BinarySearchNode node) {
         if (node == null)
             return 0;
         else {
@@ -58,31 +58,31 @@ public class MyBinarySearchNode {
         this.data = data;
     }
 
-    public MyBinarySearchNode getLeftChild() {
+    public BinarySearchNode getLeftChild() {
         return leftChild;
     }
 
-    public MyBinarySearchNode setLeftChild(MyBinarySearchNode leftChild) {
+    public BinarySearchNode setLeftChild(BinarySearchNode leftChild) {
         leftChild.parent = this;
         this.leftChild = leftChild;
         return this.leftChild;
     }
 
-    public MyBinarySearchNode getRightChild() {
+    public BinarySearchNode getRightChild() {
         return rightChild;
     }
 
-    public MyBinarySearchNode setRightChild(MyBinarySearchNode rightChild) {
+    public BinarySearchNode setRightChild(BinarySearchNode rightChild) {
         rightChild.parent = this;
         this.rightChild = rightChild;
         return this.rightChild;
     }
 
-    public MyBinarySearchNode getParent() {
+    public BinarySearchNode getParent() {
         return parent;
     }
 
-    public void setParent(MyBinarySearchNode parent) {
+    public void setParent(BinarySearchNode parent) {
         this.parent = parent;
     }
     //endregion Getters and Setters
