@@ -15,7 +15,7 @@ public class MyGraph<T> {
     }
 
     //region Set Vertices
-    public void setVerticesByMap(Map<String, String[]> vertices) {
+    public void setVertices(Map<String, String[]> vertices) {
         List<MyVertex> listVertices = new ArrayList<>();
 
         //Initialize all vertices
@@ -40,7 +40,7 @@ public class MyGraph<T> {
         this.vertices = listVertices;
     }
 
-    public void setVerticesByMatrix(Integer[][] matrix) {
+    public void setVertices(Integer[][] matrix) {
         List<MyVertex> listVertices = new ArrayList<>();
         //Initialize all vertices
         for (int i = 0; i < matrix.length; i++) {
@@ -60,7 +60,7 @@ public class MyGraph<T> {
         this.vertices = listVertices;
     }
 
-    public void setVerticesByMatrix(String[] verticesNames, Integer[][] matrix) {
+    public void setVertices(String[] verticesNames, Integer[][] matrix) {
         List<MyVertex> listVertices = new ArrayList<>();
         //Initialize all vertices
         for (int i = 0; i < matrix.length; i++) {

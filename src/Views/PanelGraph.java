@@ -26,7 +26,7 @@ public class PanelGraph extends JPanel {
     public PanelGraph(Map<String, String[]> values) {
 
         structGraph = new MyGraph<>();
-        structGraph.setVerticesByMap(values);
+        structGraph.setVertices(values);
 
         String[] verticesName = new String[values.size()];
         int i = 0;

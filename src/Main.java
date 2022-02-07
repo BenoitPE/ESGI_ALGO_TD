@@ -58,7 +58,7 @@ public class Main {
         graphValues.put("Thonon-les-Bains",     new String[]{"Bellegarde", "La Roche-sur-Foron"});
 
         MyGraph<Integer> myGraph = new MyGraph();
-        myGraph.setVerticesByMap(graphValues);
+        myGraph.setVertices(graphValues);
     }
 
 
