@@ -56,7 +56,7 @@ public class Graph {
 
     //region Dijkstra's algorithm
     public Result getShortestPathDijkstra(Vertex from, Vertex to) {
-        Result res = new Result();
+        Result res = new Result("Dijkstra");
         Map<String, Integer> vertexToIndex = new HashMap<>();
 
         // Sets the runtime for the Dijkstra algorithm
@@ -125,7 +125,7 @@ public class Graph {
 
     //region Bellman-Ford's algorithm
     public Result getShortestPathBellmanFord(Vertex from, Vertex to) {
-        Result res = new Result();
+        Result res = new Result("Bellman-Ford");
 
         // Sets the runtime for the Dijkstra algorithm
         long startTimer = System.nanoTime();

@@ -1,4 +1,5 @@
 import Models.Graph.*;
+import Views.DetailsFrame;
 import Views.PanelGraph;
 import Views.PanelInputs;
 import Views.PanelSide;
@@ -10,23 +11,20 @@ import java.util.*;
 import java.util.List;
 
 public class MainFrame extends JFrame {
-    
+
     public double windowWidth = (double) 7 / 8 * Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     public double windowHeight = (double) 9 / 16 * windowWidth;
     public Dimension windowDimension = new Dimension((int) windowWidth, (int) windowHeight);
-    private PanelInputs panelInputs;
-    private PanelSide panelSide;
-    private PanelGraph panelGraph;
+    private final PanelInputs panelInputs;
+    private final PanelSide panelSide;
+    private final PanelGraph panelGraph;
+    private List<Result> results;
 
 
     public MainFrame() {
         super("PEGAZ - Final project");
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setMinimumSize(windowDimension);
-        this.setMaximumSize(windowDimension);
-        this.setPreferredSize(windowDimension);
-        this.getContentPane().setLayout(new GridBagLayout());
-        this.pack();
+
 
         Map<String, String[]> data = new LinkedHashMap<>();
         data.put("Annecy", new String[]{"La Roche-sur-Foron"});
@@ -44,33 +42,32 @@ public class MainFrame extends JFrame {
         data.put("St Gervais-les-Bains", new String[]{"Annecy", "La Roche-sur-Foron"});
         data.put("Thonon-les-Bains", new String[]{"Bellegarde", "La Roche-sur-Foron"});
 
-        init(data);
-    }
-
-    private void init(Map<String, String[]> data) {
-
         panelInputs = new PanelInputs(data);
         panelSide = new PanelSide();
         panelGraph = new PanelGraph(data);
 
         panelInputs.startingCombobox.addActionListener(verticesOnClick());
         panelInputs.endingCombobox.addActionListener(verticesOnClick());
-        panelSide.cSelectAlgorithm.addActionListener(algoSelected());
+        //panelSide.cSelectAlgorithm.addActionListener(algoSelected());
+        panelInputs.detailsButton.addActionListener(openDetails());
 
+        this.setMinimumSize(windowDimension);
+        this.setMaximumSize(windowDimension);
+        this.setPreferredSize(windowDimension);
+        this.getContentPane().setLayout(new GridBagLayout());
+        this.pack();
         this.getContentPane().add(panelInputs, new GridBagConstraints(0, 0, 3, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-        this.getContentPane().add(panelSide, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-        this.getContentPane().add(panelGraph, new GridBagConstraints(1, 1, 2, 1, 2, 2, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-
-        displaySidePanel();
-
+        //this.getContentPane().add(panelSide, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+        this.getContentPane().add(panelGraph, new GridBagConstraints(1, 1, 3, 1, 2, 2, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+        runAlgo();
     }
 
     private ActionListener verticesOnClick() {
         return a -> displaySidePanel();
     }
 
-    private ActionListener algoSelected() {
-        return a -> runChosenAlgo();
+    private ActionListener openDetails() {
+        return a -> new DetailsFrame(results);
     }
 
     private void displaySidePanel() {
@@ -93,24 +90,24 @@ public class MainFrame extends JFrame {
 
             if (pathExists) {
                 panelSide.accessible(true, from, to);
-                runChosenAlgo();
+                runAlgo();
             } else {
                 panelSide.accessible(false, from, to);
             }
         }
     }
 
-    private void runChosenAlgo() {
+    private void runAlgo() {
         panelGraph.resetColors();
         String from = (String) panelInputs.startingCombobox.getSelectedItem();
         String to = (String) panelInputs.endingCombobox.getSelectedItem();
 
-        switch (Objects.requireNonNull(panelSide.cSelectAlgorithm.getSelectedItem()).toString()) {
-            case "Dijkstra" -> treatmentDijkstra(from, to);
-            case "Bellman-Ford" -> treatmentBellmanFord(from, to);
-            case "Modified depth course" -> treatmentModifiedDepthCourse(from, to);
-            default -> System.err.println("Error: The algorithm '" + panelSide.cSelectAlgorithm.getSelectedItem().toString() + "' doesn't exist yet");
-        }
+        results = new LinkedList<>();
+        treatmentDijkstra(from, to);
+        treatmentBellmanFord(from, to);
+        treatmentModifiedDepthCourse(from, to);
+
+        //default -> System.err.println("Error: The algorithm '" + panelSide.cSelectAlgorithm.getSelectedItem().toString() + "' doesn't exist yet");
     }
 
     public void treatmentDijkstra(String from, String to) {
@@ -140,21 +137,23 @@ public class MainFrame extends JFrame {
         panelSide.lAlgoPath.setText(path.toString());
         panelSide.lAlgoLength.setText("Shortest path length: " + (int) dijkstraResult.getLength() + " edge(s)");
         panelSide.lAlgoRuntime.setText("Runtime: " + dijkstraResult.getRuntime() + " nanoseconds");
+
+        results.add(dijkstraResult);
     }
 
     public void treatmentBellmanFord(String from, String to) {
-        Result dijkstraResult = panelGraph.structGraph.getShortestPathBellmanFord(
+        Result bellmanFordResult = panelGraph.structGraph.getShortestPathBellmanFord(
                 panelGraph.structGraph.getVertex(from),
                 panelGraph.structGraph.getVertex(to));
 
-        List<String> edgesName = Result.getEdgesName(dijkstraResult.getInvertedPath());
+        List<String> edgesName = Result.getEdgesName(bellmanFordResult.getInvertedPath());
         for (String s : edgesName) {
             panelGraph.markEdge(s);
         }
 
         StringBuilder path = new StringBuilder("<html><body>- ");
-        for (int i = dijkstraResult.getInvertedPath().size() - 1; i >= 0; i--) {
-            String name = dijkstraResult.getInvertedPath().get(i).getName();
+        for (int i = bellmanFordResult.getInvertedPath().size() - 1; i >= 0; i--) {
+            String name = bellmanFordResult.getInvertedPath().get(i).getName();
             if (Objects.equals(name, from) || Objects.equals(name, to))
                 panelGraph.markNodeExtremity(name);
             else
@@ -168,11 +167,14 @@ public class MainFrame extends JFrame {
         panelSide.lAlgoDesc.setText(desc);
         panelSide.lAlgoName.setText("Bellman-Ford's algorithm: ");
         panelSide.lAlgoPath.setText(path.toString());
-        panelSide.lAlgoLength.setText("Shortest path length: " + (int) dijkstraResult.getLength() + " edge(s)");
-        panelSide.lAlgoRuntime.setText("Runtime: " + dijkstraResult.getRuntime() + " nanoseconds");
+        panelSide.lAlgoLength.setText("Shortest path length: " + (int) bellmanFordResult.getLength() + " edge(s)");
+        panelSide.lAlgoRuntime.setText("Runtime: " + bellmanFordResult.getRuntime() + " nanoseconds");
+        results.add(bellmanFordResult);
     }
 
     public void treatmentModifiedDepthCourse(String from, String to) {
+        Result mdcResult = new Result("Modified Depth Course");
+
         List<Vertex> invertedPath = new LinkedList<>();
         long startTimer = System.nanoTime();
         Graph.depthCoursePoint(
@@ -182,6 +184,7 @@ public class MainFrame extends JFrame {
                 new LinkedList<>());
         long runtime = System.nanoTime() - startTimer;
 
+        /*
         //Mark edges
         if (invertedPath.size() >= 2) {
             StringBuilder edgeName = new StringBuilder(invertedPath.get(invertedPath.size() - 1).getName());
@@ -205,7 +208,7 @@ public class MainFrame extends JFrame {
             path.append(name).append("<br>- ");
         }
         path = new StringBuilder(path.substring(0, path.length() - 3));
-
+*/
         String desc = """
                 <html>Details: Modified depth course's algorithm is NOT an algorithm that solves the shortest path problem.
                 This algo executes a deep path from the starting vertex, if this algo manages to reach the destination vertex it returns the obtained path.
@@ -213,9 +216,12 @@ public class MainFrame extends JFrame {
                 It has been added to the list of implemented algorithms in order to show that finding a path has a much lower complexity than finding the shortest path</html>""";
         panelSide.lAlgoDesc.setText(desc);
         panelSide.lAlgoName.setText("Modified depth course's algorithm: ");
-        panelSide.lAlgoPath.setText(path.toString());
+        //panelSide.lAlgoPath.setText(path.toString());
         panelSide.lAlgoLength.setText("Shortest path length: " + (invertedPath.size() - 1) + " edge(s)");
         panelSide.lAlgoRuntime.setText("Runtime: " + (int) runtime + " nanoseconds");
+
+
+        results.add(mdcResult);
     }
 
     public static void main(String[] args) {

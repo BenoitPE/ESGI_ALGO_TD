@@ -7,6 +7,7 @@ import java.util.Map;
 public class PanelInputs extends JPanel {
     public JComboBox startingCombobox;
     public JComboBox endingCombobox;
+    public JButton detailsButton;
 
     public PanelInputs(Map<String, String[]> values) {
 
@@ -24,10 +25,13 @@ public class PanelInputs extends JPanel {
         endingCombobox = new JComboBox(stations);
         endingCombobox.setSelectedIndex(2);
 
+        detailsButton = new JButton("Details");
+
         add(labelFrom);
         add(startingCombobox);
         add(labelTo);
         add(endingCombobox);
+        add(detailsButton);
 
         setMinimumSize(new Dimension(500, 50));
         setMaximumSize(new Dimension(100000, 50));
