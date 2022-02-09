@@ -9,7 +9,7 @@ public class PanelInputs extends JPanel {
     public JComboBox endingCombobox;
     public JButton detailsButton;
 
-    public PanelInputs(Map<String, String[]> values) {
+    public PanelInputs(Map<String, Map<String, Double>> values) {
 
         String[] stations = new String[values.size()];
         int i = 0;

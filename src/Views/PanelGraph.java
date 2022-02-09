@@ -2,6 +2,7 @@ package Views;
 
 import Models.Graph.Graph;
 import Models.Graph.Vertex;
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.implementations.MultiGraph;
 
 import javax.swing.*;
@@ -17,7 +18,7 @@ public class PanelGraph extends JPanel {
 
     private final String markedNodeColor = "rgb(0, 100, 255);";
 
-    public PanelGraph(Map<String, String[]> values) {
+    public PanelGraph(Map<String, Map<String, Double>> values) {
 
         structGraph = new Graph();
         structGraph.setVertices(values);
@@ -54,7 +55,11 @@ public class PanelGraph extends JPanel {
             Vertex v = structGraph.getVertices().get(i);
             for (int j = 0; j < v.getAdjacents().size(); j++) {
                 Vertex adj = v.getAdjacents().get(j).getDest();
-                uiGraph.addEdge(v.getName() + "-" + adj.getName(), v.getName(), adj.getName(), true);
+                Edge edge = uiGraph.addEdge(v.getName() + "-" + adj.getName(), v.getName(), adj.getName(), true);
+
+                //Show weight on edges
+                edge.setAttribute("ui.label", v.getAdjacents().get(j).getWeight());
+                edge.setAttribute("ui.class", "label");
             }
         }
     }

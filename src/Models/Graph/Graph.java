@@ -15,7 +15,7 @@ public class Graph {
         this.nbVertices = 0;
     }
 
-    public void setVertices(Map<String, String[]> vertices) {
+    /*public void setVertices(Map<String, String[]> vertices) {
         List<Vertex> listVertices = new ArrayList<>();
 
         //Initialize all vertices
@@ -31,6 +31,33 @@ public class Graph {
         for (String from : vertices.keySet()) {
             for (String to : vertices.get(from)) {
                 listVertices.get(mapVerticesToIndex.get(from)).setAdjacent(new Edge(listVertices.get(mapVerticesToIndex.get(to))));
+                nbEdges++;
+            }
+        }
+
+        this.vertices = listVertices;
+    }*/
+
+    public void setVertices(Map<String, Map<String, Double>> vertices) {
+        List<Vertex> listVertices = new ArrayList<>();
+
+        //Initialize all vertices
+        int i = 0;
+        for (String vertexName : vertices.keySet()) {
+            listVertices.add(new Vertex(vertexName));
+            nbVertices++;
+            mapVerticesToIndex.put(vertexName, i);
+            i++;
+        }
+
+        //Adds adjacent vertices
+        for (String from : vertices.keySet()) {
+            for (String to : vertices.get(from).keySet()) {
+                listVertices.get(mapVerticesToIndex.get(from)).setAdjacent(
+                        new Edge(
+                        listVertices.get(mapVerticesToIndex.get(to)),
+                        vertices.get(from).get(to))
+                );
                 nbEdges++;
             }
         }

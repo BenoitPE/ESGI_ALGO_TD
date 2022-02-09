@@ -30,3 +30,7 @@ edge {
     fill-mode:      plain;
     fill-color: rgb(200,210,200);
 }
+
+edge.label {
+    text-size: 20px;
+}

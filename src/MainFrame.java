@@ -24,7 +24,7 @@ public class MainFrame extends JFrame {
         super("PEGAZ - Final project");
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Map<String, String[]> data = new LinkedHashMap<>();
+        /*Map<String, String[]> data = new LinkedHashMap<>();
         data.put("Annecy", new String[]{"La Roche-sur-Foron"});
         data.put("Annemasse", new String[]{"Genève", "La Roche-sur-Foron"});
         data.put("Bellegarde", new String[]{"Meyrin", "Seyssel"});
@@ -38,10 +38,61 @@ public class MainFrame extends JFrame {
         data.put("Nyon", new String[]{});
         data.put("Seyssel", new String[]{});
         data.put("St Gervais-les-Bains", new String[]{"Annecy", "La Roche-sur-Foron"});
-        data.put("Thonon-les-Bains", new String[]{"Bellegarde", "La Roche-sur-Foron"});
+        data.put("Thonon-les-Bains", new String[]{"Bellegarde", "La Roche-sur-Foron"});*/
+        Map<String, Map<String, Double>> map = new LinkedHashMap<>();
+        map.put("Annecy", new HashMap<>() {{
+            put("La Roche-sur-Foron", 33.0);
+        }});
+        map.put("Annemasse", new HashMap<>() {{
+            put("Genève", 10.0);
+            put("La Roche-sur-Foron", 19.0);
+        }});
+        map.put("Bellegarde", new HashMap<>() {{
+            put("Meyrin", 32.0);
+            put("Seyssel", 23.0);
+        }});
+        map.put("Coppet", new HashMap<>() {{
+            put("Les Tuileries", 9.0);
+            put("Nyon", 9.0);
+        }});
+        map.put("Evian-les-Bains", new HashMap<>() {{
+            put("Thonon-les-Bains", 10.0);
+        }});
+        map.put("Genève", new HashMap<>() {{
+            put("Annemasse", 10.0);
+            put("Les Tuileries", 6.0);
+            put("Meyrin", 7.0);
+        }});
+        map.put("La Plaine", new HashMap<>() {{
+            put("Meyrin", 10.0);
+        }});
+        map.put("La Roche-sur-Foron", new HashMap<>() {{
+            put("Annecy", 34.0);
+            put("Annemasse", 22.0);
+            put("St Gervais-les-Bains", 48.0);
+            put("Thonon-les-Bains", 43.0);
+        }});
+        map.put("Les Tuileries", new HashMap<>() {{
+            put("Coppet", 9.0);
+            put("Genève", 7.0);
+        }});
+        map.put("Meyrin", new HashMap<>() {{
+            put("Bellegarde", 32.0);
+            put("Genève", 7.0);
+        }});
+        map.put("Nyon", new HashMap<>(){});
+        map.put("Seyssel", new HashMap<>(){});
+        map.put("St Gervais-les-Bains", new HashMap<>() {{
+            put("Annecy", 87.0);
+            put("La Roche-sur-Foron", 49.0);
+        }});
+        map.put("Thonon-les-Bains", new HashMap<>() {{
+            put("Bellegarde", 86.0);
+            put("La Roche-sur-Foron", 43.0);
+        }});
 
-        panelInputs = new PanelInputs(data);
-        panelGraph = new PanelGraph(data);
+        panelInputs = new PanelInputs(map);
+        panelGraph = new PanelGraph(map);
 
         panelInputs.startingCombobox.addActionListener(verticesOnClick());
         panelInputs.endingCombobox.addActionListener(verticesOnClick());
