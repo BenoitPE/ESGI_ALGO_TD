@@ -1,6 +1,7 @@
 package Models.Graph;
 
 import scala.Int;
+import scala.util.parsing.combinator.testing.Str;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +13,9 @@ public class Result {
     private long runtime;
     private String complexity;
     private String realComplexity;
-
-
     private Integer nbVertices;
     private Integer pathWeight;
+    private String details;
 
     public Result(String name) {
         this.name = name;
@@ -26,6 +26,7 @@ public class Result {
         this.realComplexity = "Not implemented";
         this.nbVertices = 0;
         this.pathWeight = 0;
+        this.details = "";
     }
 
     public List<Vertex> getInvertedPath() {
@@ -55,6 +56,7 @@ public class Result {
     public void setName(String name) {
         this.name = name;
     }
+
     public String getComplexity() {
         return complexity;
     }
@@ -87,13 +89,21 @@ public class Result {
         this.pathWeight = pathWeight;
     }
 
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
     public static List<String> getEdgesName(List<Vertex> vertices) {
-        List<String> res= new ArrayList<>();
+        List<String> res = new ArrayList<>();
         String startingVertex;
         String endingVertex;
-        for (int i = vertices.size() - 1; i > 0; i-- ) {
+        for (int i = vertices.size() - 1; i > 0; i--) {
             startingVertex = vertices.get(i).getName();
-            endingVertex = vertices.get(i-1).getName();
+            endingVertex = vertices.get(i - 1).getName();
             res.add(startingVertex + "-" + endingVertex);
         }
         return res;

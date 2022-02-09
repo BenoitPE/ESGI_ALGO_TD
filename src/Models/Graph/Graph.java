@@ -38,14 +38,27 @@ public class Graph {
         this.vertices = listVertices;
     }
 
-    public static boolean depthCoursePoint(Vertex T, Vertex search, List<Vertex> invertedPath, List<Vertex> visitedVertices) {
+    public Result getPathModifiedDepthCourse(Vertex from, Vertex to) {
+        Result res = new Result("Modified depth course");
+
+        long startTimer = System.nanoTime();
+        List<Vertex> list = new LinkedList<>();
+        modifiedDepthCourse(from, to, list, new LinkedList<>());
+        res.setRuntime(System.nanoTime() - startTimer);
+        res.getInvertedPath().addAll(list);
+        res.setLength(list.size());
+
+        return res;
+    }
+
+    public static boolean modifiedDepthCourse(Vertex T, Vertex search, List<Vertex> invertedPath, List<Vertex> visitedVertices) {
         if (Objects.equals(T.getName(), search.getName())) {
             invertedPath.add(T);
             return true;
         } else if (!visitedVertices.contains(T)) {
             visitedVertices.add(T);
             for (int i = 0; i < T.getAdjacents().size(); i++) {
-                if (depthCoursePoint(T.getAdjacents().get(i).getDest(), search, invertedPath, visitedVertices)) {
+                if (modifiedDepthCourse(T.getAdjacents().get(i).getDest(), search, invertedPath, visitedVertices)) {
                     invertedPath.add(T);
                     return true;
                 }
@@ -182,12 +195,11 @@ public class Graph {
         //Set the matrix
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                P.setValue(i,j,Integer.MAX_VALUE);
+                P.setValue(i, j, Integer.MAX_VALUE);
                 if (W.getValue(i, j) == 0 && i != j) {
                     W.setValue(i, j, Integer.MAX_VALUE);
-                }
-                else if(i == j) {
-                    P.setValue(i,i,i);
+                } else if (i == j) {
+                    P.setValue(i, i, i);
                 }
             }
         }
@@ -201,7 +213,7 @@ public class Graph {
                     }
 
                     W.setValue(i, j, Math.min(W.getValue(i, j), W.getValue(i, k) + W.getValue(k, j)));
-                    P.setValue(i,j, P.getValue(k,j));
+                    P.setValue(i, j, P.getValue(k, j));
                 }
             }
         }

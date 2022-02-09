@@ -2,7 +2,6 @@ import Models.Graph.*;
 import Views.DetailsFrame;
 import Views.PanelGraph;
 import Views.PanelInputs;
-import Views.PanelSide;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,15 +15,14 @@ public class MainFrame extends JFrame {
     public double windowHeight = (double) 9 / 16 * windowWidth;
     public Dimension windowDimension = new Dimension((int) windowWidth, (int) windowHeight);
     private final PanelInputs panelInputs;
-    private final PanelSide panelSide;
     private final PanelGraph panelGraph;
     private List<Result> results;
+    private boolean pathExists;
 
 
     public MainFrame() {
         super("PEGAZ - Final project");
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 
         Map<String, String[]> data = new LinkedHashMap<>();
         data.put("Annecy", new String[]{"La Roche-sur-Foron"});
@@ -43,58 +41,34 @@ public class MainFrame extends JFrame {
         data.put("Thonon-les-Bains", new String[]{"Bellegarde", "La Roche-sur-Foron"});
 
         panelInputs = new PanelInputs(data);
-        panelSide = new PanelSide();
         panelGraph = new PanelGraph(data);
 
         panelInputs.startingCombobox.addActionListener(verticesOnClick());
         panelInputs.endingCombobox.addActionListener(verticesOnClick());
-        //panelSide.cSelectAlgorithm.addActionListener(algoSelected());
         panelInputs.detailsButton.addActionListener(openDetails());
 
         this.setMinimumSize(windowDimension);
         this.setMaximumSize(windowDimension);
         this.setPreferredSize(windowDimension);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+
         this.getContentPane().setLayout(new GridBagLayout());
         this.pack();
         this.getContentPane().add(panelInputs, new GridBagConstraints(0, 0, 3, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-        //this.getContentPane().add(panelSide, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         this.getContentPane().add(panelGraph, new GridBagConstraints(1, 1, 3, 1, 2, 2, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         runAlgo();
     }
 
     private ActionListener verticesOnClick() {
-        return a -> displaySidePanel();
+        return a -> runAlgo();
     }
 
     private ActionListener openDetails() {
-        return a -> new DetailsFrame(results);
-    }
-
-    private void displaySidePanel() {
-        panelGraph.resetColors();
-
-        String from = (String) panelInputs.startingCombobox.getSelectedItem();
-        String to = (String) panelInputs.endingCombobox.getSelectedItem();
-
-        if (Objects.equals(from, to)) {
-            panelSide.cleanInformations();
-            panelSide.cSelectAlgorithm.setVisible(false);
-            panelSide.lIsAccessible.setText("<html>The source and the<br>destination are the same");
-        } else {
-            List<Vertex> invertedPath = new LinkedList<>();
-            boolean pathExists = Graph.depthCoursePoint(
-                    panelGraph.structGraph.getVertex(from),
-                    panelGraph.structGraph.getVertex(to),
-                    invertedPath,
-                    new LinkedList<>());
-
-            if (pathExists) {
-                panelSide.accessible(true, from, to);
-                runAlgo();
-            } else {
-                panelSide.accessible(false, from, to);
-            }
-        }
+        return a -> {
+            DetailsFrame detailsFrame = new DetailsFrame(results);
+            detailsFrame.accessible(pathExists);
+        };
     }
 
     private void runAlgo() {
@@ -102,126 +76,64 @@ public class MainFrame extends JFrame {
         String from = (String) panelInputs.startingCombobox.getSelectedItem();
         String to = (String) panelInputs.endingCombobox.getSelectedItem();
 
-        results = new LinkedList<>();
-        treatmentDijkstra(from, to);
-        treatmentBellmanFord(from, to);
-        treatmentModifiedDepthCourse(from, to);
-
-        //default -> System.err.println("Error: The algorithm '" + panelSide.cSelectAlgorithm.getSelectedItem().toString() + "' doesn't exist yet");
-    }
-
-    public void treatmentDijkstra(String from, String to) {
-        Result dijkstraResult = panelGraph.structGraph.getShortestPathDijkstra(
-                panelGraph.structGraph.getVertex(from),
-                panelGraph.structGraph.getVertex(to));
-
-        List<String> edgesName = Result.getEdgesName(dijkstraResult.getInvertedPath());
-        for (String s : edgesName) {
-            panelGraph.markEdge(s);
-        }
-
-        StringBuilder path = new StringBuilder("<html><body>- ");
-        for (int i = dijkstraResult.getInvertedPath().size() - 1; i >= 0; i--) {
-            String name = dijkstraResult.getInvertedPath().get(i).getName();
-            if (Objects.equals(name, from) || Objects.equals(name, to))
-                panelGraph.markNodeExtremity(name);
-            else
-                panelGraph.markNode(name);
-            path.append(name).append("<br>- ");
-        }
-        path = new StringBuilder(path.substring(0, path.length() - 3));
-
-        String desc = "<html>Details: Dijkstra's algorithm is one of the most famous shortest path algorithm</html>";
-        panelSide.lAlgoDesc.setText(desc);
-        panelSide.lAlgoName.setText("Dijkstra's algorithm: ");
-        panelSide.lAlgoPath.setText(path.toString());
-        panelSide.lAlgoLength.setText("Shortest path length: " + (int) dijkstraResult.getLength() + " edge(s)");
-        panelSide.lAlgoRuntime.setText("Runtime: " + dijkstraResult.getRuntime() + " nanoseconds");
-
-        results.add(dijkstraResult);
-    }
-
-    public void treatmentBellmanFord(String from, String to) {
-        Result bellmanFordResult = panelGraph.structGraph.getShortestPathBellmanFord(
-                panelGraph.structGraph.getVertex(from),
-                panelGraph.structGraph.getVertex(to));
-
-        List<String> edgesName = Result.getEdgesName(bellmanFordResult.getInvertedPath());
-        for (String s : edgesName) {
-            panelGraph.markEdge(s);
-        }
-
-        StringBuilder path = new StringBuilder("<html><body>- ");
-        for (int i = bellmanFordResult.getInvertedPath().size() - 1; i >= 0; i--) {
-            String name = bellmanFordResult.getInvertedPath().get(i).getName();
-            if (Objects.equals(name, from) || Objects.equals(name, to))
-                panelGraph.markNodeExtremity(name);
-            else
-                panelGraph.markNode(name);
-
-            path.append(name).append("<br>- ");
-        }
-        path = new StringBuilder(path.substring(0, path.length() - 3));
-
-        String desc = "<html>Details: Bellman-Ford's algorithm is another algorithm</html>";
-        panelSide.lAlgoDesc.setText(desc);
-        panelSide.lAlgoName.setText("Bellman-Ford's algorithm: ");
-        panelSide.lAlgoPath.setText(path.toString());
-        panelSide.lAlgoLength.setText("Shortest path length: " + (int) bellmanFordResult.getLength() + " edge(s)");
-        panelSide.lAlgoRuntime.setText("Runtime: " + bellmanFordResult.getRuntime() + " nanoseconds");
-        results.add(bellmanFordResult);
-    }
-
-    public void treatmentModifiedDepthCourse(String from, String to) {
-        Result mdcResult = new Result("Modified Depth Course");
-
         List<Vertex> invertedPath = new LinkedList<>();
-        long startTimer = System.nanoTime();
-        Graph.depthCoursePoint(
+        pathExists = Graph.modifiedDepthCourse(
                 panelGraph.structGraph.getVertex(from),
                 panelGraph.structGraph.getVertex(to),
                 invertedPath,
                 new LinkedList<>());
-        long runtime = System.nanoTime() - startTimer;
 
-        /*
-        //Mark edges
-        if (invertedPath.size() >= 2) {
-            StringBuilder edgeName = new StringBuilder(invertedPath.get(invertedPath.size() - 1).getName());
-            for (int i = invertedPath.size() - 2; i >= 0; i--) {
-                String v = invertedPath.get(i).getName();
-                edgeName.append("-").append(v);
-                panelGraph.markEdge(edgeName.toString());
-                edgeName = new StringBuilder(v);
-            }
+        if (pathExists) {
+            results = new LinkedList<>();
+            Result resultDisplay =  treatmentDijkstra(from, to);
+            treatmentBellmanFord(from, to);
+            treatmentModifiedDepthCourse(from, to);
+        }
+    }
+
+    public Result treatmentDijkstra(String from, String to) {
+        Result result = panelGraph.structGraph.getShortestPathDijkstra(
+                panelGraph.structGraph.getVertex(from),
+                panelGraph.structGraph.getVertex(to));
+
+        List<String> edgesName = Result.getEdgesName(result.getInvertedPath());
+        for (String s : edgesName) {
+            panelGraph.markEdge(s);
         }
 
-        //Mark nodes
-        StringBuilder path = new StringBuilder("<html><body>- ");
-        for (int i = invertedPath.size() - 1; i >= 0; i--) {
-            String name = invertedPath.get(i).getName();
+        for (int i = result.getInvertedPath().size() - 1; i >= 0; i--) {
+            String name = result.getInvertedPath().get(i).getName();
             if (Objects.equals(name, from) || Objects.equals(name, to))
                 panelGraph.markNodeExtremity(name);
             else
                 panelGraph.markNode(name);
-
-            path.append(name).append("<br>- ");
         }
-        path = new StringBuilder(path.substring(0, path.length() - 3));
-*/
-        String desc = """
-                <html>Details: Modified depth course's algorithm is NOT an algorithm that solves the shortest path problem.
-                This algo executes a deep path from the starting vertex, if this algo manages to reach the destination vertex it returns the obtained path.
-                Since the path found is not compared with the other possible paths, we cannot assert that the path obtained is the shortest path.
-                It has been added to the list of implemented algorithms in order to show that finding a path has a much lower complexity than finding the shortest path</html>""";
-        panelSide.lAlgoDesc.setText(desc);
-        panelSide.lAlgoName.setText("Modified depth course's algorithm: ");
-        //panelSide.lAlgoPath.setText(path.toString());
-        panelSide.lAlgoLength.setText("Shortest path length: " + (invertedPath.size() - 1) + " edge(s)");
-        panelSide.lAlgoRuntime.setText("Runtime: " + (int) runtime + " nanoseconds");
 
+        results.add(result);
+        return result;
+    }
 
-        results.add(mdcResult);
+    public void treatmentBellmanFord(String from, String to) {
+        Result result = panelGraph.structGraph.getShortestPathBellmanFord(
+                panelGraph.structGraph.getVertex(from),
+                panelGraph.structGraph.getVertex(to));
+
+        results.add(result);
+    }
+
+    public void treatmentModifiedDepthCourse(String from, String to) {
+        /*List<Vertex> invertedPath = new LinkedList<>();
+        Graph.modifiedDepthCourse(
+                panelGraph.structGraph.getVertex(from),
+                panelGraph.structGraph.getVertex(to),
+                invertedPath,
+                new LinkedList<>());*/
+
+        Result result = panelGraph.structGraph.getPathModifiedDepthCourse(
+                panelGraph.structGraph.getVertex(from),
+                panelGraph.structGraph.getVertex(to));
+
+        results.add(result);
     }
 
     public static void main(String[] args) {
@@ -230,11 +142,8 @@ public class MainFrame extends JFrame {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        System.setProperty("org.graphstream.ui.renderer",
-                "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+        System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 
-        MainFrame frame = new MainFrame();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        MainFrame mainFrame = new MainFrame();
     }
 }
