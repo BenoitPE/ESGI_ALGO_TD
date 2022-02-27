@@ -5,7 +5,6 @@ import Models.Graph.Vertex;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
@@ -18,7 +17,7 @@ public class DetailsFrame {
     DefaultTableModel tableModel;
 
     public DetailsFrame(List<Result> results) {
-        frame = new JFrame("Details");
+        frame = new JFrame("Benoît PEGAZ - Comparison between the implemented algorithms");
 
         tableModel = new DefaultTableModel();
         table = new JTable(tableModel);
@@ -27,13 +26,11 @@ public class DetailsFrame {
 
         tableModel.addColumn("",
                 new Object[]{
-                        "Complexity",
-                        "Real complexity",
+                        "Complexity (Worst-case)",
                         "Runtime",
+                        "Path length",
                         "Number of vertices travelled",
-                        "Path weight",
-                        "Path",
-                        "Details"
+                        "Path"
                 });
         setTable(results);
 
@@ -49,7 +46,8 @@ public class DetailsFrame {
         panel.add(sp);
 
         frame.add(panel);
-        frame.setSize(1200, 800);
+        frame.setSize(1000, 500);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
@@ -73,12 +71,10 @@ public class DetailsFrame {
             }
             tableModel.addColumn(r.getName(), new Object[]{
                     r.getComplexity(),
-                    r.getRealComplexity(),
                     (int) r.getRuntime() + " ns",
-                    (int) r.getLength(),
-                    r.getPathWeight(),
-                    path.toString(),
-                    r.getDetails()
+                    (int) r.getLength() + " kms",
+                    r.getPathWeight() + " vertices",
+                    path.toString()
             });
         }
         updateRowHeights();
@@ -86,7 +82,7 @@ public class DetailsFrame {
 
     // Update the display dynamically
     private void updateRowHeights() {
-        for (int row = 0; row < table.getRowCount(); row++) {
+        for (int row = 0; row < table.getRowCount() ; row++) {
             int rowHeight = table.getRowHeight();
             for (int column = 0; column < table.getColumnCount(); column++) {
                 Component comp = table.prepareRenderer(table.getCellRenderer(row, column), row, column);

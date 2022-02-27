@@ -15,29 +15,6 @@ public class Graph {
         this.nbVertices = 0;
     }
 
-    /*public void setVertices(Map<String, String[]> vertices) {
-        List<Vertex> listVertices = new ArrayList<>();
-
-        //Initialize all vertices
-        int i = 0;
-        for (String vertexName : vertices.keySet()) {
-            listVertices.add(new Vertex(vertexName));
-            nbVertices++;
-            mapVerticesToIndex.put(vertexName, i);
-            i++;
-        }
-
-        //Adds adjacent vertices
-        for (String from : vertices.keySet()) {
-            for (String to : vertices.get(from)) {
-                listVertices.get(mapVerticesToIndex.get(from)).setAdjacent(new Edge(listVertices.get(mapVerticesToIndex.get(to))));
-                nbEdges++;
-            }
-        }
-
-        this.vertices = listVertices;
-    }*/
-
     public void setVertices(Map<String, Map<String, Double>> vertices) {
         List<Vertex> listVertices = new ArrayList<>();
 
@@ -73,7 +50,25 @@ public class Graph {
         modifiedDepthCourse(from, to, list, new LinkedList<>());
         res.setRuntime(System.nanoTime() - startTimer);
         res.getInvertedPath().addAll(list);
-        res.setLength(list.size());
+
+        double pathLength = 0;
+        for(int i=res.getInvertedPath().size() -1; i >0 ; i--) {
+            Vertex v = res.getInvertedPath().get(i);
+
+            for(Edge adj : v.getAdjacents()) {
+                int temp = i - 1 ;
+                if(adj.getDest() == res.getInvertedPath().get(temp)) {
+                    pathLength += adj.getWeight();
+                }
+            }
+        }
+        res.setComplexity("""
+                <html><body>
+                |V| : number of vertices<br>
+                |E| : number of edges<br><br>
+                O(|V| + |E|)""");
+        res.setLength(pathLength);
+        res.setPathWeight(list.size());
 
         return res;
     }
@@ -113,7 +108,13 @@ public class Graph {
             res.getInvertedPath().add(current.getVertex());
             current = list.get(vertexToIndex.get(current.getBestParent().getName()));
         }
+        res.setComplexity("""
+                <html><body>
+                |V| : number of vertices<br>
+                |E| : number of edges<br><br>
+                O(|V| log |V| + |E|)""");
         res.getInvertedPath().add(from);
+        res.setPathWeight(res.getInvertedPath().size());
 
         return res;
     }
@@ -181,7 +182,13 @@ public class Graph {
             res.getInvertedPath().add(current.getVertex());
             current = list.get(mapVerticesToIndex.get(current.getBestParent().getName()));
         }
+        res.setComplexity("""
+                <html><body>
+                |V| : number of vertices<br>
+                |E| : number of edges<br><br>
+                O(|V| * |E|)""");
         res.getInvertedPath().add(from);
+        res.setPathWeight(res.getInvertedPath().size());
 
         return res;
     }
@@ -210,42 +217,6 @@ public class Graph {
             }
         }
         return list;
-    }
-    //endregion
-
-    //region Floyd-Warshall's algorithm
-    public Matrix floydWarshall() {
-        Matrix W = this.getAdjacencyMatrix();
-        int N = W.getValues().length;
-        Matrix P = new Matrix(N);
-
-        //Set the matrix
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                P.setValue(i, j, Integer.MAX_VALUE);
-                if (W.getValue(i, j) == 0 && i != j) {
-                    W.setValue(i, j, Integer.MAX_VALUE);
-                } else if (i == j) {
-                    P.setValue(i, i, i);
-                }
-            }
-        }
-
-        //Execute Floyd-Warshall's algorithm
-        for (int k = 0; k < W.getValues().length; k++) {
-            for (int i = 0; i < W.getValues().length; i++) {
-                for (int j = 0; j < W.getValues().length; j++) {
-                    if (W.getValue(i, k) == Integer.MAX_VALUE || W.getValue(k, j) == Integer.MAX_VALUE) {
-                        continue;
-                    }
-
-                    W.setValue(i, j, Math.min(W.getValue(i, j), W.getValue(i, k) + W.getValue(k, j)));
-                    P.setValue(i, j, P.getValue(k, j));
-                }
-            }
-        }
-        //Matrix.print(P);
-        return W;
     }
     //endregion
 

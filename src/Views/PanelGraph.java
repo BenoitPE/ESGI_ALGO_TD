@@ -58,7 +58,7 @@ public class PanelGraph extends JPanel {
                 Edge edge = uiGraph.addEdge(v.getName() + "-" + adj.getName(), v.getName(), adj.getName(), true);
 
                 //Show weight on edges
-                edge.setAttribute("ui.label", v.getAdjacents().get(j).getWeight());
+                edge.setAttribute("ui.label", (int) v.getAdjacents().get(j).getWeight());
                 edge.setAttribute("ui.class", "label");
             }
         }

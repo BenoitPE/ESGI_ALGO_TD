@@ -12,10 +12,7 @@ public class Result {
     private double length;
     private long runtime;
     private String complexity;
-    private String realComplexity;
-    private Integer nbVertices;
     private Integer pathWeight;
-    private String details;
 
     public Result(String name) {
         this.name = name;
@@ -23,10 +20,7 @@ public class Result {
         this.length = 0;
         this.runtime = 0;
         this.complexity = "Not implemented";
-        this.realComplexity = "Not implemented";
-        this.nbVertices = 0;
         this.pathWeight = 0;
-        this.details = "";
     }
 
     public List<Vertex> getInvertedPath() {
@@ -65,36 +59,12 @@ public class Result {
         this.complexity = complexity;
     }
 
-    public String getRealComplexity() {
-        return realComplexity;
-    }
-
-    public void setRealComplexity(String realComplexity) {
-        this.realComplexity = realComplexity;
-    }
-
-    public Integer getNbVertices() {
-        return nbVertices;
-    }
-
-    public void setNbVertices(Integer nbVertices) {
-        this.nbVertices = nbVertices;
-    }
-
     public Integer getPathWeight() {
         return pathWeight;
     }
 
     public void setPathWeight(Integer pathWeight) {
         this.pathWeight = pathWeight;
-    }
-
-    public String getDetails() {
-        return details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
     }
 
     public static List<String> getEdgesName(List<Vertex> vertices) {
