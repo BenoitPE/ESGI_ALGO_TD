@@ -9,14 +9,13 @@ Ce projet a été développé en [Java 16](https://www.oracle.com/java/technolog
 
 ## Sujet
 
-
+Présentation du sujet:
 - [x] Construire un graphe représentant un réseau de transport existant constitué d’environ 10 à 20 destinations, présentant une structure de type graphe (avec au moins un cycle).
-  Construire une application graphique
 - [x] Créer une interface graphique contenant:
-  - Possibilité de choisir un point de départ.
-  - Possibilité de choisir un point d’arrivé.
-  - Affichage des itinéraires calculés.
-  - Analyse des calculs des itinéraires calculés.
+  - La possibilité de choisir un point de départ.
+  - La possibilité de choisir un point d’arrivé.
+  - L'affichage des itinéraires calculés.
+  - L'analyse des calculs des itinéraires calculés.
 - [x] L'itinéraire sera calculé via au moins 2 algorithmes différents.
 - [x] Comparer les résultats de ces algorithmes:
   - En temps de transport prévu pour l’utilisateur et présenterez la complexité
@@ -39,7 +38,9 @@ L'affichage du graphe ainsi que le positionnement de ses sommets se font automat
 
 > ⚠️ Il est donc possible d'avoir un affichage qui diffère du graphe ci-dessus mais les données qui y sont comprises restent inchangées.
 
-## Fonctionnement de l'application
+Le chemin affiché est le chemin retourné par [l'algorithme de Dijkstra](#algorithme-de-dijkstra).  
+
+## Architecture de l'application
 
 L'application est composée de 2 fenêtres:
 - La fenêtre principale, contient:
@@ -49,7 +50,11 @@ L'application est composée de 2 fenêtres:
 
 ![img.png](ressources/fenetre_details.png)
 
-Sélectionnez un sommet de départ et de destination, si un chemin existe entre ces 2 sommets il est affiché, il est alors possible d'afficher la fenêtre de détails en cliquant sur le bouton "Détails"
+## Fonctionnement
+
+1. Sélectionnez un sommet de départ et de destination dans la fen^tre principale 
+2. Si un chemin existe entre ces 2 sommets, il est affiché dans la fen^tre principale  
+3. Il est possible d'afficher la fenêtre de détails en cliquant sur le bouton "Détails"  
 
 ## Calcul du plus court chemin
 
@@ -58,7 +63,7 @@ Sélectionnez un sommet de départ et de destination, si un chemin existe entre 
 Ce projet comporte plusieurs algorithmes **résolvant le problème du plus court chemin**.  
 L'idée générale est de trouver un chemin avec un **poids minimal**, c'est-à-dire trouver un chemin d'un sommet à un autre de façon à ce que la somme des arêtes de ce chemin  soit inférieure au poids des autres chemins
 
-Ces algorithmes utilisent la notion de graphe pondéré afin de calculer le plus court chemin, dans notre cas les poids correspondent aux distances entre les différents sommets
+Ces algorithmes utilisent la notion de graphe pondéré afin de calculer le plus court chemin, dans notre cas les poids correspondent aux distances (en kilomètres) entre les différents sommets
 
 ## Algorithmes implémentés
 
@@ -81,7 +86,7 @@ Coût au pire: O(|V| + |E|)
 ### Algorithme de Dijkstra
 L'**algorithme de Dijkstra** est l'algorithme le plus connu résolvant le problème du plus court chemin.  
 Cet algorithme fonctionne exclusivement avec un graphe contenant des arêtes de poids positifs.  
-Fondé sur un parcours en largeur classiquen cet algorithme permet de calculer tous les plus courts chemins d'un sommet de départ vers tous les autres sommets.
+Fondé sur un parcours en largeur classiquen, cet algorithme permet de calculer les plus courts chemins d'un sommet de départ vers tous les autres sommets.
 
 A la fin de l'exécution de l'algorithme de Dijkstra, on obtient pour chaque sommet sa distance par rapport au sommet source, et le sommet parent permettant de retrouver le chemin inverse.
 
@@ -106,3 +111,13 @@ Contrairement à l'algorithme de Dijkstra, celui de Bellman-Ford accepte les gra
 |V| : le nombre de sommets  
 |E| : le nombre d'arêtes  
 Coût au pire: O(|V||E|)
+
+---
+
+### Autres algorithmes ?
+
+Plusieurs autres algorithmes résolvent le problème du plus court chemin: nous pouvons encore une fois citer l'algorithme A*, très utilisé dans le domaine des jeux vidéos et de l'intelligence artificielle, qui utilise la notion d'heuristique, ou encore l'algorithme de Floyd-Warshall, qui permet de calculer les plus courts chemins pour tous les couples de sommets.
+
+Ce qu'il faut retenir, c'est que chaque algorithme résolvant ce problème est efficace dans un contexte précis.  
+C'est ce qui nous permet de choisir dans un cas concret quel algorithme implémenter en fonction de la nature de notre besoin.  
+

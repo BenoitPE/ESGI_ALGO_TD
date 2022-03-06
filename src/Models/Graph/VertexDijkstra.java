@@ -20,7 +20,6 @@ public class VertexDijkstra {
         this.bestParentFromSource = bestParentFromSource;
     }
 
-    //region Getters and Setters
     public Vertex getVertex() {
         return vertex;
     }
@@ -48,5 +47,4 @@ public class VertexDijkstra {
     public void setBestParent(Vertex parent) {
         this.bestParentFromSource = parent;
     }
-    //endregion
 }

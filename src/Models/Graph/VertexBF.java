@@ -11,7 +11,6 @@ public class VertexBF {
         this.bestParentFromSource = null;
     }
 
-    //region Getters and Setters
     public Vertex getVertex() {
         return vertex;
     }
@@ -31,5 +30,4 @@ public class VertexBF {
     public void setBestParent(Vertex parent) {
         this.bestParentFromSource = parent;
     }
-    //endregion
 }

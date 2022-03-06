@@ -5,8 +5,8 @@ import java.awt.*;
 import java.util.Map;
 
 public class PanelInputs extends JPanel {
-    public JComboBox startingCombobox;
-    public JComboBox endingCombobox;
+    public JComboBox<String> startingCombobox;
+    public JComboBox<String> endingCombobox;
     public JButton detailsButton;
 
     public PanelInputs(Map<String, Map<String, Double>> values) {
@@ -21,8 +21,8 @@ public class PanelInputs extends JPanel {
         JLabel labelFrom = new JLabel("From: ");
         JLabel labelTo = new JLabel("To: ");
 
-        startingCombobox = new JComboBox(stations);
-        endingCombobox = new JComboBox(stations);
+        startingCombobox = new JComboBox<>(stations);
+        endingCombobox = new JComboBox<>(stations);
         endingCombobox.setSelectedIndex(2);
 
         detailsButton = new JButton("Details");

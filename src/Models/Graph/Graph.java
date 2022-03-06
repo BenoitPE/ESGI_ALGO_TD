@@ -1,17 +1,14 @@
 package Models.Graph;
-
 import java.util.*;
 
 public class Graph {
     private List<Vertex> vertices;
     private final Map<String, Integer> mapVerticesToIndex;
-    private int nbEdges;
     private int nbVertices;
 
     public Graph() {
         this.vertices = new ArrayList<>();
         this.mapVerticesToIndex = new HashMap<>();
-        this.nbEdges = 0;
         this.nbVertices = 0;
     }
 
@@ -35,7 +32,6 @@ public class Graph {
                         listVertices.get(mapVerticesToIndex.get(to)),
                         vertices.get(from).get(to))
                 );
-                nbEdges++;
             }
         }
 
@@ -206,9 +202,11 @@ public class Graph {
             for (int j = 0; j < this.nbVertices; j++) {
                 VertexBF U = list.get(j);
                 int u = mapVerticesToIndex.get(U.getVertex().getName());
+
                 for (Edge e : U.getVertex().getAdjacents()) {
                     int v = mapVerticesToIndex.get(e.getDest().getName());
                     double w = e.getWeight();
+
                     if (list.get(u).getDistFromSource() + w < list.get(v).getDistFromSource()) {
                         list.get(v).setDistFromSource(list.get(u).getDistFromSource() + w);
                         list.get(v).setBestParent(vertices.get(u));
@@ -220,30 +218,12 @@ public class Graph {
     }
     //endregion
 
-    //region Getters and Setters
-    public Matrix getAdjacencyMatrix() {
-        Matrix res = new Matrix(vertices.size());
-        for (int i = 0; i < vertices.size(); i++) {
-            Vertex vertex = vertices.get(i);
-            for (int j = 0; j < vertex.getAdjacents().size(); j++) {
-                res.setValue(i, mapVerticesToIndex.get((vertex.getAdjacents().get(j)).getDest().getName()), 1);
-            }
-        }
-        return res;
-    }
-
     public List<Vertex> getVertices() {
         return vertices;
-    }
-
-    public Vertex getVertex(int i) {
-        return this.vertices.get(i);
     }
 
     public Vertex getVertex(String name) {
         return this.vertices.get(mapVerticesToIndex.get(name));
     }
-
-    //endregion
 
 }

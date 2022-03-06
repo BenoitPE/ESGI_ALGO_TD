@@ -2,7 +2,6 @@ package Views;
 
 import Models.Graph.Result;
 import Models.Graph.Vertex;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;

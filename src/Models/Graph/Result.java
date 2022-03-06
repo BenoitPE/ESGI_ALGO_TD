@@ -47,10 +47,6 @@ public class Result {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getComplexity() {
         return complexity;
     }
