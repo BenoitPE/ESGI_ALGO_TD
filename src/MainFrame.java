@@ -71,9 +71,11 @@ public class MainFrame extends JFrame {
 
         if (pathExists) {
             results = new LinkedList<>();
-            treatmentDijkstra(from, to);
+            Result dijkstraResult = treatmentDijkstra(from, to);
             treatmentBellmanFord(from, to);
             treatmentModifiedDepthCourse(from, to);
+
+            displayPath(dijkstraResult, from, to);
         }
     }
 
@@ -85,14 +87,6 @@ public class MainFrame extends JFrame {
         List<String> edgesName = Result.getEdgesName(result.getInvertedPath());
         for (String s : edgesName) {
             panelGraph.markEdge(s);
-        }
-
-        for (int i = result.getInvertedPath().size() - 1; i >= 0; i--) {
-            String name = result.getInvertedPath().get(i).getName();
-            if (Objects.equals(name, from) || Objects.equals(name, to))
-                panelGraph.markNodeExtremity(name);
-            else
-                panelGraph.markNode(name);
         }
 
         results.add(result);
@@ -113,6 +107,16 @@ public class MainFrame extends JFrame {
                 panelGraph.structGraph.getVertex(to));
 
         results.add(result);
+    }
+
+    public void displayPath(Result result, String from, String to) {
+        for (int i = result.getInvertedPath().size() - 1; i >= 0; i--) {
+            String name = result.getInvertedPath().get(i).getName();
+            if (Objects.equals(name, from) || Objects.equals(name, to))
+                panelGraph.markNodeExtremity(name);
+            else
+                panelGraph.markNode(name);
+        }
     }
 
     public Map<String, Map<String, Double>> getData() {

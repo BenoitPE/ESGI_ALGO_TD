@@ -38,6 +38,8 @@ L'affichage du graphe ainsi que le positionnement de ses sommets se font automat
 
 > ⚠️ Il est donc possible d'avoir un affichage qui diffère du graphe ci-dessus mais les données qui y sont comprises restent inchangées.
 
+Si les sommets ne sont pas correctement affichés ou se superposent, il est possible de les déplacer en maintenant le clic appuyé.  
+
 Le chemin affiché est le chemin retourné par [l'algorithme de Dijkstra](#algorithme-de-dijkstra).  
 
 ## Architecture de l'application
@@ -50,7 +52,15 @@ L'application est composée de 2 fenêtres:
 
 ![img.png](ressources/fenetre_details.png)
 
-## Fonctionnement
+## Architecture du code
+L'ensemble des modèles utilisés dans cette application sont situés dans le package `Models.Graph`. C'est dans ses modèles que sont situés les différents algorithmes implémentés.    
+
+Pour l'interface réalisée avec la librairie Swing, la fenêtre principale `MainFrame` est à la racine du dossier `src`. `MainFrame` est la classe exécutée au lancement de l'application.  
+Les autres composants Swing `DetailsFrame`, `PanelGraph` et `PanelInputs` sont situés dans le package `Views`.
+
+![img.png](ressources/architecture_code.png)
+
+## Fonctionnement de l'application
 
 1. Sélectionnez un sommet de départ et de destination dans la fen^tre principale 
 2. Si un chemin existe entre ces 2 sommets, il est affiché dans la fen^tre principale  
