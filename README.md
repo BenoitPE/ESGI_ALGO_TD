@@ -130,4 +130,3 @@ Plusieurs autres algorithmes résolvent le problème du plus court chemin: nous 
 
 Ce qu'il faut retenir, c'est que chaque algorithme résolvant ce problème est efficace dans un contexte précis.  
 C'est ce qui nous permet de choisir dans un cas concret quel algorithme implémenter en fonction de la nature de notre besoin.  
-

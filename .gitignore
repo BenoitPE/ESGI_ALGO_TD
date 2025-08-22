@@ -24,3 +24,5 @@ hs_err_pid*
 /out/
 .idea
 out/production/ESGI_ALGO_TD/graph_style.css
+.idea/discord.xml
+.idea/misc.xml
